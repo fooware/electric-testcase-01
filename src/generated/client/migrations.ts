@@ -106,6 +106,6 @@ export default [
       "DROP TRIGGER IF EXISTS compensation_update_main_room_user_person_id_into_oplog;",
       "CREATE TRIGGER compensation_update_main_room_user_person_id_into_oplog\n   AFTER UPDATE ON \"main\".\"room_user\"\n   WHEN 1 == (SELECT flag from _electric_trigger_settings WHERE tablename == 'main.person') AND\n        1 == (SELECT value from _electric_meta WHERE key == 'compensations')\nBEGIN\n  INSERT INTO _electric_oplog (namespace, tablename, optype, primaryKey, newRow, oldRow, timestamp)\n  SELECT 'main', 'person', 'COMPENSATION', json_object('id', \"id\"), json_object('id', \"id\"), NULL, NULL\n  FROM \"main\".\"person\" WHERE \"id\" = new.\"person_id\";\nEND;"
     ],
-    "version": "20240222220230_346"
+    "version": "0001-create-mock-tables"
   }
 ]

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from 'zod';
 import type { Prisma } from './prismaClient';
 import { type TableSchema, DbSchema, Relation, ElectricClient, type HKT } from 'electric-sql/client/model';
@@ -2559,7 +2560,7 @@ export const BoxFindFirstArgsSchema: z.ZodType<Prisma.BoxFindFirstArgs> = z.obje
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: BoxScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.BoxFindFirstArgs>
+}).strict()
 
 export const BoxFindFirstOrThrowArgsSchema: z.ZodType<Prisma.BoxFindFirstOrThrowArgs> = z.object({
   select: BoxSelectSchema.optional(),
@@ -2570,7 +2571,7 @@ export const BoxFindFirstOrThrowArgsSchema: z.ZodType<Prisma.BoxFindFirstOrThrow
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: BoxScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.BoxFindFirstOrThrowArgs>
+}).strict()
 
 export const BoxFindManyArgsSchema: z.ZodType<Prisma.BoxFindManyArgs> = z.object({
   select: BoxSelectSchema.optional(),
@@ -2581,7 +2582,7 @@ export const BoxFindManyArgsSchema: z.ZodType<Prisma.BoxFindManyArgs> = z.object
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: BoxScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.BoxFindManyArgs>
+}).strict()
 
 export const BoxAggregateArgsSchema: z.ZodType<Prisma.BoxAggregateArgs> = z.object({
   where: BoxWhereInputSchema.optional(),
@@ -2589,7 +2590,7 @@ export const BoxAggregateArgsSchema: z.ZodType<Prisma.BoxAggregateArgs> = z.obje
   cursor: BoxWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-}).strict() as z.ZodType<Prisma.BoxAggregateArgs>
+}).strict()
 
 export const BoxGroupByArgsSchema: z.ZodType<Prisma.BoxGroupByArgs> = z.object({
   where: BoxWhereInputSchema.optional(),
@@ -2598,19 +2599,19 @@ export const BoxGroupByArgsSchema: z.ZodType<Prisma.BoxGroupByArgs> = z.object({
   having: BoxScalarWhereWithAggregatesInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-}).strict() as z.ZodType<Prisma.BoxGroupByArgs>
+}).strict()
 
 export const BoxFindUniqueArgsSchema: z.ZodType<Prisma.BoxFindUniqueArgs> = z.object({
   select: BoxSelectSchema.optional(),
   include: BoxIncludeSchema.optional(),
   where: BoxWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.BoxFindUniqueArgs>
+}).strict()
 
 export const BoxFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.BoxFindUniqueOrThrowArgs> = z.object({
   select: BoxSelectSchema.optional(),
   include: BoxIncludeSchema.optional(),
   where: BoxWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.BoxFindUniqueOrThrowArgs>
+}).strict()
 
 export const Box_userFindFirstArgsSchema: z.ZodType<Prisma.Box_userFindFirstArgs> = z.object({
   select: Box_userSelectSchema.optional(),
@@ -2621,7 +2622,7 @@ export const Box_userFindFirstArgsSchema: z.ZodType<Prisma.Box_userFindFirstArgs
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: Box_userScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.Box_userFindFirstArgs>
+}).strict()
 
 export const Box_userFindFirstOrThrowArgsSchema: z.ZodType<Prisma.Box_userFindFirstOrThrowArgs> = z.object({
   select: Box_userSelectSchema.optional(),
@@ -2632,7 +2633,7 @@ export const Box_userFindFirstOrThrowArgsSchema: z.ZodType<Prisma.Box_userFindFi
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: Box_userScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.Box_userFindFirstOrThrowArgs>
+}).strict()
 
 export const Box_userFindManyArgsSchema: z.ZodType<Prisma.Box_userFindManyArgs> = z.object({
   select: Box_userSelectSchema.optional(),
@@ -2643,7 +2644,7 @@ export const Box_userFindManyArgsSchema: z.ZodType<Prisma.Box_userFindManyArgs> 
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: Box_userScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.Box_userFindManyArgs>
+}).strict()
 
 export const Box_userAggregateArgsSchema: z.ZodType<Prisma.Box_userAggregateArgs> = z.object({
   where: Box_userWhereInputSchema.optional(),
@@ -2651,7 +2652,7 @@ export const Box_userAggregateArgsSchema: z.ZodType<Prisma.Box_userAggregateArgs
   cursor: Box_userWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-}).strict() as z.ZodType<Prisma.Box_userAggregateArgs>
+}).strict()
 
 export const Box_userGroupByArgsSchema: z.ZodType<Prisma.Box_userGroupByArgs> = z.object({
   where: Box_userWhereInputSchema.optional(),
@@ -2660,19 +2661,19 @@ export const Box_userGroupByArgsSchema: z.ZodType<Prisma.Box_userGroupByArgs> = 
   having: Box_userScalarWhereWithAggregatesInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-}).strict() as z.ZodType<Prisma.Box_userGroupByArgs>
+}).strict()
 
 export const Box_userFindUniqueArgsSchema: z.ZodType<Prisma.Box_userFindUniqueArgs> = z.object({
   select: Box_userSelectSchema.optional(),
   include: Box_userIncludeSchema.optional(),
   where: Box_userWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.Box_userFindUniqueArgs>
+}).strict()
 
 export const Box_userFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.Box_userFindUniqueOrThrowArgs> = z.object({
   select: Box_userSelectSchema.optional(),
   include: Box_userIncludeSchema.optional(),
   where: Box_userWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.Box_userFindUniqueOrThrowArgs>
+}).strict()
 
 export const HouseFindFirstArgsSchema: z.ZodType<Prisma.HouseFindFirstArgs> = z.object({
   select: HouseSelectSchema.optional(),
@@ -2683,7 +2684,7 @@ export const HouseFindFirstArgsSchema: z.ZodType<Prisma.HouseFindFirstArgs> = z.
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: HouseScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.HouseFindFirstArgs>
+}).strict()
 
 export const HouseFindFirstOrThrowArgsSchema: z.ZodType<Prisma.HouseFindFirstOrThrowArgs> = z.object({
   select: HouseSelectSchema.optional(),
@@ -2694,7 +2695,7 @@ export const HouseFindFirstOrThrowArgsSchema: z.ZodType<Prisma.HouseFindFirstOrT
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: HouseScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.HouseFindFirstOrThrowArgs>
+}).strict()
 
 export const HouseFindManyArgsSchema: z.ZodType<Prisma.HouseFindManyArgs> = z.object({
   select: HouseSelectSchema.optional(),
@@ -2705,7 +2706,7 @@ export const HouseFindManyArgsSchema: z.ZodType<Prisma.HouseFindManyArgs> = z.ob
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: HouseScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.HouseFindManyArgs>
+}).strict()
 
 export const HouseAggregateArgsSchema: z.ZodType<Prisma.HouseAggregateArgs> = z.object({
   where: HouseWhereInputSchema.optional(),
@@ -2713,7 +2714,7 @@ export const HouseAggregateArgsSchema: z.ZodType<Prisma.HouseAggregateArgs> = z.
   cursor: HouseWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-}).strict() as z.ZodType<Prisma.HouseAggregateArgs>
+}).strict()
 
 export const HouseGroupByArgsSchema: z.ZodType<Prisma.HouseGroupByArgs> = z.object({
   where: HouseWhereInputSchema.optional(),
@@ -2722,19 +2723,19 @@ export const HouseGroupByArgsSchema: z.ZodType<Prisma.HouseGroupByArgs> = z.obje
   having: HouseScalarWhereWithAggregatesInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-}).strict() as z.ZodType<Prisma.HouseGroupByArgs>
+}).strict()
 
 export const HouseFindUniqueArgsSchema: z.ZodType<Prisma.HouseFindUniqueArgs> = z.object({
   select: HouseSelectSchema.optional(),
   include: HouseIncludeSchema.optional(),
   where: HouseWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.HouseFindUniqueArgs>
+}).strict()
 
 export const HouseFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.HouseFindUniqueOrThrowArgs> = z.object({
   select: HouseSelectSchema.optional(),
   include: HouseIncludeSchema.optional(),
   where: HouseWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.HouseFindUniqueOrThrowArgs>
+}).strict()
 
 export const PersonFindFirstArgsSchema: z.ZodType<Prisma.PersonFindFirstArgs> = z.object({
   select: PersonSelectSchema.optional(),
@@ -2745,7 +2746,7 @@ export const PersonFindFirstArgsSchema: z.ZodType<Prisma.PersonFindFirstArgs> = 
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: PersonScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.PersonFindFirstArgs>
+}).strict()
 
 export const PersonFindFirstOrThrowArgsSchema: z.ZodType<Prisma.PersonFindFirstOrThrowArgs> = z.object({
   select: PersonSelectSchema.optional(),
@@ -2756,7 +2757,7 @@ export const PersonFindFirstOrThrowArgsSchema: z.ZodType<Prisma.PersonFindFirstO
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: PersonScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.PersonFindFirstOrThrowArgs>
+}).strict()
 
 export const PersonFindManyArgsSchema: z.ZodType<Prisma.PersonFindManyArgs> = z.object({
   select: PersonSelectSchema.optional(),
@@ -2767,7 +2768,7 @@ export const PersonFindManyArgsSchema: z.ZodType<Prisma.PersonFindManyArgs> = z.
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: PersonScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.PersonFindManyArgs>
+}).strict()
 
 export const PersonAggregateArgsSchema: z.ZodType<Prisma.PersonAggregateArgs> = z.object({
   where: PersonWhereInputSchema.optional(),
@@ -2775,7 +2776,7 @@ export const PersonAggregateArgsSchema: z.ZodType<Prisma.PersonAggregateArgs> = 
   cursor: PersonWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-}).strict() as z.ZodType<Prisma.PersonAggregateArgs>
+}).strict()
 
 export const PersonGroupByArgsSchema: z.ZodType<Prisma.PersonGroupByArgs> = z.object({
   where: PersonWhereInputSchema.optional(),
@@ -2784,19 +2785,19 @@ export const PersonGroupByArgsSchema: z.ZodType<Prisma.PersonGroupByArgs> = z.ob
   having: PersonScalarWhereWithAggregatesInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-}).strict() as z.ZodType<Prisma.PersonGroupByArgs>
+}).strict()
 
 export const PersonFindUniqueArgsSchema: z.ZodType<Prisma.PersonFindUniqueArgs> = z.object({
   select: PersonSelectSchema.optional(),
   include: PersonIncludeSchema.optional(),
   where: PersonWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.PersonFindUniqueArgs>
+}).strict()
 
 export const PersonFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.PersonFindUniqueOrThrowArgs> = z.object({
   select: PersonSelectSchema.optional(),
   include: PersonIncludeSchema.optional(),
   where: PersonWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.PersonFindUniqueOrThrowArgs>
+}).strict()
 
 export const RoomFindFirstArgsSchema: z.ZodType<Prisma.RoomFindFirstArgs> = z.object({
   select: RoomSelectSchema.optional(),
@@ -2807,7 +2808,7 @@ export const RoomFindFirstArgsSchema: z.ZodType<Prisma.RoomFindFirstArgs> = z.ob
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: RoomScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.RoomFindFirstArgs>
+}).strict()
 
 export const RoomFindFirstOrThrowArgsSchema: z.ZodType<Prisma.RoomFindFirstOrThrowArgs> = z.object({
   select: RoomSelectSchema.optional(),
@@ -2818,7 +2819,7 @@ export const RoomFindFirstOrThrowArgsSchema: z.ZodType<Prisma.RoomFindFirstOrThr
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: RoomScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.RoomFindFirstOrThrowArgs>
+}).strict()
 
 export const RoomFindManyArgsSchema: z.ZodType<Prisma.RoomFindManyArgs> = z.object({
   select: RoomSelectSchema.optional(),
@@ -2829,7 +2830,7 @@ export const RoomFindManyArgsSchema: z.ZodType<Prisma.RoomFindManyArgs> = z.obje
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: RoomScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.RoomFindManyArgs>
+}).strict()
 
 export const RoomAggregateArgsSchema: z.ZodType<Prisma.RoomAggregateArgs> = z.object({
   where: RoomWhereInputSchema.optional(),
@@ -2837,7 +2838,7 @@ export const RoomAggregateArgsSchema: z.ZodType<Prisma.RoomAggregateArgs> = z.ob
   cursor: RoomWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-}).strict() as z.ZodType<Prisma.RoomAggregateArgs>
+}).strict()
 
 export const RoomGroupByArgsSchema: z.ZodType<Prisma.RoomGroupByArgs> = z.object({
   where: RoomWhereInputSchema.optional(),
@@ -2846,19 +2847,19 @@ export const RoomGroupByArgsSchema: z.ZodType<Prisma.RoomGroupByArgs> = z.object
   having: RoomScalarWhereWithAggregatesInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-}).strict() as z.ZodType<Prisma.RoomGroupByArgs>
+}).strict()
 
 export const RoomFindUniqueArgsSchema: z.ZodType<Prisma.RoomFindUniqueArgs> = z.object({
   select: RoomSelectSchema.optional(),
   include: RoomIncludeSchema.optional(),
   where: RoomWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.RoomFindUniqueArgs>
+}).strict()
 
 export const RoomFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.RoomFindUniqueOrThrowArgs> = z.object({
   select: RoomSelectSchema.optional(),
   include: RoomIncludeSchema.optional(),
   where: RoomWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.RoomFindUniqueOrThrowArgs>
+}).strict()
 
 export const Room_userFindFirstArgsSchema: z.ZodType<Prisma.Room_userFindFirstArgs> = z.object({
   select: Room_userSelectSchema.optional(),
@@ -2869,7 +2870,7 @@ export const Room_userFindFirstArgsSchema: z.ZodType<Prisma.Room_userFindFirstAr
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: Room_userScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.Room_userFindFirstArgs>
+}).strict()
 
 export const Room_userFindFirstOrThrowArgsSchema: z.ZodType<Prisma.Room_userFindFirstOrThrowArgs> = z.object({
   select: Room_userSelectSchema.optional(),
@@ -2880,7 +2881,7 @@ export const Room_userFindFirstOrThrowArgsSchema: z.ZodType<Prisma.Room_userFind
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: Room_userScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.Room_userFindFirstOrThrowArgs>
+}).strict()
 
 export const Room_userFindManyArgsSchema: z.ZodType<Prisma.Room_userFindManyArgs> = z.object({
   select: Room_userSelectSchema.optional(),
@@ -2891,7 +2892,7 @@ export const Room_userFindManyArgsSchema: z.ZodType<Prisma.Room_userFindManyArgs
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: Room_userScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.Room_userFindManyArgs>
+}).strict()
 
 export const Room_userAggregateArgsSchema: z.ZodType<Prisma.Room_userAggregateArgs> = z.object({
   where: Room_userWhereInputSchema.optional(),
@@ -2899,7 +2900,7 @@ export const Room_userAggregateArgsSchema: z.ZodType<Prisma.Room_userAggregateAr
   cursor: Room_userWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-}).strict() as z.ZodType<Prisma.Room_userAggregateArgs>
+}).strict()
 
 export const Room_userGroupByArgsSchema: z.ZodType<Prisma.Room_userGroupByArgs> = z.object({
   where: Room_userWhereInputSchema.optional(),
@@ -2908,19 +2909,19 @@ export const Room_userGroupByArgsSchema: z.ZodType<Prisma.Room_userGroupByArgs> 
   having: Room_userScalarWhereWithAggregatesInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-}).strict() as z.ZodType<Prisma.Room_userGroupByArgs>
+}).strict()
 
 export const Room_userFindUniqueArgsSchema: z.ZodType<Prisma.Room_userFindUniqueArgs> = z.object({
   select: Room_userSelectSchema.optional(),
   include: Room_userIncludeSchema.optional(),
   where: Room_userWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.Room_userFindUniqueArgs>
+}).strict()
 
 export const Room_userFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.Room_userFindUniqueOrThrowArgs> = z.object({
   select: Room_userSelectSchema.optional(),
   include: Room_userIncludeSchema.optional(),
   where: Room_userWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.Room_userFindUniqueOrThrowArgs>
+}).strict()
 
 export const ThingFindFirstArgsSchema: z.ZodType<Prisma.ThingFindFirstArgs> = z.object({
   select: ThingSelectSchema.optional(),
@@ -2931,7 +2932,7 @@ export const ThingFindFirstArgsSchema: z.ZodType<Prisma.ThingFindFirstArgs> = z.
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: ThingScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.ThingFindFirstArgs>
+}).strict()
 
 export const ThingFindFirstOrThrowArgsSchema: z.ZodType<Prisma.ThingFindFirstOrThrowArgs> = z.object({
   select: ThingSelectSchema.optional(),
@@ -2942,7 +2943,7 @@ export const ThingFindFirstOrThrowArgsSchema: z.ZodType<Prisma.ThingFindFirstOrT
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: ThingScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.ThingFindFirstOrThrowArgs>
+}).strict()
 
 export const ThingFindManyArgsSchema: z.ZodType<Prisma.ThingFindManyArgs> = z.object({
   select: ThingSelectSchema.optional(),
@@ -2953,7 +2954,7 @@ export const ThingFindManyArgsSchema: z.ZodType<Prisma.ThingFindManyArgs> = z.ob
   take: z.number().optional(),
   skip: z.number().optional(),
   distinct: ThingScalarFieldEnumSchema.array().optional(),
-}).strict() as z.ZodType<Prisma.ThingFindManyArgs>
+}).strict()
 
 export const ThingAggregateArgsSchema: z.ZodType<Prisma.ThingAggregateArgs> = z.object({
   where: ThingWhereInputSchema.optional(),
@@ -2961,7 +2962,7 @@ export const ThingAggregateArgsSchema: z.ZodType<Prisma.ThingAggregateArgs> = z.
   cursor: ThingWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-}).strict() as z.ZodType<Prisma.ThingAggregateArgs>
+}).strict()
 
 export const ThingGroupByArgsSchema: z.ZodType<Prisma.ThingGroupByArgs> = z.object({
   where: ThingWhereInputSchema.optional(),
@@ -2970,25 +2971,25 @@ export const ThingGroupByArgsSchema: z.ZodType<Prisma.ThingGroupByArgs> = z.obje
   having: ThingScalarWhereWithAggregatesInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-}).strict() as z.ZodType<Prisma.ThingGroupByArgs>
+}).strict()
 
 export const ThingFindUniqueArgsSchema: z.ZodType<Prisma.ThingFindUniqueArgs> = z.object({
   select: ThingSelectSchema.optional(),
   include: ThingIncludeSchema.optional(),
   where: ThingWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.ThingFindUniqueArgs>
+}).strict()
 
 export const ThingFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.ThingFindUniqueOrThrowArgs> = z.object({
   select: ThingSelectSchema.optional(),
   include: ThingIncludeSchema.optional(),
   where: ThingWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.ThingFindUniqueOrThrowArgs>
+}).strict()
 
 export const BoxCreateArgsSchema: z.ZodType<Prisma.BoxCreateArgs> = z.object({
   select: BoxSelectSchema.optional(),
   include: BoxIncludeSchema.optional(),
   data: z.union([ BoxCreateInputSchema,BoxUncheckedCreateInputSchema ]),
-}).strict() as z.ZodType<Prisma.BoxCreateArgs>
+}).strict()
 
 export const BoxUpsertArgsSchema: z.ZodType<Prisma.BoxUpsertArgs> = z.object({
   select: BoxSelectSchema.optional(),
@@ -2996,40 +2997,40 @@ export const BoxUpsertArgsSchema: z.ZodType<Prisma.BoxUpsertArgs> = z.object({
   where: BoxWhereUniqueInputSchema,
   create: z.union([ BoxCreateInputSchema,BoxUncheckedCreateInputSchema ]),
   update: z.union([ BoxUpdateInputSchema,BoxUncheckedUpdateInputSchema ]),
-}).strict() as z.ZodType<Prisma.BoxUpsertArgs>
+}).strict()
 
 export const BoxCreateManyArgsSchema: z.ZodType<Prisma.BoxCreateManyArgs> = z.object({
   data: BoxCreateManyInputSchema.array(),
   skipDuplicates: z.boolean().optional(),
-}).strict() as z.ZodType<Prisma.BoxCreateManyArgs>
+}).strict()
 
 export const BoxDeleteArgsSchema: z.ZodType<Prisma.BoxDeleteArgs> = z.object({
   select: BoxSelectSchema.optional(),
   include: BoxIncludeSchema.optional(),
   where: BoxWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.BoxDeleteArgs>
+}).strict()
 
 export const BoxUpdateArgsSchema: z.ZodType<Prisma.BoxUpdateArgs> = z.object({
   select: BoxSelectSchema.optional(),
   include: BoxIncludeSchema.optional(),
   data: z.union([ BoxUpdateInputSchema,BoxUncheckedUpdateInputSchema ]),
   where: BoxWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.BoxUpdateArgs>
+}).strict()
 
 export const BoxUpdateManyArgsSchema: z.ZodType<Prisma.BoxUpdateManyArgs> = z.object({
   data: z.union([ BoxUpdateManyMutationInputSchema,BoxUncheckedUpdateManyInputSchema ]),
   where: BoxWhereInputSchema.optional(),
-}).strict() as z.ZodType<Prisma.BoxUpdateManyArgs>
+}).strict()
 
 export const BoxDeleteManyArgsSchema: z.ZodType<Prisma.BoxDeleteManyArgs> = z.object({
   where: BoxWhereInputSchema.optional(),
-}).strict() as z.ZodType<Prisma.BoxDeleteManyArgs>
+}).strict()
 
 export const Box_userCreateArgsSchema: z.ZodType<Prisma.Box_userCreateArgs> = z.object({
   select: Box_userSelectSchema.optional(),
   include: Box_userIncludeSchema.optional(),
   data: z.union([ Box_userCreateInputSchema,Box_userUncheckedCreateInputSchema ]),
-}).strict() as z.ZodType<Prisma.Box_userCreateArgs>
+}).strict()
 
 export const Box_userUpsertArgsSchema: z.ZodType<Prisma.Box_userUpsertArgs> = z.object({
   select: Box_userSelectSchema.optional(),
@@ -3037,40 +3038,40 @@ export const Box_userUpsertArgsSchema: z.ZodType<Prisma.Box_userUpsertArgs> = z.
   where: Box_userWhereUniqueInputSchema,
   create: z.union([ Box_userCreateInputSchema,Box_userUncheckedCreateInputSchema ]),
   update: z.union([ Box_userUpdateInputSchema,Box_userUncheckedUpdateInputSchema ]),
-}).strict() as z.ZodType<Prisma.Box_userUpsertArgs>
+}).strict()
 
 export const Box_userCreateManyArgsSchema: z.ZodType<Prisma.Box_userCreateManyArgs> = z.object({
   data: Box_userCreateManyInputSchema.array(),
   skipDuplicates: z.boolean().optional(),
-}).strict() as z.ZodType<Prisma.Box_userCreateManyArgs>
+}).strict()
 
 export const Box_userDeleteArgsSchema: z.ZodType<Prisma.Box_userDeleteArgs> = z.object({
   select: Box_userSelectSchema.optional(),
   include: Box_userIncludeSchema.optional(),
   where: Box_userWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.Box_userDeleteArgs>
+}).strict()
 
 export const Box_userUpdateArgsSchema: z.ZodType<Prisma.Box_userUpdateArgs> = z.object({
   select: Box_userSelectSchema.optional(),
   include: Box_userIncludeSchema.optional(),
   data: z.union([ Box_userUpdateInputSchema,Box_userUncheckedUpdateInputSchema ]),
   where: Box_userWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.Box_userUpdateArgs>
+}).strict()
 
 export const Box_userUpdateManyArgsSchema: z.ZodType<Prisma.Box_userUpdateManyArgs> = z.object({
   data: z.union([ Box_userUpdateManyMutationInputSchema,Box_userUncheckedUpdateManyInputSchema ]),
   where: Box_userWhereInputSchema.optional(),
-}).strict() as z.ZodType<Prisma.Box_userUpdateManyArgs>
+}).strict()
 
 export const Box_userDeleteManyArgsSchema: z.ZodType<Prisma.Box_userDeleteManyArgs> = z.object({
   where: Box_userWhereInputSchema.optional(),
-}).strict() as z.ZodType<Prisma.Box_userDeleteManyArgs>
+}).strict()
 
 export const HouseCreateArgsSchema: z.ZodType<Prisma.HouseCreateArgs> = z.object({
   select: HouseSelectSchema.optional(),
   include: HouseIncludeSchema.optional(),
   data: z.union([ HouseCreateInputSchema,HouseUncheckedCreateInputSchema ]),
-}).strict() as z.ZodType<Prisma.HouseCreateArgs>
+}).strict()
 
 export const HouseUpsertArgsSchema: z.ZodType<Prisma.HouseUpsertArgs> = z.object({
   select: HouseSelectSchema.optional(),
@@ -3078,40 +3079,40 @@ export const HouseUpsertArgsSchema: z.ZodType<Prisma.HouseUpsertArgs> = z.object
   where: HouseWhereUniqueInputSchema,
   create: z.union([ HouseCreateInputSchema,HouseUncheckedCreateInputSchema ]),
   update: z.union([ HouseUpdateInputSchema,HouseUncheckedUpdateInputSchema ]),
-}).strict() as z.ZodType<Prisma.HouseUpsertArgs>
+}).strict()
 
 export const HouseCreateManyArgsSchema: z.ZodType<Prisma.HouseCreateManyArgs> = z.object({
   data: HouseCreateManyInputSchema.array(),
   skipDuplicates: z.boolean().optional(),
-}).strict() as z.ZodType<Prisma.HouseCreateManyArgs>
+}).strict()
 
 export const HouseDeleteArgsSchema: z.ZodType<Prisma.HouseDeleteArgs> = z.object({
   select: HouseSelectSchema.optional(),
   include: HouseIncludeSchema.optional(),
   where: HouseWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.HouseDeleteArgs>
+}).strict()
 
 export const HouseUpdateArgsSchema: z.ZodType<Prisma.HouseUpdateArgs> = z.object({
   select: HouseSelectSchema.optional(),
   include: HouseIncludeSchema.optional(),
   data: z.union([ HouseUpdateInputSchema,HouseUncheckedUpdateInputSchema ]),
   where: HouseWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.HouseUpdateArgs>
+}).strict()
 
 export const HouseUpdateManyArgsSchema: z.ZodType<Prisma.HouseUpdateManyArgs> = z.object({
   data: z.union([ HouseUpdateManyMutationInputSchema,HouseUncheckedUpdateManyInputSchema ]),
   where: HouseWhereInputSchema.optional(),
-}).strict() as z.ZodType<Prisma.HouseUpdateManyArgs>
+}).strict()
 
 export const HouseDeleteManyArgsSchema: z.ZodType<Prisma.HouseDeleteManyArgs> = z.object({
   where: HouseWhereInputSchema.optional(),
-}).strict() as z.ZodType<Prisma.HouseDeleteManyArgs>
+}).strict()
 
 export const PersonCreateArgsSchema: z.ZodType<Prisma.PersonCreateArgs> = z.object({
   select: PersonSelectSchema.optional(),
   include: PersonIncludeSchema.optional(),
   data: z.union([ PersonCreateInputSchema,PersonUncheckedCreateInputSchema ]),
-}).strict() as z.ZodType<Prisma.PersonCreateArgs>
+}).strict()
 
 export const PersonUpsertArgsSchema: z.ZodType<Prisma.PersonUpsertArgs> = z.object({
   select: PersonSelectSchema.optional(),
@@ -3119,40 +3120,40 @@ export const PersonUpsertArgsSchema: z.ZodType<Prisma.PersonUpsertArgs> = z.obje
   where: PersonWhereUniqueInputSchema,
   create: z.union([ PersonCreateInputSchema,PersonUncheckedCreateInputSchema ]),
   update: z.union([ PersonUpdateInputSchema,PersonUncheckedUpdateInputSchema ]),
-}).strict() as z.ZodType<Prisma.PersonUpsertArgs>
+}).strict()
 
 export const PersonCreateManyArgsSchema: z.ZodType<Prisma.PersonCreateManyArgs> = z.object({
   data: PersonCreateManyInputSchema.array(),
   skipDuplicates: z.boolean().optional(),
-}).strict() as z.ZodType<Prisma.PersonCreateManyArgs>
+}).strict()
 
 export const PersonDeleteArgsSchema: z.ZodType<Prisma.PersonDeleteArgs> = z.object({
   select: PersonSelectSchema.optional(),
   include: PersonIncludeSchema.optional(),
   where: PersonWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.PersonDeleteArgs>
+}).strict()
 
 export const PersonUpdateArgsSchema: z.ZodType<Prisma.PersonUpdateArgs> = z.object({
   select: PersonSelectSchema.optional(),
   include: PersonIncludeSchema.optional(),
   data: z.union([ PersonUpdateInputSchema,PersonUncheckedUpdateInputSchema ]),
   where: PersonWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.PersonUpdateArgs>
+}).strict()
 
 export const PersonUpdateManyArgsSchema: z.ZodType<Prisma.PersonUpdateManyArgs> = z.object({
   data: z.union([ PersonUpdateManyMutationInputSchema,PersonUncheckedUpdateManyInputSchema ]),
   where: PersonWhereInputSchema.optional(),
-}).strict() as z.ZodType<Prisma.PersonUpdateManyArgs>
+}).strict()
 
 export const PersonDeleteManyArgsSchema: z.ZodType<Prisma.PersonDeleteManyArgs> = z.object({
   where: PersonWhereInputSchema.optional(),
-}).strict() as z.ZodType<Prisma.PersonDeleteManyArgs>
+}).strict()
 
 export const RoomCreateArgsSchema: z.ZodType<Prisma.RoomCreateArgs> = z.object({
   select: RoomSelectSchema.optional(),
   include: RoomIncludeSchema.optional(),
   data: z.union([ RoomCreateInputSchema,RoomUncheckedCreateInputSchema ]),
-}).strict() as z.ZodType<Prisma.RoomCreateArgs>
+}).strict()
 
 export const RoomUpsertArgsSchema: z.ZodType<Prisma.RoomUpsertArgs> = z.object({
   select: RoomSelectSchema.optional(),
@@ -3160,40 +3161,40 @@ export const RoomUpsertArgsSchema: z.ZodType<Prisma.RoomUpsertArgs> = z.object({
   where: RoomWhereUniqueInputSchema,
   create: z.union([ RoomCreateInputSchema,RoomUncheckedCreateInputSchema ]),
   update: z.union([ RoomUpdateInputSchema,RoomUncheckedUpdateInputSchema ]),
-}).strict() as z.ZodType<Prisma.RoomUpsertArgs>
+}).strict()
 
 export const RoomCreateManyArgsSchema: z.ZodType<Prisma.RoomCreateManyArgs> = z.object({
   data: RoomCreateManyInputSchema.array(),
   skipDuplicates: z.boolean().optional(),
-}).strict() as z.ZodType<Prisma.RoomCreateManyArgs>
+}).strict()
 
 export const RoomDeleteArgsSchema: z.ZodType<Prisma.RoomDeleteArgs> = z.object({
   select: RoomSelectSchema.optional(),
   include: RoomIncludeSchema.optional(),
   where: RoomWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.RoomDeleteArgs>
+}).strict()
 
 export const RoomUpdateArgsSchema: z.ZodType<Prisma.RoomUpdateArgs> = z.object({
   select: RoomSelectSchema.optional(),
   include: RoomIncludeSchema.optional(),
   data: z.union([ RoomUpdateInputSchema,RoomUncheckedUpdateInputSchema ]),
   where: RoomWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.RoomUpdateArgs>
+}).strict()
 
 export const RoomUpdateManyArgsSchema: z.ZodType<Prisma.RoomUpdateManyArgs> = z.object({
   data: z.union([ RoomUpdateManyMutationInputSchema,RoomUncheckedUpdateManyInputSchema ]),
   where: RoomWhereInputSchema.optional(),
-}).strict() as z.ZodType<Prisma.RoomUpdateManyArgs>
+}).strict()
 
 export const RoomDeleteManyArgsSchema: z.ZodType<Prisma.RoomDeleteManyArgs> = z.object({
   where: RoomWhereInputSchema.optional(),
-}).strict() as z.ZodType<Prisma.RoomDeleteManyArgs>
+}).strict()
 
 export const Room_userCreateArgsSchema: z.ZodType<Prisma.Room_userCreateArgs> = z.object({
   select: Room_userSelectSchema.optional(),
   include: Room_userIncludeSchema.optional(),
   data: z.union([ Room_userCreateInputSchema,Room_userUncheckedCreateInputSchema ]),
-}).strict() as z.ZodType<Prisma.Room_userCreateArgs>
+}).strict()
 
 export const Room_userUpsertArgsSchema: z.ZodType<Prisma.Room_userUpsertArgs> = z.object({
   select: Room_userSelectSchema.optional(),
@@ -3201,40 +3202,40 @@ export const Room_userUpsertArgsSchema: z.ZodType<Prisma.Room_userUpsertArgs> = 
   where: Room_userWhereUniqueInputSchema,
   create: z.union([ Room_userCreateInputSchema,Room_userUncheckedCreateInputSchema ]),
   update: z.union([ Room_userUpdateInputSchema,Room_userUncheckedUpdateInputSchema ]),
-}).strict() as z.ZodType<Prisma.Room_userUpsertArgs>
+}).strict()
 
 export const Room_userCreateManyArgsSchema: z.ZodType<Prisma.Room_userCreateManyArgs> = z.object({
   data: Room_userCreateManyInputSchema.array(),
   skipDuplicates: z.boolean().optional(),
-}).strict() as z.ZodType<Prisma.Room_userCreateManyArgs>
+}).strict()
 
 export const Room_userDeleteArgsSchema: z.ZodType<Prisma.Room_userDeleteArgs> = z.object({
   select: Room_userSelectSchema.optional(),
   include: Room_userIncludeSchema.optional(),
   where: Room_userWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.Room_userDeleteArgs>
+}).strict()
 
 export const Room_userUpdateArgsSchema: z.ZodType<Prisma.Room_userUpdateArgs> = z.object({
   select: Room_userSelectSchema.optional(),
   include: Room_userIncludeSchema.optional(),
   data: z.union([ Room_userUpdateInputSchema,Room_userUncheckedUpdateInputSchema ]),
   where: Room_userWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.Room_userUpdateArgs>
+}).strict()
 
 export const Room_userUpdateManyArgsSchema: z.ZodType<Prisma.Room_userUpdateManyArgs> = z.object({
   data: z.union([ Room_userUpdateManyMutationInputSchema,Room_userUncheckedUpdateManyInputSchema ]),
   where: Room_userWhereInputSchema.optional(),
-}).strict() as z.ZodType<Prisma.Room_userUpdateManyArgs>
+}).strict()
 
 export const Room_userDeleteManyArgsSchema: z.ZodType<Prisma.Room_userDeleteManyArgs> = z.object({
   where: Room_userWhereInputSchema.optional(),
-}).strict() as z.ZodType<Prisma.Room_userDeleteManyArgs>
+}).strict()
 
 export const ThingCreateArgsSchema: z.ZodType<Prisma.ThingCreateArgs> = z.object({
   select: ThingSelectSchema.optional(),
   include: ThingIncludeSchema.optional(),
   data: z.union([ ThingCreateInputSchema,ThingUncheckedCreateInputSchema ]),
-}).strict() as z.ZodType<Prisma.ThingCreateArgs>
+}).strict()
 
 export const ThingUpsertArgsSchema: z.ZodType<Prisma.ThingUpsertArgs> = z.object({
   select: ThingSelectSchema.optional(),
@@ -3242,34 +3243,34 @@ export const ThingUpsertArgsSchema: z.ZodType<Prisma.ThingUpsertArgs> = z.object
   where: ThingWhereUniqueInputSchema,
   create: z.union([ ThingCreateInputSchema,ThingUncheckedCreateInputSchema ]),
   update: z.union([ ThingUpdateInputSchema,ThingUncheckedUpdateInputSchema ]),
-}).strict() as z.ZodType<Prisma.ThingUpsertArgs>
+}).strict()
 
 export const ThingCreateManyArgsSchema: z.ZodType<Prisma.ThingCreateManyArgs> = z.object({
   data: ThingCreateManyInputSchema.array(),
   skipDuplicates: z.boolean().optional(),
-}).strict() as z.ZodType<Prisma.ThingCreateManyArgs>
+}).strict()
 
 export const ThingDeleteArgsSchema: z.ZodType<Prisma.ThingDeleteArgs> = z.object({
   select: ThingSelectSchema.optional(),
   include: ThingIncludeSchema.optional(),
   where: ThingWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.ThingDeleteArgs>
+}).strict()
 
 export const ThingUpdateArgsSchema: z.ZodType<Prisma.ThingUpdateArgs> = z.object({
   select: ThingSelectSchema.optional(),
   include: ThingIncludeSchema.optional(),
   data: z.union([ ThingUpdateInputSchema,ThingUncheckedUpdateInputSchema ]),
   where: ThingWhereUniqueInputSchema,
-}).strict() as z.ZodType<Prisma.ThingUpdateArgs>
+}).strict()
 
 export const ThingUpdateManyArgsSchema: z.ZodType<Prisma.ThingUpdateManyArgs> = z.object({
   data: z.union([ ThingUpdateManyMutationInputSchema,ThingUncheckedUpdateManyInputSchema ]),
   where: ThingWhereInputSchema.optional(),
-}).strict() as z.ZodType<Prisma.ThingUpdateManyArgs>
+}).strict()
 
 export const ThingDeleteManyArgsSchema: z.ZodType<Prisma.ThingDeleteManyArgs> = z.object({
   where: ThingWhereInputSchema.optional(),
-}).strict() as z.ZodType<Prisma.ThingDeleteManyArgs>
+}).strict()
 
 interface BoxGetPayload extends HKT {
   readonly _A?: boolean | null | undefined | Prisma.BoxArgs

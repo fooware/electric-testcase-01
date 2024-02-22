@@ -22,14 +22,16 @@ export const Example = () => {
       const config = {
         debug: import.meta.env.DEV,
         url: import.meta.env.ELECTRIC_SERVICE,
+        auth: {
+          token: authToken(),
+        },
       };
 
       const { tabId } = uniqueTabId();
       const scopedDbName = `basic-${LIB_VERSION}-${tabId}.db`;
 
-      const conn = await ElectricDatabase.init(scopedDbName);
+      const conn = await ElectricDatabase.init(scopedDbName, "/sqlite/");
       const electric = await electrify(conn, schema, config);
-      await electric.connect(authToken());
 
       if (!isMounted) {
         return;

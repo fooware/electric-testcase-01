@@ -3,121 +3,186 @@
  * Client
 **/
 
-import * as runtime from './runtime/index';
-declare const prisma: unique symbol
-export type PrismaPromise<A> = Promise<A> & {[prisma]: true}
-type UnwrapPromise<P extends any> = P extends Promise<infer R> ? R : P
-type UnwrapTuple<Tuple extends readonly unknown[]> = {
-  [K in keyof Tuple]: K extends `${number}` ? Tuple[K] extends PrismaPromise<infer X> ? X : UnwrapPromise<Tuple[K]> : UnwrapPromise<Tuple[K]>
-};
+import * as runtime from './runtime/library';
+import $Types = runtime.Types // general types
+import $Public = runtime.Types.Public
+import $Utils = runtime.Types.Utils
+import $Extensions = runtime.Types.Extensions
 
+export type PrismaPromise<T> = $Public.PrismaPromise<T>
+
+
+export type BoxPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  name: "Box"
+  objects: {
+    room: RoomPayload<ExtArgs>
+    box_user: Box_userPayload<ExtArgs>[]
+    thing: ThingPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    /**
+     * @zod.string.uuid()
+     */
+    id: string
+    name: string
+    /**
+     * @zod.string.uuid()
+     */
+    room_id: string
+  }, ExtArgs["result"]["box"]>
+  composites: {}
+}
 
 /**
  * Model Box
  * 
  */
-export type Box = {
-  /**
-   * @zod.string.uuid()
-   */
-  id: string
-  name: string
-  /**
-   * @zod.string.uuid()
-   */
-  room_id: string
+export type Box = runtime.Types.DefaultSelection<BoxPayload>
+export type Box_userPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  name: "Box_user"
+  objects: {
+    box: BoxPayload<ExtArgs>
+    person: PersonPayload<ExtArgs>
+  }
+  scalars: $Extensions.GetResult<{
+    /**
+     * @zod.string.uuid()
+     */
+    id: string
+    /**
+     * @zod.string.uuid()
+     */
+    person_id: string
+  }, ExtArgs["result"]["box_user"]>
+  composites: {}
 }
 
 /**
  * Model Box_user
  * 
  */
-export type Box_user = {
-  /**
-   * @zod.string.uuid()
-   */
-  id: string
-  /**
-   * @zod.string.uuid()
-   */
-  person_id: string
+export type Box_user = runtime.Types.DefaultSelection<Box_userPayload>
+export type HousePayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  name: "House"
+  objects: {
+    room: RoomPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    /**
+     * @zod.string.uuid()
+     */
+    id: string
+    name: string
+  }, ExtArgs["result"]["house"]>
+  composites: {}
 }
 
 /**
  * Model House
  * 
  */
-export type House = {
-  /**
-   * @zod.string.uuid()
-   */
-  id: string
-  name: string
+export type House = runtime.Types.DefaultSelection<HousePayload>
+export type PersonPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  name: "Person"
+  objects: {
+    box_user: Box_userPayload<ExtArgs>[]
+    room: RoomPayload<ExtArgs>[]
+    room_user: Room_userPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    /**
+     * @zod.string.uuid()
+     */
+    id: string
+    name: string
+  }, ExtArgs["result"]["person"]>
+  composites: {}
 }
 
 /**
  * Model Person
  * 
  */
-export type Person = {
-  /**
-   * @zod.string.uuid()
-   */
-  id: string
-  name: string
+export type Person = runtime.Types.DefaultSelection<PersonPayload>
+export type RoomPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  name: "Room"
+  objects: {
+    box: BoxPayload<ExtArgs>[]
+    house: HousePayload<ExtArgs>
+    person: PersonPayload<ExtArgs> | null
+    room_user: Room_userPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    /**
+     * @zod.string.uuid()
+     */
+    id: string
+    name: string
+    /**
+     * @zod.string.uuid()
+     */
+    house_id: string
+    /**
+     * @zod.string.uuid()
+     */
+    owner_id: string | null
+  }, ExtArgs["result"]["room"]>
+  composites: {}
 }
 
 /**
  * Model Room
  * 
  */
-export type Room = {
-  /**
-   * @zod.string.uuid()
-   */
-  id: string
-  name: string
-  /**
-   * @zod.string.uuid()
-   */
-  house_id: string
-  /**
-   * @zod.string.uuid()
-   */
-  owner_id: string | null
+export type Room = runtime.Types.DefaultSelection<RoomPayload>
+export type Room_userPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  name: "Room_user"
+  objects: {
+    room: RoomPayload<ExtArgs>
+    person: PersonPayload<ExtArgs>
+  }
+  scalars: $Extensions.GetResult<{
+    /**
+     * @zod.string.uuid()
+     */
+    id: string
+    /**
+     * @zod.string.uuid()
+     */
+    person_id: string
+  }, ExtArgs["result"]["room_user"]>
+  composites: {}
 }
 
 /**
  * Model Room_user
  * 
  */
-export type Room_user = {
-  /**
-   * @zod.string.uuid()
-   */
-  id: string
-  /**
-   * @zod.string.uuid()
-   */
-  person_id: string
+export type Room_user = runtime.Types.DefaultSelection<Room_userPayload>
+export type ThingPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  name: "Thing"
+  objects: {
+    box: BoxPayload<ExtArgs>
+  }
+  scalars: $Extensions.GetResult<{
+    /**
+     * @zod.string.uuid()
+     */
+    id: string
+    name: string
+    /**
+     * @zod.string.uuid()
+     */
+    box_id: string
+  }, ExtArgs["result"]["thing"]>
+  composites: {}
 }
 
 /**
  * Model Thing
  * 
  */
-export type Thing = {
-  /**
-   * @zod.string.uuid()
-   */
-  id: string
-  name: string
-  /**
-   * @zod.string.uuid()
-   */
-  box_id: string
-}
-
+export type Thing = runtime.Types.DefaultSelection<ThingPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -138,8 +203,11 @@ export class PrismaClient<
   U = 'log' extends keyof T ? T['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<T['log']> : never : never,
   GlobalReject extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined = 'rejectOnNotFound' extends keyof T
     ? T['rejectOnNotFound']
-    : false
-      > {
+    : false,
+  ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+> {
+  [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
+
     /**
    * ##  Prisma Client ʲˢ
    * 
@@ -170,6 +238,8 @@ export class PrismaClient<
 
   /**
    * Add a middleware
+   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
+   * @see https://pris.ly/d/extensions
    */
   $use(cb: Prisma.Middleware): void
 
@@ -182,7 +252,7 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): PrismaPromise<number>;
+  $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
 
   /**
    * Executes a raw query and returns the number of affected rows.
@@ -194,7 +264,7 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): PrismaPromise<number>;
+  $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
 
   /**
    * Performs a prepared raw query and returns the `SELECT` data.
@@ -205,7 +275,7 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): PrismaPromise<T>;
+  $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
 
   /**
    * Performs a raw query and returns the `SELECT` data.
@@ -217,7 +287,7 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): PrismaPromise<T>;
+  $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
 
   /**
    * Allows the running of a sequence of read/write operations that are guaranteed to either succeed or fail as a whole.
@@ -232,9 +302,12 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
    */
-  $transaction<P extends PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<UnwrapTuple<P>>;
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<runtime.Types.Utils.UnwrapTuple<P>>
 
-  $transaction<R>(fn: (prisma: Prisma.TransactionClient) => Promise<R>, options?: {maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel}): Promise<R>;
+  $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => Promise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<R>
+
+
+  $extends: $Extensions.ExtendsHook<'extends', Prisma.TypeMapCb, ExtArgs>
 
       /**
    * `prisma.box`: Exposes CRUD operations for the **Box** model.
@@ -244,7 +317,7 @@ export class PrismaClient<
     * const boxes = await prisma.box.findMany()
     * ```
     */
-  get box(): Prisma.BoxDelegate<GlobalReject>;
+  get box(): Prisma.BoxDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.box_user`: Exposes CRUD operations for the **Box_user** model.
@@ -254,7 +327,7 @@ export class PrismaClient<
     * const box_users = await prisma.box_user.findMany()
     * ```
     */
-  get box_user(): Prisma.Box_userDelegate<GlobalReject>;
+  get box_user(): Prisma.Box_userDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.house`: Exposes CRUD operations for the **House** model.
@@ -264,7 +337,7 @@ export class PrismaClient<
     * const houses = await prisma.house.findMany()
     * ```
     */
-  get house(): Prisma.HouseDelegate<GlobalReject>;
+  get house(): Prisma.HouseDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.person`: Exposes CRUD operations for the **Person** model.
@@ -274,7 +347,7 @@ export class PrismaClient<
     * const people = await prisma.person.findMany()
     * ```
     */
-  get person(): Prisma.PersonDelegate<GlobalReject>;
+  get person(): Prisma.PersonDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.room`: Exposes CRUD operations for the **Room** model.
@@ -284,7 +357,7 @@ export class PrismaClient<
     * const rooms = await prisma.room.findMany()
     * ```
     */
-  get room(): Prisma.RoomDelegate<GlobalReject>;
+  get room(): Prisma.RoomDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.room_user`: Exposes CRUD operations for the **Room_user** model.
@@ -294,7 +367,7 @@ export class PrismaClient<
     * const room_users = await prisma.room_user.findMany()
     * ```
     */
-  get room_user(): Prisma.Room_userDelegate<GlobalReject>;
+  get room_user(): Prisma.Room_userDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.thing`: Exposes CRUD operations for the **Thing** model.
@@ -304,11 +377,18 @@ export class PrismaClient<
     * const things = await prisma.thing.findMany()
     * ```
     */
-  get thing(): Prisma.ThingDelegate<GlobalReject>;
+  get thing(): Prisma.ThingDelegate<GlobalReject, ExtArgs>;
 }
 
 export namespace Prisma {
   export import DMMF = runtime.DMMF
+
+  export type PrismaPromise<T> = $Public.PrismaPromise<T>
+
+  /**
+   * Validator
+   */
+  export import validator = runtime.Public.validator
 
   /**
    * Prisma Errors
@@ -344,10 +424,19 @@ export namespace Prisma {
   export type MetricHistogram = runtime.MetricHistogram
   export type MetricHistogramBucket = runtime.MetricHistogramBucket
 
+  /**
+  * Extensions
+  */
+  export type Extension = $Extensions.UserArgs
+  export import getExtensionContext = runtime.Extensions.getExtensionContext
+  export type Args<T, F extends $Public.Operation> = $Public.Args<T, F>
+  export type Payload<T, F extends $Public.Operation> = $Public.Payload<T, F>
+  export type Result<T, A, F extends $Public.Operation> = $Public.Result<T, A, F>
+  export type Exact<T, W> = $Public.Exact<T, W>
 
   /**
-   * Prisma Client JS version: 4.8.1
-   * Query Engine version: 23fdc5965b1e05fc54e5f26ed3de66776b93de64
+   * Prisma Client JS version: 4.16.2
+   * Query Engine version: d6e67a83f971b175a593ccc12e15c4a757f93ffe
    */
   export type PrismaVersion = {
     client: string
@@ -711,19 +800,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Keys<U extends Union> = U extends unknown ? keyof U : never
 
-  type Exact<A, W = unknown> = 
-  W extends unknown ? A extends Narrowable ? Cast<A, W> : Cast<
-  {[K in keyof A]: K extends keyof W ? Exact<A[K], W[K]> : never},
-  {[K in keyof W]: K extends keyof A ? Exact<A[K], W[K]> : W[K]}>
-  : never;
-
-  type Narrowable = string | number | boolean | bigint;
-
   type Cast<A, B> = A extends B ? A : B;
 
   export const type: unique symbol;
 
-  export function validator<V>(): <S>(select: Exact<S, V>) => S;
+
 
   /**
    * Used by group by
@@ -778,15 +859,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRef<Model, FieldType>
 
-  class PrismaClientFetcher {
-    private readonly prisma;
-    private readonly debug;
-    private readonly hooks?;
-    constructor(prisma: PrismaClient<any, any>, debug?: boolean, hooks?: Hooks | undefined);
-    request<T>(document: any, dataPath?: string[], rootField?: string, typeName?: string, isList?: boolean, callsite?: string): Promise<T>;
-    sanitizeMessage(message: string): string;
-    protected unpack(document: any, data: any, path: string[], rootField?: string, isList?: boolean): any;
-  }
 
   export const ModelName: {
     Box: 'Box',
@@ -805,6 +877,497 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     db?: Datasource
   }
 
+
+  interface TypeMapCb extends $Utils.Fn<{extArgs: $Extensions.Args}, $Utils.Record<string, any>> {
+    returns: Prisma.TypeMap<this['params']['extArgs']>
+  }
+
+  export type TypeMap<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    meta: {
+      modelProps: 'box' | 'box_user' | 'house' | 'person' | 'room' | 'room_user' | 'thing'
+      txIsolationLevel: Prisma.TransactionIsolationLevel
+    },
+    model: {
+      Box: {
+        payload: BoxPayload<ExtArgs>
+        operations: {
+          findUnique: {
+            args: Prisma.BoxFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BoxPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BoxFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BoxPayload>
+          }
+          findFirst: {
+            args: Prisma.BoxFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BoxPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BoxFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BoxPayload>
+          }
+          findMany: {
+            args: Prisma.BoxFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BoxPayload>[]
+          }
+          create: {
+            args: Prisma.BoxCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BoxPayload>
+          }
+          createMany: {
+            args: Prisma.BoxCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.BoxDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BoxPayload>
+          }
+          update: {
+            args: Prisma.BoxUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BoxPayload>
+          }
+          deleteMany: {
+            args: Prisma.BoxDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BoxUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.BoxUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BoxPayload>
+          }
+          aggregate: {
+            args: Prisma.BoxAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateBox>
+          }
+          groupBy: {
+            args: Prisma.BoxGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<BoxGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BoxCountArgs<ExtArgs>,
+            result: $Utils.Optional<BoxCountAggregateOutputType> | number
+          }
+        }
+      }
+      Box_user: {
+        payload: Box_userPayload<ExtArgs>
+        operations: {
+          findUnique: {
+            args: Prisma.Box_userFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Box_userPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.Box_userFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Box_userPayload>
+          }
+          findFirst: {
+            args: Prisma.Box_userFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Box_userPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.Box_userFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Box_userPayload>
+          }
+          findMany: {
+            args: Prisma.Box_userFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Box_userPayload>[]
+          }
+          create: {
+            args: Prisma.Box_userCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Box_userPayload>
+          }
+          createMany: {
+            args: Prisma.Box_userCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.Box_userDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Box_userPayload>
+          }
+          update: {
+            args: Prisma.Box_userUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Box_userPayload>
+          }
+          deleteMany: {
+            args: Prisma.Box_userDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.Box_userUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.Box_userUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Box_userPayload>
+          }
+          aggregate: {
+            args: Prisma.Box_userAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateBox_user>
+          }
+          groupBy: {
+            args: Prisma.Box_userGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<Box_userGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.Box_userCountArgs<ExtArgs>,
+            result: $Utils.Optional<Box_userCountAggregateOutputType> | number
+          }
+        }
+      }
+      House: {
+        payload: HousePayload<ExtArgs>
+        operations: {
+          findUnique: {
+            args: Prisma.HouseFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HousePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.HouseFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HousePayload>
+          }
+          findFirst: {
+            args: Prisma.HouseFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HousePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.HouseFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HousePayload>
+          }
+          findMany: {
+            args: Prisma.HouseFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HousePayload>[]
+          }
+          create: {
+            args: Prisma.HouseCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HousePayload>
+          }
+          createMany: {
+            args: Prisma.HouseCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.HouseDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HousePayload>
+          }
+          update: {
+            args: Prisma.HouseUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HousePayload>
+          }
+          deleteMany: {
+            args: Prisma.HouseDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.HouseUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.HouseUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HousePayload>
+          }
+          aggregate: {
+            args: Prisma.HouseAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateHouse>
+          }
+          groupBy: {
+            args: Prisma.HouseGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<HouseGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.HouseCountArgs<ExtArgs>,
+            result: $Utils.Optional<HouseCountAggregateOutputType> | number
+          }
+        }
+      }
+      Person: {
+        payload: PersonPayload<ExtArgs>
+        operations: {
+          findUnique: {
+            args: Prisma.PersonFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PersonPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PersonFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PersonPayload>
+          }
+          findFirst: {
+            args: Prisma.PersonFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PersonPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PersonFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PersonPayload>
+          }
+          findMany: {
+            args: Prisma.PersonFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PersonPayload>[]
+          }
+          create: {
+            args: Prisma.PersonCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PersonPayload>
+          }
+          createMany: {
+            args: Prisma.PersonCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.PersonDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PersonPayload>
+          }
+          update: {
+            args: Prisma.PersonUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PersonPayload>
+          }
+          deleteMany: {
+            args: Prisma.PersonDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PersonUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.PersonUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PersonPayload>
+          }
+          aggregate: {
+            args: Prisma.PersonAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregatePerson>
+          }
+          groupBy: {
+            args: Prisma.PersonGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<PersonGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PersonCountArgs<ExtArgs>,
+            result: $Utils.Optional<PersonCountAggregateOutputType> | number
+          }
+        }
+      }
+      Room: {
+        payload: RoomPayload<ExtArgs>
+        operations: {
+          findUnique: {
+            args: Prisma.RoomFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoomPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RoomFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoomPayload>
+          }
+          findFirst: {
+            args: Prisma.RoomFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoomPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RoomFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoomPayload>
+          }
+          findMany: {
+            args: Prisma.RoomFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoomPayload>[]
+          }
+          create: {
+            args: Prisma.RoomCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoomPayload>
+          }
+          createMany: {
+            args: Prisma.RoomCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.RoomDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoomPayload>
+          }
+          update: {
+            args: Prisma.RoomUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoomPayload>
+          }
+          deleteMany: {
+            args: Prisma.RoomDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RoomUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.RoomUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoomPayload>
+          }
+          aggregate: {
+            args: Prisma.RoomAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateRoom>
+          }
+          groupBy: {
+            args: Prisma.RoomGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<RoomGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RoomCountArgs<ExtArgs>,
+            result: $Utils.Optional<RoomCountAggregateOutputType> | number
+          }
+        }
+      }
+      Room_user: {
+        payload: Room_userPayload<ExtArgs>
+        operations: {
+          findUnique: {
+            args: Prisma.Room_userFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Room_userPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.Room_userFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Room_userPayload>
+          }
+          findFirst: {
+            args: Prisma.Room_userFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Room_userPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.Room_userFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Room_userPayload>
+          }
+          findMany: {
+            args: Prisma.Room_userFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Room_userPayload>[]
+          }
+          create: {
+            args: Prisma.Room_userCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Room_userPayload>
+          }
+          createMany: {
+            args: Prisma.Room_userCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.Room_userDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Room_userPayload>
+          }
+          update: {
+            args: Prisma.Room_userUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Room_userPayload>
+          }
+          deleteMany: {
+            args: Prisma.Room_userDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.Room_userUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.Room_userUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Room_userPayload>
+          }
+          aggregate: {
+            args: Prisma.Room_userAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateRoom_user>
+          }
+          groupBy: {
+            args: Prisma.Room_userGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<Room_userGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.Room_userCountArgs<ExtArgs>,
+            result: $Utils.Optional<Room_userCountAggregateOutputType> | number
+          }
+        }
+      }
+      Thing: {
+        payload: ThingPayload<ExtArgs>
+        operations: {
+          findUnique: {
+            args: Prisma.ThingFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ThingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ThingFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ThingPayload>
+          }
+          findFirst: {
+            args: Prisma.ThingFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ThingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ThingFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ThingPayload>
+          }
+          findMany: {
+            args: Prisma.ThingFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ThingPayload>[]
+          }
+          create: {
+            args: Prisma.ThingCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ThingPayload>
+          }
+          createMany: {
+            args: Prisma.ThingCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.ThingDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ThingPayload>
+          }
+          update: {
+            args: Prisma.ThingUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ThingPayload>
+          }
+          deleteMany: {
+            args: Prisma.ThingDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ThingUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.ThingUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ThingPayload>
+          }
+          aggregate: {
+            args: Prisma.ThingAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateThing>
+          }
+          groupBy: {
+            args: Prisma.ThingGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<ThingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ThingCountArgs<ExtArgs>,
+            result: $Utils.Optional<ThingCountAggregateOutputType> | number
+          }
+        }
+      }
+    }
+  } & {
+    other: {
+      payload: any
+      operations: {
+        $executeRawUnsafe: {
+          args: [query: string, ...values: any[]],
+          result: any
+        }
+        $executeRaw: {
+          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]],
+          result: any
+        }
+        $queryRawUnsafe: {
+          args: [query: string, ...values: any[]],
+          result: any
+        }
+        $queryRaw: {
+          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]],
+          result: any
+        }
+      }
+    }
+  }
+  export const defineExtension: $Extensions.ExtendsHook<'define', Prisma.TypeMapCb, $Extensions.DefaultArgs>
   export type DefaultPrismaClient = PrismaClient
   export type RejectOnNotFound = boolean | ((error: Error) => Error)
   export type RejectPerModel = { [P in ModelName]?: RejectOnNotFound }
@@ -872,10 +1435,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
     log?: Array<LogLevel | LogDefinition>
-  }
-
-  export type Hooks = {
-    beforeRequest?: (options: { query: string, path: string[], rootField?: string, typeName?: string, document: any }) => any
   }
 
   /* Types for Logging */
@@ -949,7 +1508,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * `PrismaClient` proxy available in interactive transactions.
    */
-  export type TransactionClient = Omit<Prisma.DefaultPrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use'>
+  export type TransactionClient = Omit<Prisma.DefaultPrismaClient, runtime.ITXClientDenyList>
 
   export type Datasource = {
     url?: string
@@ -970,45 +1529,28 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     thing: number
   }
 
-  export type BoxCountOutputTypeSelect = {
+  export type BoxCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     box_user?: boolean | BoxCountOutputTypeCountBox_userArgs
     thing?: boolean | BoxCountOutputTypeCountThingArgs
   }
-
-  export type BoxCountOutputTypeGetPayload<S extends boolean | null | undefined | BoxCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? BoxCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (BoxCountOutputTypeArgs)
-    ? BoxCountOutputType 
-    : S extends { select: any } & (BoxCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof BoxCountOutputType ? BoxCountOutputType[P] : never
-  } 
-      : BoxCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * BoxCountOutputType without action
    */
-  export type BoxCountOutputTypeArgs = {
+  export type BoxCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BoxCountOutputType
-     * 
-    **/
-    select?: BoxCountOutputTypeSelect | null
+     */
+    select?: BoxCountOutputTypeSelect<ExtArgs> | null
   }
 
 
   /**
    * BoxCountOutputType without action
    */
-  export type BoxCountOutputTypeCountBox_userArgs = {
+  export type BoxCountOutputTypeCountBox_userArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: Box_userWhereInput
   }
 
@@ -1016,7 +1558,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * BoxCountOutputType without action
    */
-  export type BoxCountOutputTypeCountThingArgs = {
+  export type BoxCountOutputTypeCountThingArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: ThingWhereInput
   }
 
@@ -1031,44 +1573,27 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     room: number
   }
 
-  export type HouseCountOutputTypeSelect = {
+  export type HouseCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     room?: boolean | HouseCountOutputTypeCountRoomArgs
   }
-
-  export type HouseCountOutputTypeGetPayload<S extends boolean | null | undefined | HouseCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? HouseCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (HouseCountOutputTypeArgs)
-    ? HouseCountOutputType 
-    : S extends { select: any } & (HouseCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof HouseCountOutputType ? HouseCountOutputType[P] : never
-  } 
-      : HouseCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * HouseCountOutputType without action
    */
-  export type HouseCountOutputTypeArgs = {
+  export type HouseCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HouseCountOutputType
-     * 
-    **/
-    select?: HouseCountOutputTypeSelect | null
+     */
+    select?: HouseCountOutputTypeSelect<ExtArgs> | null
   }
 
 
   /**
    * HouseCountOutputType without action
    */
-  export type HouseCountOutputTypeCountRoomArgs = {
+  export type HouseCountOutputTypeCountRoomArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: RoomWhereInput
   }
 
@@ -1085,46 +1610,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     room_user: number
   }
 
-  export type PersonCountOutputTypeSelect = {
+  export type PersonCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     box_user?: boolean | PersonCountOutputTypeCountBox_userArgs
     room?: boolean | PersonCountOutputTypeCountRoomArgs
     room_user?: boolean | PersonCountOutputTypeCountRoom_userArgs
   }
-
-  export type PersonCountOutputTypeGetPayload<S extends boolean | null | undefined | PersonCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? PersonCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (PersonCountOutputTypeArgs)
-    ? PersonCountOutputType 
-    : S extends { select: any } & (PersonCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof PersonCountOutputType ? PersonCountOutputType[P] : never
-  } 
-      : PersonCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * PersonCountOutputType without action
    */
-  export type PersonCountOutputTypeArgs = {
+  export type PersonCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the PersonCountOutputType
-     * 
-    **/
-    select?: PersonCountOutputTypeSelect | null
+     */
+    select?: PersonCountOutputTypeSelect<ExtArgs> | null
   }
 
 
   /**
    * PersonCountOutputType without action
    */
-  export type PersonCountOutputTypeCountBox_userArgs = {
+  export type PersonCountOutputTypeCountBox_userArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: Box_userWhereInput
   }
 
@@ -1132,7 +1640,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * PersonCountOutputType without action
    */
-  export type PersonCountOutputTypeCountRoomArgs = {
+  export type PersonCountOutputTypeCountRoomArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: RoomWhereInput
   }
 
@@ -1140,7 +1648,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * PersonCountOutputType without action
    */
-  export type PersonCountOutputTypeCountRoom_userArgs = {
+  export type PersonCountOutputTypeCountRoom_userArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: Room_userWhereInput
   }
 
@@ -1156,45 +1664,28 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     room_user: number
   }
 
-  export type RoomCountOutputTypeSelect = {
+  export type RoomCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     box?: boolean | RoomCountOutputTypeCountBoxArgs
     room_user?: boolean | RoomCountOutputTypeCountRoom_userArgs
   }
-
-  export type RoomCountOutputTypeGetPayload<S extends boolean | null | undefined | RoomCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? RoomCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (RoomCountOutputTypeArgs)
-    ? RoomCountOutputType 
-    : S extends { select: any } & (RoomCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof RoomCountOutputType ? RoomCountOutputType[P] : never
-  } 
-      : RoomCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * RoomCountOutputType without action
    */
-  export type RoomCountOutputTypeArgs = {
+  export type RoomCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the RoomCountOutputType
-     * 
-    **/
-    select?: RoomCountOutputTypeSelect | null
+     */
+    select?: RoomCountOutputTypeSelect<ExtArgs> | null
   }
 
 
   /**
    * RoomCountOutputType without action
    */
-  export type RoomCountOutputTypeCountBoxArgs = {
+  export type RoomCountOutputTypeCountBoxArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: BoxWhereInput
   }
 
@@ -1202,7 +1693,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * RoomCountOutputType without action
    */
-  export type RoomCountOutputTypeCountRoom_userArgs = {
+  export type RoomCountOutputTypeCountRoom_userArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: Room_userWhereInput
   }
 
@@ -1262,39 +1753,34 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _all?: true
   }
 
-  export type BoxAggregateArgs = {
+  export type BoxAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which Box to aggregate.
-     * 
-    **/
+     */
     where?: BoxWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Boxes to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<BoxOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: BoxWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Boxes from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Boxes.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -1327,10 +1813,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
 
-  export type BoxGroupByArgs = {
+  export type BoxGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: BoxWhereInput
     orderBy?: Enumerable<BoxOrderByWithAggregationInput>
-    by: Array<BoxScalarFieldEnum>
+    by: BoxScalarFieldEnum[]
     having?: BoxScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -1349,7 +1835,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max: BoxMaxAggregateOutputType | null
   }
 
-  type GetBoxGroupByPayload<T extends BoxGroupByArgs> = PrismaPromise<
+  type GetBoxGroupByPayload<T extends BoxGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<BoxGroupByOutputType, T['by']> &
         {
@@ -1363,54 +1849,39 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     >
 
 
-  export type BoxSelect = {
+  export type BoxSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     room_id?: boolean
-    room?: boolean | RoomArgs
-    box_user?: boolean | Box$box_userArgs
-    thing?: boolean | Box$thingArgs
-    _count?: boolean | BoxCountOutputTypeArgs
+    room?: boolean | RoomArgs<ExtArgs>
+    box_user?: boolean | Box$box_userArgs<ExtArgs>
+    thing?: boolean | Box$thingArgs<ExtArgs>
+    _count?: boolean | BoxCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["box"]>
+
+  export type BoxSelectScalar = {
+    id?: boolean
+    name?: boolean
+    room_id?: boolean
+  }
+
+  export type BoxInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    room?: boolean | RoomArgs<ExtArgs>
+    box_user?: boolean | Box$box_userArgs<ExtArgs>
+    thing?: boolean | Box$thingArgs<ExtArgs>
+    _count?: boolean | BoxCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type BoxInclude = {
-    room?: boolean | RoomArgs
-    box_user?: boolean | Box$box_userArgs
-    thing?: boolean | Box$thingArgs
-    _count?: boolean | BoxCountOutputTypeArgs
-  } 
+  type BoxGetPayload<S extends boolean | null | undefined | BoxArgs> = $Types.GetResult<BoxPayload, S>
 
-  export type BoxGetPayload<S extends boolean | null | undefined | BoxArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Box :
-    S extends undefined ? never :
-    S extends { include: any } & (BoxArgs | BoxFindManyArgs)
-    ? Box  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'room' ? RoomGetPayload<S['include'][P]> :
-        P extends 'box_user' ? Array < Box_userGetPayload<S['include'][P]>>  :
-        P extends 'thing' ? Array < ThingGetPayload<S['include'][P]>>  :
-        P extends '_count' ? BoxCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (BoxArgs | BoxFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'room' ? RoomGetPayload<S['select'][P]> :
-        P extends 'box_user' ? Array < Box_userGetPayload<S['select'][P]>>  :
-        P extends 'thing' ? Array < ThingGetPayload<S['select'][P]>>  :
-        P extends '_count' ? BoxCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Box ? Box[P] : never
-  } 
-      : Box
-
-
-  type BoxCountArgs = Merge<
+  type BoxCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<BoxFindManyArgs, 'select' | 'include'> & {
       select?: BoxCountAggregateInputType | true
     }
-  >
 
-  export interface BoxDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface BoxDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Box'], meta: { name: 'Box' } }
     /**
      * Find zero or one Box that matches the filter.
      * @param {BoxFindUniqueArgs} args - Arguments to find a Box
@@ -1422,9 +1893,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findUnique<T extends BoxFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, BoxFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Box'> extends True ? Prisma__BoxClient<BoxGetPayload<T>> : Prisma__BoxClient<BoxGetPayload<T> | null, null>
+    findUnique<T extends BoxFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, BoxFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Box'> extends True ? Prisma__BoxClient<$Types.GetResult<BoxPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__BoxClient<$Types.GetResult<BoxPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one Box that matches the filter or throw an error  with `error.code='P2025'` 
@@ -1438,9 +1909,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends BoxFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, BoxFindUniqueOrThrowArgs>
-    ): Prisma__BoxClient<BoxGetPayload<T>>
+    findUniqueOrThrow<T extends BoxFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, BoxFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__BoxClient<$Types.GetResult<BoxPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first Box that matches the filter.
@@ -1455,9 +1926,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findFirst<T extends BoxFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, BoxFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Box'> extends True ? Prisma__BoxClient<BoxGetPayload<T>> : Prisma__BoxClient<BoxGetPayload<T> | null, null>
+    findFirst<T extends BoxFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, BoxFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Box'> extends True ? Prisma__BoxClient<$Types.GetResult<BoxPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__BoxClient<$Types.GetResult<BoxPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first Box that matches the filter or
@@ -1473,9 +1944,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findFirstOrThrow<T extends BoxFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, BoxFindFirstOrThrowArgs>
-    ): Prisma__BoxClient<BoxGetPayload<T>>
+    findFirstOrThrow<T extends BoxFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, BoxFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__BoxClient<$Types.GetResult<BoxPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more Boxes that matches the filter.
@@ -1493,9 +1964,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * const boxWithIdOnly = await prisma.box.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends BoxFindManyArgs>(
-      args?: SelectSubset<T, BoxFindManyArgs>
-    ): PrismaPromise<Array<BoxGetPayload<T>>>
+    findMany<T extends BoxFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, BoxFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<BoxPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a Box.
@@ -1509,9 +1980,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    create<T extends BoxCreateArgs>(
-      args: SelectSubset<T, BoxCreateArgs>
-    ): Prisma__BoxClient<BoxGetPayload<T>>
+    create<T extends BoxCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, BoxCreateArgs<ExtArgs>>
+    ): Prisma__BoxClient<$Types.GetResult<BoxPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many Boxes.
@@ -1525,9 +1996,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *     })
      *     
     **/
-    createMany<T extends BoxCreateManyArgs>(
-      args?: SelectSubset<T, BoxCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    createMany<T extends BoxCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, BoxCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a Box.
@@ -1541,9 +2012,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    delete<T extends BoxDeleteArgs>(
-      args: SelectSubset<T, BoxDeleteArgs>
-    ): Prisma__BoxClient<BoxGetPayload<T>>
+    delete<T extends BoxDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, BoxDeleteArgs<ExtArgs>>
+    ): Prisma__BoxClient<$Types.GetResult<BoxPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one Box.
@@ -1560,9 +2031,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    update<T extends BoxUpdateArgs>(
-      args: SelectSubset<T, BoxUpdateArgs>
-    ): Prisma__BoxClient<BoxGetPayload<T>>
+    update<T extends BoxUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, BoxUpdateArgs<ExtArgs>>
+    ): Prisma__BoxClient<$Types.GetResult<BoxPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more Boxes.
@@ -1576,9 +2047,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    deleteMany<T extends BoxDeleteManyArgs>(
-      args?: SelectSubset<T, BoxDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    deleteMany<T extends BoxDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, BoxDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Boxes.
@@ -1597,9 +2068,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    updateMany<T extends BoxUpdateManyArgs>(
-      args: SelectSubset<T, BoxUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    updateMany<T extends BoxUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, BoxUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one Box.
@@ -1618,9 +2089,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    upsert<T extends BoxUpsertArgs>(
-      args: SelectSubset<T, BoxUpsertArgs>
-    ): Prisma__BoxClient<BoxGetPayload<T>>
+    upsert<T extends BoxUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, BoxUpsertArgs<ExtArgs>>
+    ): Prisma__BoxClient<$Types.GetResult<BoxPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of Boxes.
@@ -1637,8 +2108,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     count<T extends BoxCountArgs>(
       args?: Subset<T, BoxCountArgs>,
-    ): PrismaPromise<
-      T extends _Record<'select', any>
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], BoxCountAggregateOutputType>
@@ -1669,7 +2140,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   take: 10,
      * })
     **/
-    aggregate<T extends BoxAggregateArgs>(args: Subset<T, BoxAggregateArgs>): PrismaPromise<GetBoxAggregateType<T>>
+    aggregate<T extends BoxAggregateArgs>(args: Subset<T, BoxAggregateArgs>): Prisma.PrismaPromise<GetBoxAggregateType<T>>
 
     /**
      * Group by Box.
@@ -1746,7 +2217,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, BoxGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBoxGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, BoxGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBoxGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
@@ -1756,10 +2227,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__BoxClient<T, Null = never> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__BoxClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -1770,14 +2239,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    room<T extends RoomArgs= {}>(args?: Subset<T, RoomArgs>): Prisma__RoomClient<RoomGetPayload<T> | Null>;
+    room<T extends RoomArgs<ExtArgs> = {}>(args?: Subset<T, RoomArgs<ExtArgs>>): Prisma__RoomClient<$Types.GetResult<RoomPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    box_user<T extends Box$box_userArgs= {}>(args?: Subset<T, Box$box_userArgs>): PrismaPromise<Array<Box_userGetPayload<T>>| Null>;
+    box_user<T extends Box$box_userArgs<ExtArgs> = {}>(args?: Subset<T, Box$box_userArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<Box_userPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
-    thing<T extends Box$thingArgs= {}>(args?: Subset<T, Box$thingArgs>): PrismaPromise<Array<ThingGetPayload<T>>| Null>;
+    thing<T extends Box$thingArgs<ExtArgs> = {}>(args?: Subset<T, Box$thingArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<ThingPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -1809,28 +2278,25 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box base type for findUnique actions
    */
-  export type BoxFindUniqueArgsBase = {
+  export type BoxFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box
-     * 
-    **/
-    select?: BoxSelect | null
+     */
+    select?: BoxSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: BoxInclude | null
+     */
+    include?: BoxInclude<ExtArgs> | null
     /**
      * Filter, which Box to fetch.
-     * 
-    **/
+     */
     where: BoxWhereUniqueInput
   }
 
   /**
    * Box findUnique
    */
-  export interface BoxFindUniqueArgs extends BoxFindUniqueArgsBase {
+  export interface BoxFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends BoxFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -1842,21 +2308,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box findUniqueOrThrow
    */
-  export type BoxFindUniqueOrThrowArgs = {
+  export type BoxFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box
-     * 
-    **/
-    select?: BoxSelect | null
+     */
+    select?: BoxSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: BoxInclude | null
+     */
+    include?: BoxInclude<ExtArgs> | null
     /**
      * Filter, which Box to fetch.
-     * 
-    **/
+     */
     where: BoxWhereUniqueInput
   }
 
@@ -1864,63 +2327,55 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box base type for findFirst actions
    */
-  export type BoxFindFirstArgsBase = {
+  export type BoxFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box
-     * 
-    **/
-    select?: BoxSelect | null
+     */
+    select?: BoxSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: BoxInclude | null
+     */
+    include?: BoxInclude<ExtArgs> | null
     /**
      * Filter, which Box to fetch.
-     * 
-    **/
+     */
     where?: BoxWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Boxes to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<BoxOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Boxes.
-     * 
-    **/
+     */
     cursor?: BoxWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Boxes from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Boxes.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Boxes.
-     * 
-    **/
+     */
     distinct?: Enumerable<BoxScalarFieldEnum>
   }
 
   /**
    * Box findFirst
    */
-  export interface BoxFindFirstArgs extends BoxFindFirstArgsBase {
+  export interface BoxFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends BoxFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -1932,56 +2387,48 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box findFirstOrThrow
    */
-  export type BoxFindFirstOrThrowArgs = {
+  export type BoxFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box
-     * 
-    **/
-    select?: BoxSelect | null
+     */
+    select?: BoxSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: BoxInclude | null
+     */
+    include?: BoxInclude<ExtArgs> | null
     /**
      * Filter, which Box to fetch.
-     * 
-    **/
+     */
     where?: BoxWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Boxes to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<BoxOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Boxes.
-     * 
-    **/
+     */
     cursor?: BoxWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Boxes from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Boxes.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Boxes.
-     * 
-    **/
+     */
     distinct?: Enumerable<BoxScalarFieldEnum>
   }
 
@@ -1989,49 +2436,42 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box findMany
    */
-  export type BoxFindManyArgs = {
+  export type BoxFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box
-     * 
-    **/
-    select?: BoxSelect | null
+     */
+    select?: BoxSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: BoxInclude | null
+     */
+    include?: BoxInclude<ExtArgs> | null
     /**
      * Filter, which Boxes to fetch.
-     * 
-    **/
+     */
     where?: BoxWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Boxes to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<BoxOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for listing Boxes.
-     * 
-    **/
+     */
     cursor?: BoxWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Boxes from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Boxes.
-     * 
-    **/
+     */
     skip?: number
     distinct?: Enumerable<BoxScalarFieldEnum>
   }
@@ -2040,21 +2480,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box create
    */
-  export type BoxCreateArgs = {
+  export type BoxCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box
-     * 
-    **/
-    select?: BoxSelect | null
+     */
+    select?: BoxSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: BoxInclude | null
+     */
+    include?: BoxInclude<ExtArgs> | null
     /**
      * The data needed to create a Box.
-     * 
-    **/
+     */
     data: XOR<BoxCreateInput, BoxUncheckedCreateInput>
   }
 
@@ -2062,11 +2499,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box createMany
    */
-  export type BoxCreateManyArgs = {
+  export type BoxCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many Boxes.
-     * 
-    **/
+     */
     data: Enumerable<BoxCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -2075,26 +2511,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box update
    */
-  export type BoxUpdateArgs = {
+  export type BoxUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box
-     * 
-    **/
-    select?: BoxSelect | null
+     */
+    select?: BoxSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: BoxInclude | null
+     */
+    include?: BoxInclude<ExtArgs> | null
     /**
      * The data needed to update a Box.
-     * 
-    **/
+     */
     data: XOR<BoxUpdateInput, BoxUncheckedUpdateInput>
     /**
      * Choose, which Box to update.
-     * 
-    **/
+     */
     where: BoxWhereUniqueInput
   }
 
@@ -2102,16 +2534,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box updateMany
    */
-  export type BoxUpdateManyArgs = {
+  export type BoxUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update Boxes.
-     * 
-    **/
+     */
     data: XOR<BoxUpdateManyMutationInput, BoxUncheckedUpdateManyInput>
     /**
      * Filter which Boxes to update
-     * 
-    **/
+     */
     where?: BoxWhereInput
   }
 
@@ -2119,31 +2549,26 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box upsert
    */
-  export type BoxUpsertArgs = {
+  export type BoxUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box
-     * 
-    **/
-    select?: BoxSelect | null
+     */
+    select?: BoxSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: BoxInclude | null
+     */
+    include?: BoxInclude<ExtArgs> | null
     /**
      * The filter to search for the Box to update in case it exists.
-     * 
-    **/
+     */
     where: BoxWhereUniqueInput
     /**
      * In case the Box found by the `where` argument doesn't exist, create a new Box with this data.
-     * 
-    **/
+     */
     create: XOR<BoxCreateInput, BoxUncheckedCreateInput>
     /**
      * In case the Box was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<BoxUpdateInput, BoxUncheckedUpdateInput>
   }
 
@@ -2151,21 +2576,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box delete
    */
-  export type BoxDeleteArgs = {
+  export type BoxDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box
-     * 
-    **/
-    select?: BoxSelect | null
+     */
+    select?: BoxSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: BoxInclude | null
+     */
+    include?: BoxInclude<ExtArgs> | null
     /**
      * Filter which Box to delete.
-     * 
-    **/
+     */
     where: BoxWhereUniqueInput
   }
 
@@ -2173,11 +2595,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box deleteMany
    */
-  export type BoxDeleteManyArgs = {
+  export type BoxDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which Boxes to delete
-     * 
-    **/
+     */
     where?: BoxWhereInput
   }
 
@@ -2185,17 +2606,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box.box_user
    */
-  export type Box$box_userArgs = {
+  export type Box$box_userArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box_user
-     * 
-    **/
-    select?: Box_userSelect | null
+     */
+    select?: Box_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Box_userInclude | null
+     */
+    include?: Box_userInclude<ExtArgs> | null
     where?: Box_userWhereInput
     orderBy?: Enumerable<Box_userOrderByWithRelationInput>
     cursor?: Box_userWhereUniqueInput
@@ -2208,17 +2627,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box.thing
    */
-  export type Box$thingArgs = {
+  export type Box$thingArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Thing
-     * 
-    **/
-    select?: ThingSelect | null
+     */
+    select?: ThingSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: ThingInclude | null
+     */
+    include?: ThingInclude<ExtArgs> | null
     where?: ThingWhereInput
     orderBy?: Enumerable<ThingOrderByWithRelationInput>
     cursor?: ThingWhereUniqueInput
@@ -2231,17 +2648,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box without action
    */
-  export type BoxArgs = {
+  export type BoxArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box
-     * 
-    **/
-    select?: BoxSelect | null
+     */
+    select?: BoxSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: BoxInclude | null
+     */
+    include?: BoxInclude<ExtArgs> | null
   }
 
 
@@ -2290,39 +2705,34 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _all?: true
   }
 
-  export type Box_userAggregateArgs = {
+  export type Box_userAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which Box_user to aggregate.
-     * 
-    **/
+     */
     where?: Box_userWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Box_users to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<Box_userOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: Box_userWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Box_users from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Box_users.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -2355,10 +2765,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
 
-  export type Box_userGroupByArgs = {
+  export type Box_userGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: Box_userWhereInput
     orderBy?: Enumerable<Box_userOrderByWithAggregationInput>
-    by: Array<Box_userScalarFieldEnum>
+    by: Box_userScalarFieldEnum[]
     having?: Box_userScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -2376,7 +2786,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max: Box_userMaxAggregateOutputType | null
   }
 
-  type GetBox_userGroupByPayload<T extends Box_userGroupByArgs> = PrismaPromise<
+  type GetBox_userGroupByPayload<T extends Box_userGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<Box_userGroupByOutputType, T['by']> &
         {
@@ -2390,45 +2800,33 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     >
 
 
-  export type Box_userSelect = {
+  export type Box_userSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     person_id?: boolean
-    box?: boolean | BoxArgs
-    person?: boolean | PersonArgs
+    box?: boolean | BoxArgs<ExtArgs>
+    person?: boolean | PersonArgs<ExtArgs>
+  }, ExtArgs["result"]["box_user"]>
+
+  export type Box_userSelectScalar = {
+    id?: boolean
+    person_id?: boolean
+  }
+
+  export type Box_userInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    box?: boolean | BoxArgs<ExtArgs>
+    person?: boolean | PersonArgs<ExtArgs>
   }
 
 
-  export type Box_userInclude = {
-    box?: boolean | BoxArgs
-    person?: boolean | PersonArgs
-  } 
+  type Box_userGetPayload<S extends boolean | null | undefined | Box_userArgs> = $Types.GetResult<Box_userPayload, S>
 
-  export type Box_userGetPayload<S extends boolean | null | undefined | Box_userArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Box_user :
-    S extends undefined ? never :
-    S extends { include: any } & (Box_userArgs | Box_userFindManyArgs)
-    ? Box_user  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'box' ? BoxGetPayload<S['include'][P]> :
-        P extends 'person' ? PersonGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (Box_userArgs | Box_userFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'box' ? BoxGetPayload<S['select'][P]> :
-        P extends 'person' ? PersonGetPayload<S['select'][P]> :  P extends keyof Box_user ? Box_user[P] : never
-  } 
-      : Box_user
-
-
-  type Box_userCountArgs = Merge<
+  type Box_userCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<Box_userFindManyArgs, 'select' | 'include'> & {
       select?: Box_userCountAggregateInputType | true
     }
-  >
 
-  export interface Box_userDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface Box_userDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Box_user'], meta: { name: 'Box_user' } }
     /**
      * Find zero or one Box_user that matches the filter.
      * @param {Box_userFindUniqueArgs} args - Arguments to find a Box_user
@@ -2440,9 +2838,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findUnique<T extends Box_userFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, Box_userFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Box_user'> extends True ? Prisma__Box_userClient<Box_userGetPayload<T>> : Prisma__Box_userClient<Box_userGetPayload<T> | null, null>
+    findUnique<T extends Box_userFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Box_userFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Box_user'> extends True ? Prisma__Box_userClient<$Types.GetResult<Box_userPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__Box_userClient<$Types.GetResult<Box_userPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one Box_user that matches the filter or throw an error  with `error.code='P2025'` 
@@ -2456,9 +2854,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends Box_userFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, Box_userFindUniqueOrThrowArgs>
-    ): Prisma__Box_userClient<Box_userGetPayload<T>>
+    findUniqueOrThrow<T extends Box_userFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, Box_userFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__Box_userClient<$Types.GetResult<Box_userPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first Box_user that matches the filter.
@@ -2473,9 +2871,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findFirst<T extends Box_userFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, Box_userFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Box_user'> extends True ? Prisma__Box_userClient<Box_userGetPayload<T>> : Prisma__Box_userClient<Box_userGetPayload<T> | null, null>
+    findFirst<T extends Box_userFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Box_userFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Box_user'> extends True ? Prisma__Box_userClient<$Types.GetResult<Box_userPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__Box_userClient<$Types.GetResult<Box_userPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first Box_user that matches the filter or
@@ -2491,9 +2889,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findFirstOrThrow<T extends Box_userFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, Box_userFindFirstOrThrowArgs>
-    ): Prisma__Box_userClient<Box_userGetPayload<T>>
+    findFirstOrThrow<T extends Box_userFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, Box_userFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__Box_userClient<$Types.GetResult<Box_userPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more Box_users that matches the filter.
@@ -2511,9 +2909,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * const box_userWithIdOnly = await prisma.box_user.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends Box_userFindManyArgs>(
-      args?: SelectSubset<T, Box_userFindManyArgs>
-    ): PrismaPromise<Array<Box_userGetPayload<T>>>
+    findMany<T extends Box_userFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, Box_userFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<Box_userPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a Box_user.
@@ -2527,9 +2925,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    create<T extends Box_userCreateArgs>(
-      args: SelectSubset<T, Box_userCreateArgs>
-    ): Prisma__Box_userClient<Box_userGetPayload<T>>
+    create<T extends Box_userCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, Box_userCreateArgs<ExtArgs>>
+    ): Prisma__Box_userClient<$Types.GetResult<Box_userPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many Box_users.
@@ -2543,9 +2941,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *     })
      *     
     **/
-    createMany<T extends Box_userCreateManyArgs>(
-      args?: SelectSubset<T, Box_userCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    createMany<T extends Box_userCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, Box_userCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a Box_user.
@@ -2559,9 +2957,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    delete<T extends Box_userDeleteArgs>(
-      args: SelectSubset<T, Box_userDeleteArgs>
-    ): Prisma__Box_userClient<Box_userGetPayload<T>>
+    delete<T extends Box_userDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, Box_userDeleteArgs<ExtArgs>>
+    ): Prisma__Box_userClient<$Types.GetResult<Box_userPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one Box_user.
@@ -2578,9 +2976,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    update<T extends Box_userUpdateArgs>(
-      args: SelectSubset<T, Box_userUpdateArgs>
-    ): Prisma__Box_userClient<Box_userGetPayload<T>>
+    update<T extends Box_userUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, Box_userUpdateArgs<ExtArgs>>
+    ): Prisma__Box_userClient<$Types.GetResult<Box_userPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more Box_users.
@@ -2594,9 +2992,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    deleteMany<T extends Box_userDeleteManyArgs>(
-      args?: SelectSubset<T, Box_userDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    deleteMany<T extends Box_userDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, Box_userDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Box_users.
@@ -2615,9 +3013,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    updateMany<T extends Box_userUpdateManyArgs>(
-      args: SelectSubset<T, Box_userUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    updateMany<T extends Box_userUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, Box_userUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one Box_user.
@@ -2636,9 +3034,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    upsert<T extends Box_userUpsertArgs>(
-      args: SelectSubset<T, Box_userUpsertArgs>
-    ): Prisma__Box_userClient<Box_userGetPayload<T>>
+    upsert<T extends Box_userUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, Box_userUpsertArgs<ExtArgs>>
+    ): Prisma__Box_userClient<$Types.GetResult<Box_userPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of Box_users.
@@ -2655,8 +3053,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     count<T extends Box_userCountArgs>(
       args?: Subset<T, Box_userCountArgs>,
-    ): PrismaPromise<
-      T extends _Record<'select', any>
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], Box_userCountAggregateOutputType>
@@ -2687,7 +3085,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   take: 10,
      * })
     **/
-    aggregate<T extends Box_userAggregateArgs>(args: Subset<T, Box_userAggregateArgs>): PrismaPromise<GetBox_userAggregateType<T>>
+    aggregate<T extends Box_userAggregateArgs>(args: Subset<T, Box_userAggregateArgs>): Prisma.PrismaPromise<GetBox_userAggregateType<T>>
 
     /**
      * Group by Box_user.
@@ -2764,7 +3162,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, Box_userGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBox_userGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, Box_userGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBox_userGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
@@ -2774,10 +3172,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__Box_userClient<T, Null = never> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__Box_userClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -2788,12 +3184,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    box<T extends BoxArgs= {}>(args?: Subset<T, BoxArgs>): Prisma__BoxClient<BoxGetPayload<T> | Null>;
+    box<T extends BoxArgs<ExtArgs> = {}>(args?: Subset<T, BoxArgs<ExtArgs>>): Prisma__BoxClient<$Types.GetResult<BoxPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    person<T extends PersonArgs= {}>(args?: Subset<T, PersonArgs>): Prisma__PersonClient<PersonGetPayload<T> | Null>;
+    person<T extends PersonArgs<ExtArgs> = {}>(args?: Subset<T, PersonArgs<ExtArgs>>): Prisma__PersonClient<$Types.GetResult<PersonPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
     private get _document();
     /**
@@ -2825,28 +3221,25 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box_user base type for findUnique actions
    */
-  export type Box_userFindUniqueArgsBase = {
+  export type Box_userFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box_user
-     * 
-    **/
-    select?: Box_userSelect | null
+     */
+    select?: Box_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Box_userInclude | null
+     */
+    include?: Box_userInclude<ExtArgs> | null
     /**
      * Filter, which Box_user to fetch.
-     * 
-    **/
+     */
     where: Box_userWhereUniqueInput
   }
 
   /**
    * Box_user findUnique
    */
-  export interface Box_userFindUniqueArgs extends Box_userFindUniqueArgsBase {
+  export interface Box_userFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends Box_userFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -2858,21 +3251,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box_user findUniqueOrThrow
    */
-  export type Box_userFindUniqueOrThrowArgs = {
+  export type Box_userFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box_user
-     * 
-    **/
-    select?: Box_userSelect | null
+     */
+    select?: Box_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Box_userInclude | null
+     */
+    include?: Box_userInclude<ExtArgs> | null
     /**
      * Filter, which Box_user to fetch.
-     * 
-    **/
+     */
     where: Box_userWhereUniqueInput
   }
 
@@ -2880,63 +3270,55 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box_user base type for findFirst actions
    */
-  export type Box_userFindFirstArgsBase = {
+  export type Box_userFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box_user
-     * 
-    **/
-    select?: Box_userSelect | null
+     */
+    select?: Box_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Box_userInclude | null
+     */
+    include?: Box_userInclude<ExtArgs> | null
     /**
      * Filter, which Box_user to fetch.
-     * 
-    **/
+     */
     where?: Box_userWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Box_users to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<Box_userOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Box_users.
-     * 
-    **/
+     */
     cursor?: Box_userWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Box_users from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Box_users.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Box_users.
-     * 
-    **/
+     */
     distinct?: Enumerable<Box_userScalarFieldEnum>
   }
 
   /**
    * Box_user findFirst
    */
-  export interface Box_userFindFirstArgs extends Box_userFindFirstArgsBase {
+  export interface Box_userFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends Box_userFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -2948,56 +3330,48 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box_user findFirstOrThrow
    */
-  export type Box_userFindFirstOrThrowArgs = {
+  export type Box_userFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box_user
-     * 
-    **/
-    select?: Box_userSelect | null
+     */
+    select?: Box_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Box_userInclude | null
+     */
+    include?: Box_userInclude<ExtArgs> | null
     /**
      * Filter, which Box_user to fetch.
-     * 
-    **/
+     */
     where?: Box_userWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Box_users to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<Box_userOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Box_users.
-     * 
-    **/
+     */
     cursor?: Box_userWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Box_users from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Box_users.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Box_users.
-     * 
-    **/
+     */
     distinct?: Enumerable<Box_userScalarFieldEnum>
   }
 
@@ -3005,49 +3379,42 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box_user findMany
    */
-  export type Box_userFindManyArgs = {
+  export type Box_userFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box_user
-     * 
-    **/
-    select?: Box_userSelect | null
+     */
+    select?: Box_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Box_userInclude | null
+     */
+    include?: Box_userInclude<ExtArgs> | null
     /**
      * Filter, which Box_users to fetch.
-     * 
-    **/
+     */
     where?: Box_userWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Box_users to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<Box_userOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for listing Box_users.
-     * 
-    **/
+     */
     cursor?: Box_userWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Box_users from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Box_users.
-     * 
-    **/
+     */
     skip?: number
     distinct?: Enumerable<Box_userScalarFieldEnum>
   }
@@ -3056,21 +3423,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box_user create
    */
-  export type Box_userCreateArgs = {
+  export type Box_userCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box_user
-     * 
-    **/
-    select?: Box_userSelect | null
+     */
+    select?: Box_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Box_userInclude | null
+     */
+    include?: Box_userInclude<ExtArgs> | null
     /**
      * The data needed to create a Box_user.
-     * 
-    **/
+     */
     data: XOR<Box_userCreateInput, Box_userUncheckedCreateInput>
   }
 
@@ -3078,11 +3442,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box_user createMany
    */
-  export type Box_userCreateManyArgs = {
+  export type Box_userCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many Box_users.
-     * 
-    **/
+     */
     data: Enumerable<Box_userCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -3091,26 +3454,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box_user update
    */
-  export type Box_userUpdateArgs = {
+  export type Box_userUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box_user
-     * 
-    **/
-    select?: Box_userSelect | null
+     */
+    select?: Box_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Box_userInclude | null
+     */
+    include?: Box_userInclude<ExtArgs> | null
     /**
      * The data needed to update a Box_user.
-     * 
-    **/
+     */
     data: XOR<Box_userUpdateInput, Box_userUncheckedUpdateInput>
     /**
      * Choose, which Box_user to update.
-     * 
-    **/
+     */
     where: Box_userWhereUniqueInput
   }
 
@@ -3118,16 +3477,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box_user updateMany
    */
-  export type Box_userUpdateManyArgs = {
+  export type Box_userUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update Box_users.
-     * 
-    **/
+     */
     data: XOR<Box_userUpdateManyMutationInput, Box_userUncheckedUpdateManyInput>
     /**
      * Filter which Box_users to update
-     * 
-    **/
+     */
     where?: Box_userWhereInput
   }
 
@@ -3135,31 +3492,26 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box_user upsert
    */
-  export type Box_userUpsertArgs = {
+  export type Box_userUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box_user
-     * 
-    **/
-    select?: Box_userSelect | null
+     */
+    select?: Box_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Box_userInclude | null
+     */
+    include?: Box_userInclude<ExtArgs> | null
     /**
      * The filter to search for the Box_user to update in case it exists.
-     * 
-    **/
+     */
     where: Box_userWhereUniqueInput
     /**
      * In case the Box_user found by the `where` argument doesn't exist, create a new Box_user with this data.
-     * 
-    **/
+     */
     create: XOR<Box_userCreateInput, Box_userUncheckedCreateInput>
     /**
      * In case the Box_user was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<Box_userUpdateInput, Box_userUncheckedUpdateInput>
   }
 
@@ -3167,21 +3519,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box_user delete
    */
-  export type Box_userDeleteArgs = {
+  export type Box_userDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box_user
-     * 
-    **/
-    select?: Box_userSelect | null
+     */
+    select?: Box_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Box_userInclude | null
+     */
+    include?: Box_userInclude<ExtArgs> | null
     /**
      * Filter which Box_user to delete.
-     * 
-    **/
+     */
     where: Box_userWhereUniqueInput
   }
 
@@ -3189,11 +3538,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box_user deleteMany
    */
-  export type Box_userDeleteManyArgs = {
+  export type Box_userDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which Box_users to delete
-     * 
-    **/
+     */
     where?: Box_userWhereInput
   }
 
@@ -3201,17 +3549,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Box_user without action
    */
-  export type Box_userArgs = {
+  export type Box_userArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box_user
-     * 
-    **/
-    select?: Box_userSelect | null
+     */
+    select?: Box_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Box_userInclude | null
+     */
+    include?: Box_userInclude<ExtArgs> | null
   }
 
 
@@ -3260,39 +3606,34 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _all?: true
   }
 
-  export type HouseAggregateArgs = {
+  export type HouseAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which House to aggregate.
-     * 
-    **/
+     */
     where?: HouseWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Houses to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<HouseOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: HouseWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Houses from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Houses.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -3325,10 +3666,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
 
-  export type HouseGroupByArgs = {
+  export type HouseGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: HouseWhereInput
     orderBy?: Enumerable<HouseOrderByWithAggregationInput>
-    by: Array<HouseScalarFieldEnum>
+    by: HouseScalarFieldEnum[]
     having?: HouseScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -3346,7 +3687,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max: HouseMaxAggregateOutputType | null
   }
 
-  type GetHouseGroupByPayload<T extends HouseGroupByArgs> = PrismaPromise<
+  type GetHouseGroupByPayload<T extends HouseGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<HouseGroupByOutputType, T['by']> &
         {
@@ -3360,45 +3701,33 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     >
 
 
-  export type HouseSelect = {
+  export type HouseSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    room?: boolean | House$roomArgs
-    _count?: boolean | HouseCountOutputTypeArgs
+    room?: boolean | House$roomArgs<ExtArgs>
+    _count?: boolean | HouseCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["house"]>
+
+  export type HouseSelectScalar = {
+    id?: boolean
+    name?: boolean
+  }
+
+  export type HouseInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    room?: boolean | House$roomArgs<ExtArgs>
+    _count?: boolean | HouseCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type HouseInclude = {
-    room?: boolean | House$roomArgs
-    _count?: boolean | HouseCountOutputTypeArgs
-  } 
+  type HouseGetPayload<S extends boolean | null | undefined | HouseArgs> = $Types.GetResult<HousePayload, S>
 
-  export type HouseGetPayload<S extends boolean | null | undefined | HouseArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? House :
-    S extends undefined ? never :
-    S extends { include: any } & (HouseArgs | HouseFindManyArgs)
-    ? House  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'room' ? Array < RoomGetPayload<S['include'][P]>>  :
-        P extends '_count' ? HouseCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (HouseArgs | HouseFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'room' ? Array < RoomGetPayload<S['select'][P]>>  :
-        P extends '_count' ? HouseCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof House ? House[P] : never
-  } 
-      : House
-
-
-  type HouseCountArgs = Merge<
+  type HouseCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<HouseFindManyArgs, 'select' | 'include'> & {
       select?: HouseCountAggregateInputType | true
     }
-  >
 
-  export interface HouseDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface HouseDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['House'], meta: { name: 'House' } }
     /**
      * Find zero or one House that matches the filter.
      * @param {HouseFindUniqueArgs} args - Arguments to find a House
@@ -3410,9 +3739,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findUnique<T extends HouseFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, HouseFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'House'> extends True ? Prisma__HouseClient<HouseGetPayload<T>> : Prisma__HouseClient<HouseGetPayload<T> | null, null>
+    findUnique<T extends HouseFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, HouseFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'House'> extends True ? Prisma__HouseClient<$Types.GetResult<HousePayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__HouseClient<$Types.GetResult<HousePayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one House that matches the filter or throw an error  with `error.code='P2025'` 
@@ -3426,9 +3755,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends HouseFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, HouseFindUniqueOrThrowArgs>
-    ): Prisma__HouseClient<HouseGetPayload<T>>
+    findUniqueOrThrow<T extends HouseFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, HouseFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__HouseClient<$Types.GetResult<HousePayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first House that matches the filter.
@@ -3443,9 +3772,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findFirst<T extends HouseFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, HouseFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'House'> extends True ? Prisma__HouseClient<HouseGetPayload<T>> : Prisma__HouseClient<HouseGetPayload<T> | null, null>
+    findFirst<T extends HouseFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, HouseFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'House'> extends True ? Prisma__HouseClient<$Types.GetResult<HousePayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__HouseClient<$Types.GetResult<HousePayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first House that matches the filter or
@@ -3461,9 +3790,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findFirstOrThrow<T extends HouseFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, HouseFindFirstOrThrowArgs>
-    ): Prisma__HouseClient<HouseGetPayload<T>>
+    findFirstOrThrow<T extends HouseFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, HouseFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__HouseClient<$Types.GetResult<HousePayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more Houses that matches the filter.
@@ -3481,9 +3810,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * const houseWithIdOnly = await prisma.house.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends HouseFindManyArgs>(
-      args?: SelectSubset<T, HouseFindManyArgs>
-    ): PrismaPromise<Array<HouseGetPayload<T>>>
+    findMany<T extends HouseFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, HouseFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<HousePayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a House.
@@ -3497,9 +3826,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    create<T extends HouseCreateArgs>(
-      args: SelectSubset<T, HouseCreateArgs>
-    ): Prisma__HouseClient<HouseGetPayload<T>>
+    create<T extends HouseCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, HouseCreateArgs<ExtArgs>>
+    ): Prisma__HouseClient<$Types.GetResult<HousePayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many Houses.
@@ -3513,9 +3842,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *     })
      *     
     **/
-    createMany<T extends HouseCreateManyArgs>(
-      args?: SelectSubset<T, HouseCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    createMany<T extends HouseCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, HouseCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a House.
@@ -3529,9 +3858,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    delete<T extends HouseDeleteArgs>(
-      args: SelectSubset<T, HouseDeleteArgs>
-    ): Prisma__HouseClient<HouseGetPayload<T>>
+    delete<T extends HouseDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, HouseDeleteArgs<ExtArgs>>
+    ): Prisma__HouseClient<$Types.GetResult<HousePayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one House.
@@ -3548,9 +3877,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    update<T extends HouseUpdateArgs>(
-      args: SelectSubset<T, HouseUpdateArgs>
-    ): Prisma__HouseClient<HouseGetPayload<T>>
+    update<T extends HouseUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, HouseUpdateArgs<ExtArgs>>
+    ): Prisma__HouseClient<$Types.GetResult<HousePayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more Houses.
@@ -3564,9 +3893,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    deleteMany<T extends HouseDeleteManyArgs>(
-      args?: SelectSubset<T, HouseDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    deleteMany<T extends HouseDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, HouseDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Houses.
@@ -3585,9 +3914,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    updateMany<T extends HouseUpdateManyArgs>(
-      args: SelectSubset<T, HouseUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    updateMany<T extends HouseUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, HouseUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one House.
@@ -3606,9 +3935,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    upsert<T extends HouseUpsertArgs>(
-      args: SelectSubset<T, HouseUpsertArgs>
-    ): Prisma__HouseClient<HouseGetPayload<T>>
+    upsert<T extends HouseUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, HouseUpsertArgs<ExtArgs>>
+    ): Prisma__HouseClient<$Types.GetResult<HousePayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of Houses.
@@ -3625,8 +3954,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     count<T extends HouseCountArgs>(
       args?: Subset<T, HouseCountArgs>,
-    ): PrismaPromise<
-      T extends _Record<'select', any>
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], HouseCountAggregateOutputType>
@@ -3657,7 +3986,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   take: 10,
      * })
     **/
-    aggregate<T extends HouseAggregateArgs>(args: Subset<T, HouseAggregateArgs>): PrismaPromise<GetHouseAggregateType<T>>
+    aggregate<T extends HouseAggregateArgs>(args: Subset<T, HouseAggregateArgs>): Prisma.PrismaPromise<GetHouseAggregateType<T>>
 
     /**
      * Group by House.
@@ -3734,7 +4063,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, HouseGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHouseGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, HouseGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHouseGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
@@ -3744,10 +4073,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__HouseClient<T, Null = never> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__HouseClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -3758,10 +4085,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    room<T extends House$roomArgs= {}>(args?: Subset<T, House$roomArgs>): PrismaPromise<Array<RoomGetPayload<T>>| Null>;
+    room<T extends House$roomArgs<ExtArgs> = {}>(args?: Subset<T, House$roomArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<RoomPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -3793,28 +4120,25 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * House base type for findUnique actions
    */
-  export type HouseFindUniqueArgsBase = {
+  export type HouseFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the House
-     * 
-    **/
-    select?: HouseSelect | null
+     */
+    select?: HouseSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: HouseInclude | null
+     */
+    include?: HouseInclude<ExtArgs> | null
     /**
      * Filter, which House to fetch.
-     * 
-    **/
+     */
     where: HouseWhereUniqueInput
   }
 
   /**
    * House findUnique
    */
-  export interface HouseFindUniqueArgs extends HouseFindUniqueArgsBase {
+  export interface HouseFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends HouseFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -3826,21 +4150,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * House findUniqueOrThrow
    */
-  export type HouseFindUniqueOrThrowArgs = {
+  export type HouseFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the House
-     * 
-    **/
-    select?: HouseSelect | null
+     */
+    select?: HouseSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: HouseInclude | null
+     */
+    include?: HouseInclude<ExtArgs> | null
     /**
      * Filter, which House to fetch.
-     * 
-    **/
+     */
     where: HouseWhereUniqueInput
   }
 
@@ -3848,63 +4169,55 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * House base type for findFirst actions
    */
-  export type HouseFindFirstArgsBase = {
+  export type HouseFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the House
-     * 
-    **/
-    select?: HouseSelect | null
+     */
+    select?: HouseSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: HouseInclude | null
+     */
+    include?: HouseInclude<ExtArgs> | null
     /**
      * Filter, which House to fetch.
-     * 
-    **/
+     */
     where?: HouseWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Houses to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<HouseOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Houses.
-     * 
-    **/
+     */
     cursor?: HouseWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Houses from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Houses.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Houses.
-     * 
-    **/
+     */
     distinct?: Enumerable<HouseScalarFieldEnum>
   }
 
   /**
    * House findFirst
    */
-  export interface HouseFindFirstArgs extends HouseFindFirstArgsBase {
+  export interface HouseFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends HouseFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -3916,56 +4229,48 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * House findFirstOrThrow
    */
-  export type HouseFindFirstOrThrowArgs = {
+  export type HouseFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the House
-     * 
-    **/
-    select?: HouseSelect | null
+     */
+    select?: HouseSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: HouseInclude | null
+     */
+    include?: HouseInclude<ExtArgs> | null
     /**
      * Filter, which House to fetch.
-     * 
-    **/
+     */
     where?: HouseWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Houses to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<HouseOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Houses.
-     * 
-    **/
+     */
     cursor?: HouseWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Houses from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Houses.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Houses.
-     * 
-    **/
+     */
     distinct?: Enumerable<HouseScalarFieldEnum>
   }
 
@@ -3973,49 +4278,42 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * House findMany
    */
-  export type HouseFindManyArgs = {
+  export type HouseFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the House
-     * 
-    **/
-    select?: HouseSelect | null
+     */
+    select?: HouseSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: HouseInclude | null
+     */
+    include?: HouseInclude<ExtArgs> | null
     /**
      * Filter, which Houses to fetch.
-     * 
-    **/
+     */
     where?: HouseWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Houses to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<HouseOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for listing Houses.
-     * 
-    **/
+     */
     cursor?: HouseWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Houses from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Houses.
-     * 
-    **/
+     */
     skip?: number
     distinct?: Enumerable<HouseScalarFieldEnum>
   }
@@ -4024,21 +4322,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * House create
    */
-  export type HouseCreateArgs = {
+  export type HouseCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the House
-     * 
-    **/
-    select?: HouseSelect | null
+     */
+    select?: HouseSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: HouseInclude | null
+     */
+    include?: HouseInclude<ExtArgs> | null
     /**
      * The data needed to create a House.
-     * 
-    **/
+     */
     data: XOR<HouseCreateInput, HouseUncheckedCreateInput>
   }
 
@@ -4046,11 +4341,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * House createMany
    */
-  export type HouseCreateManyArgs = {
+  export type HouseCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many Houses.
-     * 
-    **/
+     */
     data: Enumerable<HouseCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -4059,26 +4353,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * House update
    */
-  export type HouseUpdateArgs = {
+  export type HouseUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the House
-     * 
-    **/
-    select?: HouseSelect | null
+     */
+    select?: HouseSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: HouseInclude | null
+     */
+    include?: HouseInclude<ExtArgs> | null
     /**
      * The data needed to update a House.
-     * 
-    **/
+     */
     data: XOR<HouseUpdateInput, HouseUncheckedUpdateInput>
     /**
      * Choose, which House to update.
-     * 
-    **/
+     */
     where: HouseWhereUniqueInput
   }
 
@@ -4086,16 +4376,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * House updateMany
    */
-  export type HouseUpdateManyArgs = {
+  export type HouseUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update Houses.
-     * 
-    **/
+     */
     data: XOR<HouseUpdateManyMutationInput, HouseUncheckedUpdateManyInput>
     /**
      * Filter which Houses to update
-     * 
-    **/
+     */
     where?: HouseWhereInput
   }
 
@@ -4103,31 +4391,26 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * House upsert
    */
-  export type HouseUpsertArgs = {
+  export type HouseUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the House
-     * 
-    **/
-    select?: HouseSelect | null
+     */
+    select?: HouseSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: HouseInclude | null
+     */
+    include?: HouseInclude<ExtArgs> | null
     /**
      * The filter to search for the House to update in case it exists.
-     * 
-    **/
+     */
     where: HouseWhereUniqueInput
     /**
      * In case the House found by the `where` argument doesn't exist, create a new House with this data.
-     * 
-    **/
+     */
     create: XOR<HouseCreateInput, HouseUncheckedCreateInput>
     /**
      * In case the House was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<HouseUpdateInput, HouseUncheckedUpdateInput>
   }
 
@@ -4135,21 +4418,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * House delete
    */
-  export type HouseDeleteArgs = {
+  export type HouseDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the House
-     * 
-    **/
-    select?: HouseSelect | null
+     */
+    select?: HouseSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: HouseInclude | null
+     */
+    include?: HouseInclude<ExtArgs> | null
     /**
      * Filter which House to delete.
-     * 
-    **/
+     */
     where: HouseWhereUniqueInput
   }
 
@@ -4157,11 +4437,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * House deleteMany
    */
-  export type HouseDeleteManyArgs = {
+  export type HouseDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which Houses to delete
-     * 
-    **/
+     */
     where?: HouseWhereInput
   }
 
@@ -4169,17 +4448,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * House.room
    */
-  export type House$roomArgs = {
+  export type House$roomArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room
-     * 
-    **/
-    select?: RoomSelect | null
+     */
+    select?: RoomSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: RoomInclude | null
+     */
+    include?: RoomInclude<ExtArgs> | null
     where?: RoomWhereInput
     orderBy?: Enumerable<RoomOrderByWithRelationInput>
     cursor?: RoomWhereUniqueInput
@@ -4192,17 +4469,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * House without action
    */
-  export type HouseArgs = {
+  export type HouseArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the House
-     * 
-    **/
-    select?: HouseSelect | null
+     */
+    select?: HouseSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: HouseInclude | null
+     */
+    include?: HouseInclude<ExtArgs> | null
   }
 
 
@@ -4251,39 +4526,34 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _all?: true
   }
 
-  export type PersonAggregateArgs = {
+  export type PersonAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which Person to aggregate.
-     * 
-    **/
+     */
     where?: PersonWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of People to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<PersonOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: PersonWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` People from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` People.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -4316,10 +4586,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
 
-  export type PersonGroupByArgs = {
+  export type PersonGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: PersonWhereInput
     orderBy?: Enumerable<PersonOrderByWithAggregationInput>
-    by: Array<PersonScalarFieldEnum>
+    by: PersonScalarFieldEnum[]
     having?: PersonScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -4337,7 +4607,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max: PersonMaxAggregateOutputType | null
   }
 
-  type GetPersonGroupByPayload<T extends PersonGroupByArgs> = PrismaPromise<
+  type GetPersonGroupByPayload<T extends PersonGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<PersonGroupByOutputType, T['by']> &
         {
@@ -4351,53 +4621,37 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     >
 
 
-  export type PersonSelect = {
+  export type PersonSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    box_user?: boolean | Person$box_userArgs
-    room?: boolean | Person$roomArgs
-    room_user?: boolean | Person$room_userArgs
-    _count?: boolean | PersonCountOutputTypeArgs
+    box_user?: boolean | Person$box_userArgs<ExtArgs>
+    room?: boolean | Person$roomArgs<ExtArgs>
+    room_user?: boolean | Person$room_userArgs<ExtArgs>
+    _count?: boolean | PersonCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["person"]>
+
+  export type PersonSelectScalar = {
+    id?: boolean
+    name?: boolean
+  }
+
+  export type PersonInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    box_user?: boolean | Person$box_userArgs<ExtArgs>
+    room?: boolean | Person$roomArgs<ExtArgs>
+    room_user?: boolean | Person$room_userArgs<ExtArgs>
+    _count?: boolean | PersonCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type PersonInclude = {
-    box_user?: boolean | Person$box_userArgs
-    room?: boolean | Person$roomArgs
-    room_user?: boolean | Person$room_userArgs
-    _count?: boolean | PersonCountOutputTypeArgs
-  } 
+  type PersonGetPayload<S extends boolean | null | undefined | PersonArgs> = $Types.GetResult<PersonPayload, S>
 
-  export type PersonGetPayload<S extends boolean | null | undefined | PersonArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Person :
-    S extends undefined ? never :
-    S extends { include: any } & (PersonArgs | PersonFindManyArgs)
-    ? Person  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'box_user' ? Array < Box_userGetPayload<S['include'][P]>>  :
-        P extends 'room' ? Array < RoomGetPayload<S['include'][P]>>  :
-        P extends 'room_user' ? Array < Room_userGetPayload<S['include'][P]>>  :
-        P extends '_count' ? PersonCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (PersonArgs | PersonFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'box_user' ? Array < Box_userGetPayload<S['select'][P]>>  :
-        P extends 'room' ? Array < RoomGetPayload<S['select'][P]>>  :
-        P extends 'room_user' ? Array < Room_userGetPayload<S['select'][P]>>  :
-        P extends '_count' ? PersonCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Person ? Person[P] : never
-  } 
-      : Person
-
-
-  type PersonCountArgs = Merge<
+  type PersonCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<PersonFindManyArgs, 'select' | 'include'> & {
       select?: PersonCountAggregateInputType | true
     }
-  >
 
-  export interface PersonDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface PersonDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Person'], meta: { name: 'Person' } }
     /**
      * Find zero or one Person that matches the filter.
      * @param {PersonFindUniqueArgs} args - Arguments to find a Person
@@ -4409,9 +4663,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findUnique<T extends PersonFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, PersonFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Person'> extends True ? Prisma__PersonClient<PersonGetPayload<T>> : Prisma__PersonClient<PersonGetPayload<T> | null, null>
+    findUnique<T extends PersonFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, PersonFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Person'> extends True ? Prisma__PersonClient<$Types.GetResult<PersonPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__PersonClient<$Types.GetResult<PersonPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one Person that matches the filter or throw an error  with `error.code='P2025'` 
@@ -4425,9 +4679,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends PersonFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, PersonFindUniqueOrThrowArgs>
-    ): Prisma__PersonClient<PersonGetPayload<T>>
+    findUniqueOrThrow<T extends PersonFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, PersonFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__PersonClient<$Types.GetResult<PersonPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first Person that matches the filter.
@@ -4442,9 +4696,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findFirst<T extends PersonFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, PersonFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Person'> extends True ? Prisma__PersonClient<PersonGetPayload<T>> : Prisma__PersonClient<PersonGetPayload<T> | null, null>
+    findFirst<T extends PersonFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, PersonFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Person'> extends True ? Prisma__PersonClient<$Types.GetResult<PersonPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__PersonClient<$Types.GetResult<PersonPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first Person that matches the filter or
@@ -4460,9 +4714,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findFirstOrThrow<T extends PersonFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, PersonFindFirstOrThrowArgs>
-    ): Prisma__PersonClient<PersonGetPayload<T>>
+    findFirstOrThrow<T extends PersonFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, PersonFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__PersonClient<$Types.GetResult<PersonPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more People that matches the filter.
@@ -4480,9 +4734,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * const personWithIdOnly = await prisma.person.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends PersonFindManyArgs>(
-      args?: SelectSubset<T, PersonFindManyArgs>
-    ): PrismaPromise<Array<PersonGetPayload<T>>>
+    findMany<T extends PersonFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, PersonFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<PersonPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a Person.
@@ -4496,9 +4750,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    create<T extends PersonCreateArgs>(
-      args: SelectSubset<T, PersonCreateArgs>
-    ): Prisma__PersonClient<PersonGetPayload<T>>
+    create<T extends PersonCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, PersonCreateArgs<ExtArgs>>
+    ): Prisma__PersonClient<$Types.GetResult<PersonPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many People.
@@ -4512,9 +4766,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *     })
      *     
     **/
-    createMany<T extends PersonCreateManyArgs>(
-      args?: SelectSubset<T, PersonCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    createMany<T extends PersonCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, PersonCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a Person.
@@ -4528,9 +4782,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    delete<T extends PersonDeleteArgs>(
-      args: SelectSubset<T, PersonDeleteArgs>
-    ): Prisma__PersonClient<PersonGetPayload<T>>
+    delete<T extends PersonDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, PersonDeleteArgs<ExtArgs>>
+    ): Prisma__PersonClient<$Types.GetResult<PersonPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one Person.
@@ -4547,9 +4801,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    update<T extends PersonUpdateArgs>(
-      args: SelectSubset<T, PersonUpdateArgs>
-    ): Prisma__PersonClient<PersonGetPayload<T>>
+    update<T extends PersonUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, PersonUpdateArgs<ExtArgs>>
+    ): Prisma__PersonClient<$Types.GetResult<PersonPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more People.
@@ -4563,9 +4817,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    deleteMany<T extends PersonDeleteManyArgs>(
-      args?: SelectSubset<T, PersonDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    deleteMany<T extends PersonDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, PersonDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more People.
@@ -4584,9 +4838,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    updateMany<T extends PersonUpdateManyArgs>(
-      args: SelectSubset<T, PersonUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    updateMany<T extends PersonUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, PersonUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one Person.
@@ -4605,9 +4859,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    upsert<T extends PersonUpsertArgs>(
-      args: SelectSubset<T, PersonUpsertArgs>
-    ): Prisma__PersonClient<PersonGetPayload<T>>
+    upsert<T extends PersonUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, PersonUpsertArgs<ExtArgs>>
+    ): Prisma__PersonClient<$Types.GetResult<PersonPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of People.
@@ -4624,8 +4878,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     count<T extends PersonCountArgs>(
       args?: Subset<T, PersonCountArgs>,
-    ): PrismaPromise<
-      T extends _Record<'select', any>
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], PersonCountAggregateOutputType>
@@ -4656,7 +4910,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   take: 10,
      * })
     **/
-    aggregate<T extends PersonAggregateArgs>(args: Subset<T, PersonAggregateArgs>): PrismaPromise<GetPersonAggregateType<T>>
+    aggregate<T extends PersonAggregateArgs>(args: Subset<T, PersonAggregateArgs>): Prisma.PrismaPromise<GetPersonAggregateType<T>>
 
     /**
      * Group by Person.
@@ -4733,7 +4987,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, PersonGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPersonGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, PersonGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPersonGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
@@ -4743,10 +4997,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__PersonClient<T, Null = never> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__PersonClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -4757,14 +5009,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    box_user<T extends Person$box_userArgs= {}>(args?: Subset<T, Person$box_userArgs>): PrismaPromise<Array<Box_userGetPayload<T>>| Null>;
+    box_user<T extends Person$box_userArgs<ExtArgs> = {}>(args?: Subset<T, Person$box_userArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<Box_userPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
-    room<T extends Person$roomArgs= {}>(args?: Subset<T, Person$roomArgs>): PrismaPromise<Array<RoomGetPayload<T>>| Null>;
+    room<T extends Person$roomArgs<ExtArgs> = {}>(args?: Subset<T, Person$roomArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<RoomPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
-    room_user<T extends Person$room_userArgs= {}>(args?: Subset<T, Person$room_userArgs>): PrismaPromise<Array<Room_userGetPayload<T>>| Null>;
+    room_user<T extends Person$room_userArgs<ExtArgs> = {}>(args?: Subset<T, Person$room_userArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<Room_userPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -4796,28 +5048,25 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Person base type for findUnique actions
    */
-  export type PersonFindUniqueArgsBase = {
+  export type PersonFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Person
-     * 
-    **/
-    select?: PersonSelect | null
+     */
+    select?: PersonSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: PersonInclude | null
+     */
+    include?: PersonInclude<ExtArgs> | null
     /**
      * Filter, which Person to fetch.
-     * 
-    **/
+     */
     where: PersonWhereUniqueInput
   }
 
   /**
    * Person findUnique
    */
-  export interface PersonFindUniqueArgs extends PersonFindUniqueArgsBase {
+  export interface PersonFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends PersonFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -4829,21 +5078,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Person findUniqueOrThrow
    */
-  export type PersonFindUniqueOrThrowArgs = {
+  export type PersonFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Person
-     * 
-    **/
-    select?: PersonSelect | null
+     */
+    select?: PersonSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: PersonInclude | null
+     */
+    include?: PersonInclude<ExtArgs> | null
     /**
      * Filter, which Person to fetch.
-     * 
-    **/
+     */
     where: PersonWhereUniqueInput
   }
 
@@ -4851,63 +5097,55 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Person base type for findFirst actions
    */
-  export type PersonFindFirstArgsBase = {
+  export type PersonFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Person
-     * 
-    **/
-    select?: PersonSelect | null
+     */
+    select?: PersonSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: PersonInclude | null
+     */
+    include?: PersonInclude<ExtArgs> | null
     /**
      * Filter, which Person to fetch.
-     * 
-    **/
+     */
     where?: PersonWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of People to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<PersonOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for People.
-     * 
-    **/
+     */
     cursor?: PersonWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` People from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` People.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of People.
-     * 
-    **/
+     */
     distinct?: Enumerable<PersonScalarFieldEnum>
   }
 
   /**
    * Person findFirst
    */
-  export interface PersonFindFirstArgs extends PersonFindFirstArgsBase {
+  export interface PersonFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends PersonFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -4919,56 +5157,48 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Person findFirstOrThrow
    */
-  export type PersonFindFirstOrThrowArgs = {
+  export type PersonFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Person
-     * 
-    **/
-    select?: PersonSelect | null
+     */
+    select?: PersonSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: PersonInclude | null
+     */
+    include?: PersonInclude<ExtArgs> | null
     /**
      * Filter, which Person to fetch.
-     * 
-    **/
+     */
     where?: PersonWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of People to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<PersonOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for People.
-     * 
-    **/
+     */
     cursor?: PersonWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` People from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` People.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of People.
-     * 
-    **/
+     */
     distinct?: Enumerable<PersonScalarFieldEnum>
   }
 
@@ -4976,49 +5206,42 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Person findMany
    */
-  export type PersonFindManyArgs = {
+  export type PersonFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Person
-     * 
-    **/
-    select?: PersonSelect | null
+     */
+    select?: PersonSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: PersonInclude | null
+     */
+    include?: PersonInclude<ExtArgs> | null
     /**
      * Filter, which People to fetch.
-     * 
-    **/
+     */
     where?: PersonWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of People to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<PersonOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for listing People.
-     * 
-    **/
+     */
     cursor?: PersonWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` People from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` People.
-     * 
-    **/
+     */
     skip?: number
     distinct?: Enumerable<PersonScalarFieldEnum>
   }
@@ -5027,21 +5250,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Person create
    */
-  export type PersonCreateArgs = {
+  export type PersonCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Person
-     * 
-    **/
-    select?: PersonSelect | null
+     */
+    select?: PersonSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: PersonInclude | null
+     */
+    include?: PersonInclude<ExtArgs> | null
     /**
      * The data needed to create a Person.
-     * 
-    **/
+     */
     data: XOR<PersonCreateInput, PersonUncheckedCreateInput>
   }
 
@@ -5049,11 +5269,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Person createMany
    */
-  export type PersonCreateManyArgs = {
+  export type PersonCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many People.
-     * 
-    **/
+     */
     data: Enumerable<PersonCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -5062,26 +5281,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Person update
    */
-  export type PersonUpdateArgs = {
+  export type PersonUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Person
-     * 
-    **/
-    select?: PersonSelect | null
+     */
+    select?: PersonSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: PersonInclude | null
+     */
+    include?: PersonInclude<ExtArgs> | null
     /**
      * The data needed to update a Person.
-     * 
-    **/
+     */
     data: XOR<PersonUpdateInput, PersonUncheckedUpdateInput>
     /**
      * Choose, which Person to update.
-     * 
-    **/
+     */
     where: PersonWhereUniqueInput
   }
 
@@ -5089,16 +5304,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Person updateMany
    */
-  export type PersonUpdateManyArgs = {
+  export type PersonUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update People.
-     * 
-    **/
+     */
     data: XOR<PersonUpdateManyMutationInput, PersonUncheckedUpdateManyInput>
     /**
      * Filter which People to update
-     * 
-    **/
+     */
     where?: PersonWhereInput
   }
 
@@ -5106,31 +5319,26 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Person upsert
    */
-  export type PersonUpsertArgs = {
+  export type PersonUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Person
-     * 
-    **/
-    select?: PersonSelect | null
+     */
+    select?: PersonSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: PersonInclude | null
+     */
+    include?: PersonInclude<ExtArgs> | null
     /**
      * The filter to search for the Person to update in case it exists.
-     * 
-    **/
+     */
     where: PersonWhereUniqueInput
     /**
      * In case the Person found by the `where` argument doesn't exist, create a new Person with this data.
-     * 
-    **/
+     */
     create: XOR<PersonCreateInput, PersonUncheckedCreateInput>
     /**
      * In case the Person was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<PersonUpdateInput, PersonUncheckedUpdateInput>
   }
 
@@ -5138,21 +5346,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Person delete
    */
-  export type PersonDeleteArgs = {
+  export type PersonDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Person
-     * 
-    **/
-    select?: PersonSelect | null
+     */
+    select?: PersonSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: PersonInclude | null
+     */
+    include?: PersonInclude<ExtArgs> | null
     /**
      * Filter which Person to delete.
-     * 
-    **/
+     */
     where: PersonWhereUniqueInput
   }
 
@@ -5160,11 +5365,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Person deleteMany
    */
-  export type PersonDeleteManyArgs = {
+  export type PersonDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which People to delete
-     * 
-    **/
+     */
     where?: PersonWhereInput
   }
 
@@ -5172,17 +5376,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Person.box_user
    */
-  export type Person$box_userArgs = {
+  export type Person$box_userArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box_user
-     * 
-    **/
-    select?: Box_userSelect | null
+     */
+    select?: Box_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Box_userInclude | null
+     */
+    include?: Box_userInclude<ExtArgs> | null
     where?: Box_userWhereInput
     orderBy?: Enumerable<Box_userOrderByWithRelationInput>
     cursor?: Box_userWhereUniqueInput
@@ -5195,17 +5397,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Person.room
    */
-  export type Person$roomArgs = {
+  export type Person$roomArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room
-     * 
-    **/
-    select?: RoomSelect | null
+     */
+    select?: RoomSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: RoomInclude | null
+     */
+    include?: RoomInclude<ExtArgs> | null
     where?: RoomWhereInput
     orderBy?: Enumerable<RoomOrderByWithRelationInput>
     cursor?: RoomWhereUniqueInput
@@ -5218,17 +5418,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Person.room_user
    */
-  export type Person$room_userArgs = {
+  export type Person$room_userArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room_user
-     * 
-    **/
-    select?: Room_userSelect | null
+     */
+    select?: Room_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Room_userInclude | null
+     */
+    include?: Room_userInclude<ExtArgs> | null
     where?: Room_userWhereInput
     orderBy?: Enumerable<Room_userOrderByWithRelationInput>
     cursor?: Room_userWhereUniqueInput
@@ -5241,17 +5439,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Person without action
    */
-  export type PersonArgs = {
+  export type PersonArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Person
-     * 
-    **/
-    select?: PersonSelect | null
+     */
+    select?: PersonSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: PersonInclude | null
+     */
+    include?: PersonInclude<ExtArgs> | null
   }
 
 
@@ -5312,39 +5508,34 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _all?: true
   }
 
-  export type RoomAggregateArgs = {
+  export type RoomAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which Room to aggregate.
-     * 
-    **/
+     */
     where?: RoomWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Rooms to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<RoomOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: RoomWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Rooms from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Rooms.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -5377,10 +5568,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
 
-  export type RoomGroupByArgs = {
+  export type RoomGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: RoomWhereInput
     orderBy?: Enumerable<RoomOrderByWithAggregationInput>
-    by: Array<RoomScalarFieldEnum>
+    by: RoomScalarFieldEnum[]
     having?: RoomScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -5400,7 +5591,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max: RoomMaxAggregateOutputType | null
   }
 
-  type GetRoomGroupByPayload<T extends RoomGroupByArgs> = PrismaPromise<
+  type GetRoomGroupByPayload<T extends RoomGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<RoomGroupByOutputType, T['by']> &
         {
@@ -5414,59 +5605,43 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     >
 
 
-  export type RoomSelect = {
+  export type RoomSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     house_id?: boolean
     owner_id?: boolean
-    box?: boolean | Room$boxArgs
-    house?: boolean | HouseArgs
-    person?: boolean | Room$personArgs
-    room_user?: boolean | Room$room_userArgs
-    _count?: boolean | RoomCountOutputTypeArgs
+    box?: boolean | Room$boxArgs<ExtArgs>
+    house?: boolean | HouseArgs<ExtArgs>
+    person?: boolean | PersonArgs<ExtArgs>
+    room_user?: boolean | Room$room_userArgs<ExtArgs>
+    _count?: boolean | RoomCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["room"]>
+
+  export type RoomSelectScalar = {
+    id?: boolean
+    name?: boolean
+    house_id?: boolean
+    owner_id?: boolean
+  }
+
+  export type RoomInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    box?: boolean | Room$boxArgs<ExtArgs>
+    house?: boolean | HouseArgs<ExtArgs>
+    person?: boolean | PersonArgs<ExtArgs>
+    room_user?: boolean | Room$room_userArgs<ExtArgs>
+    _count?: boolean | RoomCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type RoomInclude = {
-    box?: boolean | Room$boxArgs
-    house?: boolean | HouseArgs
-    person?: boolean | Room$personArgs
-    room_user?: boolean | Room$room_userArgs
-    _count?: boolean | RoomCountOutputTypeArgs
-  } 
+  type RoomGetPayload<S extends boolean | null | undefined | RoomArgs> = $Types.GetResult<RoomPayload, S>
 
-  export type RoomGetPayload<S extends boolean | null | undefined | RoomArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Room :
-    S extends undefined ? never :
-    S extends { include: any } & (RoomArgs | RoomFindManyArgs)
-    ? Room  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'box' ? Array < BoxGetPayload<S['include'][P]>>  :
-        P extends 'house' ? HouseGetPayload<S['include'][P]> :
-        P extends 'person' ? PersonGetPayload<S['include'][P]> | null :
-        P extends 'room_user' ? Array < Room_userGetPayload<S['include'][P]>>  :
-        P extends '_count' ? RoomCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (RoomArgs | RoomFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'box' ? Array < BoxGetPayload<S['select'][P]>>  :
-        P extends 'house' ? HouseGetPayload<S['select'][P]> :
-        P extends 'person' ? PersonGetPayload<S['select'][P]> | null :
-        P extends 'room_user' ? Array < Room_userGetPayload<S['select'][P]>>  :
-        P extends '_count' ? RoomCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Room ? Room[P] : never
-  } 
-      : Room
-
-
-  type RoomCountArgs = Merge<
+  type RoomCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<RoomFindManyArgs, 'select' | 'include'> & {
       select?: RoomCountAggregateInputType | true
     }
-  >
 
-  export interface RoomDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface RoomDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Room'], meta: { name: 'Room' } }
     /**
      * Find zero or one Room that matches the filter.
      * @param {RoomFindUniqueArgs} args - Arguments to find a Room
@@ -5478,9 +5653,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findUnique<T extends RoomFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, RoomFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Room'> extends True ? Prisma__RoomClient<RoomGetPayload<T>> : Prisma__RoomClient<RoomGetPayload<T> | null, null>
+    findUnique<T extends RoomFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, RoomFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Room'> extends True ? Prisma__RoomClient<$Types.GetResult<RoomPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__RoomClient<$Types.GetResult<RoomPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one Room that matches the filter or throw an error  with `error.code='P2025'` 
@@ -5494,9 +5669,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends RoomFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, RoomFindUniqueOrThrowArgs>
-    ): Prisma__RoomClient<RoomGetPayload<T>>
+    findUniqueOrThrow<T extends RoomFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, RoomFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__RoomClient<$Types.GetResult<RoomPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first Room that matches the filter.
@@ -5511,9 +5686,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findFirst<T extends RoomFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, RoomFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Room'> extends True ? Prisma__RoomClient<RoomGetPayload<T>> : Prisma__RoomClient<RoomGetPayload<T> | null, null>
+    findFirst<T extends RoomFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, RoomFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Room'> extends True ? Prisma__RoomClient<$Types.GetResult<RoomPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__RoomClient<$Types.GetResult<RoomPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first Room that matches the filter or
@@ -5529,9 +5704,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findFirstOrThrow<T extends RoomFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, RoomFindFirstOrThrowArgs>
-    ): Prisma__RoomClient<RoomGetPayload<T>>
+    findFirstOrThrow<T extends RoomFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, RoomFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__RoomClient<$Types.GetResult<RoomPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more Rooms that matches the filter.
@@ -5549,9 +5724,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * const roomWithIdOnly = await prisma.room.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends RoomFindManyArgs>(
-      args?: SelectSubset<T, RoomFindManyArgs>
-    ): PrismaPromise<Array<RoomGetPayload<T>>>
+    findMany<T extends RoomFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, RoomFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<RoomPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a Room.
@@ -5565,9 +5740,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    create<T extends RoomCreateArgs>(
-      args: SelectSubset<T, RoomCreateArgs>
-    ): Prisma__RoomClient<RoomGetPayload<T>>
+    create<T extends RoomCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, RoomCreateArgs<ExtArgs>>
+    ): Prisma__RoomClient<$Types.GetResult<RoomPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many Rooms.
@@ -5581,9 +5756,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *     })
      *     
     **/
-    createMany<T extends RoomCreateManyArgs>(
-      args?: SelectSubset<T, RoomCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    createMany<T extends RoomCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, RoomCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a Room.
@@ -5597,9 +5772,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    delete<T extends RoomDeleteArgs>(
-      args: SelectSubset<T, RoomDeleteArgs>
-    ): Prisma__RoomClient<RoomGetPayload<T>>
+    delete<T extends RoomDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, RoomDeleteArgs<ExtArgs>>
+    ): Prisma__RoomClient<$Types.GetResult<RoomPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one Room.
@@ -5616,9 +5791,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    update<T extends RoomUpdateArgs>(
-      args: SelectSubset<T, RoomUpdateArgs>
-    ): Prisma__RoomClient<RoomGetPayload<T>>
+    update<T extends RoomUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, RoomUpdateArgs<ExtArgs>>
+    ): Prisma__RoomClient<$Types.GetResult<RoomPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more Rooms.
@@ -5632,9 +5807,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    deleteMany<T extends RoomDeleteManyArgs>(
-      args?: SelectSubset<T, RoomDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    deleteMany<T extends RoomDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, RoomDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Rooms.
@@ -5653,9 +5828,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    updateMany<T extends RoomUpdateManyArgs>(
-      args: SelectSubset<T, RoomUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    updateMany<T extends RoomUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, RoomUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one Room.
@@ -5674,9 +5849,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    upsert<T extends RoomUpsertArgs>(
-      args: SelectSubset<T, RoomUpsertArgs>
-    ): Prisma__RoomClient<RoomGetPayload<T>>
+    upsert<T extends RoomUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, RoomUpsertArgs<ExtArgs>>
+    ): Prisma__RoomClient<$Types.GetResult<RoomPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of Rooms.
@@ -5693,8 +5868,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     count<T extends RoomCountArgs>(
       args?: Subset<T, RoomCountArgs>,
-    ): PrismaPromise<
-      T extends _Record<'select', any>
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], RoomCountAggregateOutputType>
@@ -5725,7 +5900,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   take: 10,
      * })
     **/
-    aggregate<T extends RoomAggregateArgs>(args: Subset<T, RoomAggregateArgs>): PrismaPromise<GetRoomAggregateType<T>>
+    aggregate<T extends RoomAggregateArgs>(args: Subset<T, RoomAggregateArgs>): Prisma.PrismaPromise<GetRoomAggregateType<T>>
 
     /**
      * Group by Room.
@@ -5802,7 +5977,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, RoomGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoomGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, RoomGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoomGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
@@ -5812,10 +5987,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__RoomClient<T, Null = never> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__RoomClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -5826,16 +5999,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    box<T extends Room$boxArgs= {}>(args?: Subset<T, Room$boxArgs>): PrismaPromise<Array<BoxGetPayload<T>>| Null>;
+    box<T extends Room$boxArgs<ExtArgs> = {}>(args?: Subset<T, Room$boxArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<BoxPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
-    house<T extends HouseArgs= {}>(args?: Subset<T, HouseArgs>): Prisma__HouseClient<HouseGetPayload<T> | Null>;
+    house<T extends HouseArgs<ExtArgs> = {}>(args?: Subset<T, HouseArgs<ExtArgs>>): Prisma__HouseClient<$Types.GetResult<HousePayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    person<T extends Room$personArgs= {}>(args?: Subset<T, Room$personArgs>): Prisma__PersonClient<PersonGetPayload<T> | Null>;
+    person<T extends PersonArgs<ExtArgs> = {}>(args?: Subset<T, PersonArgs<ExtArgs>>): Prisma__PersonClient<$Types.GetResult<PersonPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    room_user<T extends Room$room_userArgs= {}>(args?: Subset<T, Room$room_userArgs>): PrismaPromise<Array<Room_userGetPayload<T>>| Null>;
+    room_user<T extends Room$room_userArgs<ExtArgs> = {}>(args?: Subset<T, Room$room_userArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<Room_userPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -5867,28 +6040,25 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room base type for findUnique actions
    */
-  export type RoomFindUniqueArgsBase = {
+  export type RoomFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room
-     * 
-    **/
-    select?: RoomSelect | null
+     */
+    select?: RoomSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: RoomInclude | null
+     */
+    include?: RoomInclude<ExtArgs> | null
     /**
      * Filter, which Room to fetch.
-     * 
-    **/
+     */
     where: RoomWhereUniqueInput
   }
 
   /**
    * Room findUnique
    */
-  export interface RoomFindUniqueArgs extends RoomFindUniqueArgsBase {
+  export interface RoomFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends RoomFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -5900,21 +6070,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room findUniqueOrThrow
    */
-  export type RoomFindUniqueOrThrowArgs = {
+  export type RoomFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room
-     * 
-    **/
-    select?: RoomSelect | null
+     */
+    select?: RoomSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: RoomInclude | null
+     */
+    include?: RoomInclude<ExtArgs> | null
     /**
      * Filter, which Room to fetch.
-     * 
-    **/
+     */
     where: RoomWhereUniqueInput
   }
 
@@ -5922,63 +6089,55 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room base type for findFirst actions
    */
-  export type RoomFindFirstArgsBase = {
+  export type RoomFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room
-     * 
-    **/
-    select?: RoomSelect | null
+     */
+    select?: RoomSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: RoomInclude | null
+     */
+    include?: RoomInclude<ExtArgs> | null
     /**
      * Filter, which Room to fetch.
-     * 
-    **/
+     */
     where?: RoomWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Rooms to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<RoomOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Rooms.
-     * 
-    **/
+     */
     cursor?: RoomWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Rooms from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Rooms.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Rooms.
-     * 
-    **/
+     */
     distinct?: Enumerable<RoomScalarFieldEnum>
   }
 
   /**
    * Room findFirst
    */
-  export interface RoomFindFirstArgs extends RoomFindFirstArgsBase {
+  export interface RoomFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends RoomFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -5990,56 +6149,48 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room findFirstOrThrow
    */
-  export type RoomFindFirstOrThrowArgs = {
+  export type RoomFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room
-     * 
-    **/
-    select?: RoomSelect | null
+     */
+    select?: RoomSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: RoomInclude | null
+     */
+    include?: RoomInclude<ExtArgs> | null
     /**
      * Filter, which Room to fetch.
-     * 
-    **/
+     */
     where?: RoomWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Rooms to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<RoomOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Rooms.
-     * 
-    **/
+     */
     cursor?: RoomWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Rooms from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Rooms.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Rooms.
-     * 
-    **/
+     */
     distinct?: Enumerable<RoomScalarFieldEnum>
   }
 
@@ -6047,49 +6198,42 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room findMany
    */
-  export type RoomFindManyArgs = {
+  export type RoomFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room
-     * 
-    **/
-    select?: RoomSelect | null
+     */
+    select?: RoomSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: RoomInclude | null
+     */
+    include?: RoomInclude<ExtArgs> | null
     /**
      * Filter, which Rooms to fetch.
-     * 
-    **/
+     */
     where?: RoomWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Rooms to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<RoomOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for listing Rooms.
-     * 
-    **/
+     */
     cursor?: RoomWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Rooms from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Rooms.
-     * 
-    **/
+     */
     skip?: number
     distinct?: Enumerable<RoomScalarFieldEnum>
   }
@@ -6098,21 +6242,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room create
    */
-  export type RoomCreateArgs = {
+  export type RoomCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room
-     * 
-    **/
-    select?: RoomSelect | null
+     */
+    select?: RoomSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: RoomInclude | null
+     */
+    include?: RoomInclude<ExtArgs> | null
     /**
      * The data needed to create a Room.
-     * 
-    **/
+     */
     data: XOR<RoomCreateInput, RoomUncheckedCreateInput>
   }
 
@@ -6120,11 +6261,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room createMany
    */
-  export type RoomCreateManyArgs = {
+  export type RoomCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many Rooms.
-     * 
-    **/
+     */
     data: Enumerable<RoomCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -6133,26 +6273,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room update
    */
-  export type RoomUpdateArgs = {
+  export type RoomUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room
-     * 
-    **/
-    select?: RoomSelect | null
+     */
+    select?: RoomSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: RoomInclude | null
+     */
+    include?: RoomInclude<ExtArgs> | null
     /**
      * The data needed to update a Room.
-     * 
-    **/
+     */
     data: XOR<RoomUpdateInput, RoomUncheckedUpdateInput>
     /**
      * Choose, which Room to update.
-     * 
-    **/
+     */
     where: RoomWhereUniqueInput
   }
 
@@ -6160,16 +6296,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room updateMany
    */
-  export type RoomUpdateManyArgs = {
+  export type RoomUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update Rooms.
-     * 
-    **/
+     */
     data: XOR<RoomUpdateManyMutationInput, RoomUncheckedUpdateManyInput>
     /**
      * Filter which Rooms to update
-     * 
-    **/
+     */
     where?: RoomWhereInput
   }
 
@@ -6177,31 +6311,26 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room upsert
    */
-  export type RoomUpsertArgs = {
+  export type RoomUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room
-     * 
-    **/
-    select?: RoomSelect | null
+     */
+    select?: RoomSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: RoomInclude | null
+     */
+    include?: RoomInclude<ExtArgs> | null
     /**
      * The filter to search for the Room to update in case it exists.
-     * 
-    **/
+     */
     where: RoomWhereUniqueInput
     /**
      * In case the Room found by the `where` argument doesn't exist, create a new Room with this data.
-     * 
-    **/
+     */
     create: XOR<RoomCreateInput, RoomUncheckedCreateInput>
     /**
      * In case the Room was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<RoomUpdateInput, RoomUncheckedUpdateInput>
   }
 
@@ -6209,21 +6338,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room delete
    */
-  export type RoomDeleteArgs = {
+  export type RoomDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room
-     * 
-    **/
-    select?: RoomSelect | null
+     */
+    select?: RoomSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: RoomInclude | null
+     */
+    include?: RoomInclude<ExtArgs> | null
     /**
      * Filter which Room to delete.
-     * 
-    **/
+     */
     where: RoomWhereUniqueInput
   }
 
@@ -6231,11 +6357,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room deleteMany
    */
-  export type RoomDeleteManyArgs = {
+  export type RoomDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which Rooms to delete
-     * 
-    **/
+     */
     where?: RoomWhereInput
   }
 
@@ -6243,17 +6368,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room.box
    */
-  export type Room$boxArgs = {
+  export type Room$boxArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Box
-     * 
-    **/
-    select?: BoxSelect | null
+     */
+    select?: BoxSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: BoxInclude | null
+     */
+    include?: BoxInclude<ExtArgs> | null
     where?: BoxWhereInput
     orderBy?: Enumerable<BoxOrderByWithRelationInput>
     cursor?: BoxWhereUniqueInput
@@ -6264,37 +6387,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
-   * Room.person
-   */
-  export type Room$personArgs = {
-    /**
-     * Select specific fields to fetch from the Person
-     * 
-    **/
-    select?: PersonSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: PersonInclude | null
-    where?: PersonWhereInput
-  }
-
-
-  /**
    * Room.room_user
    */
-  export type Room$room_userArgs = {
+  export type Room$room_userArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room_user
-     * 
-    **/
-    select?: Room_userSelect | null
+     */
+    select?: Room_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Room_userInclude | null
+     */
+    include?: Room_userInclude<ExtArgs> | null
     where?: Room_userWhereInput
     orderBy?: Enumerable<Room_userOrderByWithRelationInput>
     cursor?: Room_userWhereUniqueInput
@@ -6307,17 +6410,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room without action
    */
-  export type RoomArgs = {
+  export type RoomArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room
-     * 
-    **/
-    select?: RoomSelect | null
+     */
+    select?: RoomSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: RoomInclude | null
+     */
+    include?: RoomInclude<ExtArgs> | null
   }
 
 
@@ -6366,39 +6467,34 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _all?: true
   }
 
-  export type Room_userAggregateArgs = {
+  export type Room_userAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which Room_user to aggregate.
-     * 
-    **/
+     */
     where?: Room_userWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Room_users to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<Room_userOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: Room_userWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Room_users from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Room_users.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -6431,10 +6527,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
 
-  export type Room_userGroupByArgs = {
+  export type Room_userGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: Room_userWhereInput
     orderBy?: Enumerable<Room_userOrderByWithAggregationInput>
-    by: Array<Room_userScalarFieldEnum>
+    by: Room_userScalarFieldEnum[]
     having?: Room_userScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -6452,7 +6548,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max: Room_userMaxAggregateOutputType | null
   }
 
-  type GetRoom_userGroupByPayload<T extends Room_userGroupByArgs> = PrismaPromise<
+  type GetRoom_userGroupByPayload<T extends Room_userGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<Room_userGroupByOutputType, T['by']> &
         {
@@ -6466,45 +6562,33 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     >
 
 
-  export type Room_userSelect = {
+  export type Room_userSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     person_id?: boolean
-    room?: boolean | RoomArgs
-    person?: boolean | PersonArgs
+    room?: boolean | RoomArgs<ExtArgs>
+    person?: boolean | PersonArgs<ExtArgs>
+  }, ExtArgs["result"]["room_user"]>
+
+  export type Room_userSelectScalar = {
+    id?: boolean
+    person_id?: boolean
+  }
+
+  export type Room_userInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    room?: boolean | RoomArgs<ExtArgs>
+    person?: boolean | PersonArgs<ExtArgs>
   }
 
 
-  export type Room_userInclude = {
-    room?: boolean | RoomArgs
-    person?: boolean | PersonArgs
-  } 
+  type Room_userGetPayload<S extends boolean | null | undefined | Room_userArgs> = $Types.GetResult<Room_userPayload, S>
 
-  export type Room_userGetPayload<S extends boolean | null | undefined | Room_userArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Room_user :
-    S extends undefined ? never :
-    S extends { include: any } & (Room_userArgs | Room_userFindManyArgs)
-    ? Room_user  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'room' ? RoomGetPayload<S['include'][P]> :
-        P extends 'person' ? PersonGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (Room_userArgs | Room_userFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'room' ? RoomGetPayload<S['select'][P]> :
-        P extends 'person' ? PersonGetPayload<S['select'][P]> :  P extends keyof Room_user ? Room_user[P] : never
-  } 
-      : Room_user
-
-
-  type Room_userCountArgs = Merge<
+  type Room_userCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<Room_userFindManyArgs, 'select' | 'include'> & {
       select?: Room_userCountAggregateInputType | true
     }
-  >
 
-  export interface Room_userDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface Room_userDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Room_user'], meta: { name: 'Room_user' } }
     /**
      * Find zero or one Room_user that matches the filter.
      * @param {Room_userFindUniqueArgs} args - Arguments to find a Room_user
@@ -6516,9 +6600,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findUnique<T extends Room_userFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, Room_userFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Room_user'> extends True ? Prisma__Room_userClient<Room_userGetPayload<T>> : Prisma__Room_userClient<Room_userGetPayload<T> | null, null>
+    findUnique<T extends Room_userFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Room_userFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Room_user'> extends True ? Prisma__Room_userClient<$Types.GetResult<Room_userPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__Room_userClient<$Types.GetResult<Room_userPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one Room_user that matches the filter or throw an error  with `error.code='P2025'` 
@@ -6532,9 +6616,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends Room_userFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, Room_userFindUniqueOrThrowArgs>
-    ): Prisma__Room_userClient<Room_userGetPayload<T>>
+    findUniqueOrThrow<T extends Room_userFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, Room_userFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__Room_userClient<$Types.GetResult<Room_userPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first Room_user that matches the filter.
@@ -6549,9 +6633,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findFirst<T extends Room_userFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, Room_userFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Room_user'> extends True ? Prisma__Room_userClient<Room_userGetPayload<T>> : Prisma__Room_userClient<Room_userGetPayload<T> | null, null>
+    findFirst<T extends Room_userFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Room_userFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Room_user'> extends True ? Prisma__Room_userClient<$Types.GetResult<Room_userPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__Room_userClient<$Types.GetResult<Room_userPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first Room_user that matches the filter or
@@ -6567,9 +6651,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findFirstOrThrow<T extends Room_userFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, Room_userFindFirstOrThrowArgs>
-    ): Prisma__Room_userClient<Room_userGetPayload<T>>
+    findFirstOrThrow<T extends Room_userFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, Room_userFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__Room_userClient<$Types.GetResult<Room_userPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more Room_users that matches the filter.
@@ -6587,9 +6671,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * const room_userWithIdOnly = await prisma.room_user.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends Room_userFindManyArgs>(
-      args?: SelectSubset<T, Room_userFindManyArgs>
-    ): PrismaPromise<Array<Room_userGetPayload<T>>>
+    findMany<T extends Room_userFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, Room_userFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<Room_userPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a Room_user.
@@ -6603,9 +6687,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    create<T extends Room_userCreateArgs>(
-      args: SelectSubset<T, Room_userCreateArgs>
-    ): Prisma__Room_userClient<Room_userGetPayload<T>>
+    create<T extends Room_userCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, Room_userCreateArgs<ExtArgs>>
+    ): Prisma__Room_userClient<$Types.GetResult<Room_userPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many Room_users.
@@ -6619,9 +6703,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *     })
      *     
     **/
-    createMany<T extends Room_userCreateManyArgs>(
-      args?: SelectSubset<T, Room_userCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    createMany<T extends Room_userCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, Room_userCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a Room_user.
@@ -6635,9 +6719,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    delete<T extends Room_userDeleteArgs>(
-      args: SelectSubset<T, Room_userDeleteArgs>
-    ): Prisma__Room_userClient<Room_userGetPayload<T>>
+    delete<T extends Room_userDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, Room_userDeleteArgs<ExtArgs>>
+    ): Prisma__Room_userClient<$Types.GetResult<Room_userPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one Room_user.
@@ -6654,9 +6738,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    update<T extends Room_userUpdateArgs>(
-      args: SelectSubset<T, Room_userUpdateArgs>
-    ): Prisma__Room_userClient<Room_userGetPayload<T>>
+    update<T extends Room_userUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, Room_userUpdateArgs<ExtArgs>>
+    ): Prisma__Room_userClient<$Types.GetResult<Room_userPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more Room_users.
@@ -6670,9 +6754,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    deleteMany<T extends Room_userDeleteManyArgs>(
-      args?: SelectSubset<T, Room_userDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    deleteMany<T extends Room_userDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, Room_userDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Room_users.
@@ -6691,9 +6775,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    updateMany<T extends Room_userUpdateManyArgs>(
-      args: SelectSubset<T, Room_userUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    updateMany<T extends Room_userUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, Room_userUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one Room_user.
@@ -6712,9 +6796,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    upsert<T extends Room_userUpsertArgs>(
-      args: SelectSubset<T, Room_userUpsertArgs>
-    ): Prisma__Room_userClient<Room_userGetPayload<T>>
+    upsert<T extends Room_userUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, Room_userUpsertArgs<ExtArgs>>
+    ): Prisma__Room_userClient<$Types.GetResult<Room_userPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of Room_users.
@@ -6731,8 +6815,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     count<T extends Room_userCountArgs>(
       args?: Subset<T, Room_userCountArgs>,
-    ): PrismaPromise<
-      T extends _Record<'select', any>
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], Room_userCountAggregateOutputType>
@@ -6763,7 +6847,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   take: 10,
      * })
     **/
-    aggregate<T extends Room_userAggregateArgs>(args: Subset<T, Room_userAggregateArgs>): PrismaPromise<GetRoom_userAggregateType<T>>
+    aggregate<T extends Room_userAggregateArgs>(args: Subset<T, Room_userAggregateArgs>): Prisma.PrismaPromise<GetRoom_userAggregateType<T>>
 
     /**
      * Group by Room_user.
@@ -6840,7 +6924,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, Room_userGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoom_userGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, Room_userGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoom_userGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
@@ -6850,10 +6934,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__Room_userClient<T, Null = never> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__Room_userClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -6864,12 +6946,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    room<T extends RoomArgs= {}>(args?: Subset<T, RoomArgs>): Prisma__RoomClient<RoomGetPayload<T> | Null>;
+    room<T extends RoomArgs<ExtArgs> = {}>(args?: Subset<T, RoomArgs<ExtArgs>>): Prisma__RoomClient<$Types.GetResult<RoomPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    person<T extends PersonArgs= {}>(args?: Subset<T, PersonArgs>): Prisma__PersonClient<PersonGetPayload<T> | Null>;
+    person<T extends PersonArgs<ExtArgs> = {}>(args?: Subset<T, PersonArgs<ExtArgs>>): Prisma__PersonClient<$Types.GetResult<PersonPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
     private get _document();
     /**
@@ -6901,28 +6983,25 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room_user base type for findUnique actions
    */
-  export type Room_userFindUniqueArgsBase = {
+  export type Room_userFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room_user
-     * 
-    **/
-    select?: Room_userSelect | null
+     */
+    select?: Room_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Room_userInclude | null
+     */
+    include?: Room_userInclude<ExtArgs> | null
     /**
      * Filter, which Room_user to fetch.
-     * 
-    **/
+     */
     where: Room_userWhereUniqueInput
   }
 
   /**
    * Room_user findUnique
    */
-  export interface Room_userFindUniqueArgs extends Room_userFindUniqueArgsBase {
+  export interface Room_userFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends Room_userFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -6934,21 +7013,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room_user findUniqueOrThrow
    */
-  export type Room_userFindUniqueOrThrowArgs = {
+  export type Room_userFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room_user
-     * 
-    **/
-    select?: Room_userSelect | null
+     */
+    select?: Room_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Room_userInclude | null
+     */
+    include?: Room_userInclude<ExtArgs> | null
     /**
      * Filter, which Room_user to fetch.
-     * 
-    **/
+     */
     where: Room_userWhereUniqueInput
   }
 
@@ -6956,63 +7032,55 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room_user base type for findFirst actions
    */
-  export type Room_userFindFirstArgsBase = {
+  export type Room_userFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room_user
-     * 
-    **/
-    select?: Room_userSelect | null
+     */
+    select?: Room_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Room_userInclude | null
+     */
+    include?: Room_userInclude<ExtArgs> | null
     /**
      * Filter, which Room_user to fetch.
-     * 
-    **/
+     */
     where?: Room_userWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Room_users to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<Room_userOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Room_users.
-     * 
-    **/
+     */
     cursor?: Room_userWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Room_users from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Room_users.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Room_users.
-     * 
-    **/
+     */
     distinct?: Enumerable<Room_userScalarFieldEnum>
   }
 
   /**
    * Room_user findFirst
    */
-  export interface Room_userFindFirstArgs extends Room_userFindFirstArgsBase {
+  export interface Room_userFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends Room_userFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -7024,56 +7092,48 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room_user findFirstOrThrow
    */
-  export type Room_userFindFirstOrThrowArgs = {
+  export type Room_userFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room_user
-     * 
-    **/
-    select?: Room_userSelect | null
+     */
+    select?: Room_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Room_userInclude | null
+     */
+    include?: Room_userInclude<ExtArgs> | null
     /**
      * Filter, which Room_user to fetch.
-     * 
-    **/
+     */
     where?: Room_userWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Room_users to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<Room_userOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Room_users.
-     * 
-    **/
+     */
     cursor?: Room_userWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Room_users from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Room_users.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Room_users.
-     * 
-    **/
+     */
     distinct?: Enumerable<Room_userScalarFieldEnum>
   }
 
@@ -7081,49 +7141,42 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room_user findMany
    */
-  export type Room_userFindManyArgs = {
+  export type Room_userFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room_user
-     * 
-    **/
-    select?: Room_userSelect | null
+     */
+    select?: Room_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Room_userInclude | null
+     */
+    include?: Room_userInclude<ExtArgs> | null
     /**
      * Filter, which Room_users to fetch.
-     * 
-    **/
+     */
     where?: Room_userWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Room_users to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<Room_userOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for listing Room_users.
-     * 
-    **/
+     */
     cursor?: Room_userWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Room_users from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Room_users.
-     * 
-    **/
+     */
     skip?: number
     distinct?: Enumerable<Room_userScalarFieldEnum>
   }
@@ -7132,21 +7185,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room_user create
    */
-  export type Room_userCreateArgs = {
+  export type Room_userCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room_user
-     * 
-    **/
-    select?: Room_userSelect | null
+     */
+    select?: Room_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Room_userInclude | null
+     */
+    include?: Room_userInclude<ExtArgs> | null
     /**
      * The data needed to create a Room_user.
-     * 
-    **/
+     */
     data: XOR<Room_userCreateInput, Room_userUncheckedCreateInput>
   }
 
@@ -7154,11 +7204,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room_user createMany
    */
-  export type Room_userCreateManyArgs = {
+  export type Room_userCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many Room_users.
-     * 
-    **/
+     */
     data: Enumerable<Room_userCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -7167,26 +7216,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room_user update
    */
-  export type Room_userUpdateArgs = {
+  export type Room_userUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room_user
-     * 
-    **/
-    select?: Room_userSelect | null
+     */
+    select?: Room_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Room_userInclude | null
+     */
+    include?: Room_userInclude<ExtArgs> | null
     /**
      * The data needed to update a Room_user.
-     * 
-    **/
+     */
     data: XOR<Room_userUpdateInput, Room_userUncheckedUpdateInput>
     /**
      * Choose, which Room_user to update.
-     * 
-    **/
+     */
     where: Room_userWhereUniqueInput
   }
 
@@ -7194,16 +7239,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room_user updateMany
    */
-  export type Room_userUpdateManyArgs = {
+  export type Room_userUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update Room_users.
-     * 
-    **/
+     */
     data: XOR<Room_userUpdateManyMutationInput, Room_userUncheckedUpdateManyInput>
     /**
      * Filter which Room_users to update
-     * 
-    **/
+     */
     where?: Room_userWhereInput
   }
 
@@ -7211,31 +7254,26 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room_user upsert
    */
-  export type Room_userUpsertArgs = {
+  export type Room_userUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room_user
-     * 
-    **/
-    select?: Room_userSelect | null
+     */
+    select?: Room_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Room_userInclude | null
+     */
+    include?: Room_userInclude<ExtArgs> | null
     /**
      * The filter to search for the Room_user to update in case it exists.
-     * 
-    **/
+     */
     where: Room_userWhereUniqueInput
     /**
      * In case the Room_user found by the `where` argument doesn't exist, create a new Room_user with this data.
-     * 
-    **/
+     */
     create: XOR<Room_userCreateInput, Room_userUncheckedCreateInput>
     /**
      * In case the Room_user was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<Room_userUpdateInput, Room_userUncheckedUpdateInput>
   }
 
@@ -7243,21 +7281,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room_user delete
    */
-  export type Room_userDeleteArgs = {
+  export type Room_userDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room_user
-     * 
-    **/
-    select?: Room_userSelect | null
+     */
+    select?: Room_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Room_userInclude | null
+     */
+    include?: Room_userInclude<ExtArgs> | null
     /**
      * Filter which Room_user to delete.
-     * 
-    **/
+     */
     where: Room_userWhereUniqueInput
   }
 
@@ -7265,11 +7300,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room_user deleteMany
    */
-  export type Room_userDeleteManyArgs = {
+  export type Room_userDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which Room_users to delete
-     * 
-    **/
+     */
     where?: Room_userWhereInput
   }
 
@@ -7277,17 +7311,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Room_user without action
    */
-  export type Room_userArgs = {
+  export type Room_userArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Room_user
-     * 
-    **/
-    select?: Room_userSelect | null
+     */
+    select?: Room_userSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: Room_userInclude | null
+     */
+    include?: Room_userInclude<ExtArgs> | null
   }
 
 
@@ -7342,39 +7374,34 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _all?: true
   }
 
-  export type ThingAggregateArgs = {
+  export type ThingAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which Thing to aggregate.
-     * 
-    **/
+     */
     where?: ThingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Things to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<ThingOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: ThingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Things from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Things.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -7407,10 +7434,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
 
-  export type ThingGroupByArgs = {
+  export type ThingGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: ThingWhereInput
     orderBy?: Enumerable<ThingOrderByWithAggregationInput>
-    by: Array<ThingScalarFieldEnum>
+    by: ThingScalarFieldEnum[]
     having?: ThingScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -7429,7 +7456,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max: ThingMaxAggregateOutputType | null
   }
 
-  type GetThingGroupByPayload<T extends ThingGroupByArgs> = PrismaPromise<
+  type GetThingGroupByPayload<T extends ThingGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<ThingGroupByOutputType, T['by']> &
         {
@@ -7443,42 +7470,33 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     >
 
 
-  export type ThingSelect = {
+  export type ThingSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     box_id?: boolean
-    box?: boolean | BoxArgs
+    box?: boolean | BoxArgs<ExtArgs>
+  }, ExtArgs["result"]["thing"]>
+
+  export type ThingSelectScalar = {
+    id?: boolean
+    name?: boolean
+    box_id?: boolean
+  }
+
+  export type ThingInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    box?: boolean | BoxArgs<ExtArgs>
   }
 
 
-  export type ThingInclude = {
-    box?: boolean | BoxArgs
-  } 
+  type ThingGetPayload<S extends boolean | null | undefined | ThingArgs> = $Types.GetResult<ThingPayload, S>
 
-  export type ThingGetPayload<S extends boolean | null | undefined | ThingArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Thing :
-    S extends undefined ? never :
-    S extends { include: any } & (ThingArgs | ThingFindManyArgs)
-    ? Thing  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'box' ? BoxGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (ThingArgs | ThingFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'box' ? BoxGetPayload<S['select'][P]> :  P extends keyof Thing ? Thing[P] : never
-  } 
-      : Thing
-
-
-  type ThingCountArgs = Merge<
+  type ThingCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<ThingFindManyArgs, 'select' | 'include'> & {
       select?: ThingCountAggregateInputType | true
     }
-  >
 
-  export interface ThingDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface ThingDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Thing'], meta: { name: 'Thing' } }
     /**
      * Find zero or one Thing that matches the filter.
      * @param {ThingFindUniqueArgs} args - Arguments to find a Thing
@@ -7490,9 +7508,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findUnique<T extends ThingFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, ThingFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Thing'> extends True ? Prisma__ThingClient<ThingGetPayload<T>> : Prisma__ThingClient<ThingGetPayload<T> | null, null>
+    findUnique<T extends ThingFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ThingFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Thing'> extends True ? Prisma__ThingClient<$Types.GetResult<ThingPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__ThingClient<$Types.GetResult<ThingPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one Thing that matches the filter or throw an error  with `error.code='P2025'` 
@@ -7506,9 +7524,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends ThingFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, ThingFindUniqueOrThrowArgs>
-    ): Prisma__ThingClient<ThingGetPayload<T>>
+    findUniqueOrThrow<T extends ThingFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, ThingFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__ThingClient<$Types.GetResult<ThingPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first Thing that matches the filter.
@@ -7523,9 +7541,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findFirst<T extends ThingFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, ThingFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Thing'> extends True ? Prisma__ThingClient<ThingGetPayload<T>> : Prisma__ThingClient<ThingGetPayload<T> | null, null>
+    findFirst<T extends ThingFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ThingFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Thing'> extends True ? Prisma__ThingClient<$Types.GetResult<ThingPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__ThingClient<$Types.GetResult<ThingPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first Thing that matches the filter or
@@ -7541,9 +7559,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    findFirstOrThrow<T extends ThingFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, ThingFindFirstOrThrowArgs>
-    ): Prisma__ThingClient<ThingGetPayload<T>>
+    findFirstOrThrow<T extends ThingFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, ThingFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__ThingClient<$Types.GetResult<ThingPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more Things that matches the filter.
@@ -7561,9 +7579,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * const thingWithIdOnly = await prisma.thing.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends ThingFindManyArgs>(
-      args?: SelectSubset<T, ThingFindManyArgs>
-    ): PrismaPromise<Array<ThingGetPayload<T>>>
+    findMany<T extends ThingFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ThingFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<ThingPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a Thing.
@@ -7577,9 +7595,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    create<T extends ThingCreateArgs>(
-      args: SelectSubset<T, ThingCreateArgs>
-    ): Prisma__ThingClient<ThingGetPayload<T>>
+    create<T extends ThingCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, ThingCreateArgs<ExtArgs>>
+    ): Prisma__ThingClient<$Types.GetResult<ThingPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many Things.
@@ -7593,9 +7611,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *     })
      *     
     **/
-    createMany<T extends ThingCreateManyArgs>(
-      args?: SelectSubset<T, ThingCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    createMany<T extends ThingCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ThingCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a Thing.
@@ -7609,9 +7627,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    delete<T extends ThingDeleteArgs>(
-      args: SelectSubset<T, ThingDeleteArgs>
-    ): Prisma__ThingClient<ThingGetPayload<T>>
+    delete<T extends ThingDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, ThingDeleteArgs<ExtArgs>>
+    ): Prisma__ThingClient<$Types.GetResult<ThingPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one Thing.
@@ -7628,9 +7646,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    update<T extends ThingUpdateArgs>(
-      args: SelectSubset<T, ThingUpdateArgs>
-    ): Prisma__ThingClient<ThingGetPayload<T>>
+    update<T extends ThingUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, ThingUpdateArgs<ExtArgs>>
+    ): Prisma__ThingClient<$Types.GetResult<ThingPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more Things.
@@ -7644,9 +7662,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    deleteMany<T extends ThingDeleteManyArgs>(
-      args?: SelectSubset<T, ThingDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
+    deleteMany<T extends ThingDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ThingDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Things.
@@ -7665,9 +7683,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    updateMany<T extends ThingUpdateManyArgs>(
-      args: SelectSubset<T, ThingUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
+    updateMany<T extends ThingUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, ThingUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one Thing.
@@ -7686,9 +7704,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   }
      * })
     **/
-    upsert<T extends ThingUpsertArgs>(
-      args: SelectSubset<T, ThingUpsertArgs>
-    ): Prisma__ThingClient<ThingGetPayload<T>>
+    upsert<T extends ThingUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, ThingUpsertArgs<ExtArgs>>
+    ): Prisma__ThingClient<$Types.GetResult<ThingPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of Things.
@@ -7705,8 +7723,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     count<T extends ThingCountArgs>(
       args?: Subset<T, ThingCountArgs>,
-    ): PrismaPromise<
-      T extends _Record<'select', any>
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], ThingCountAggregateOutputType>
@@ -7737,7 +7755,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   take: 10,
      * })
     **/
-    aggregate<T extends ThingAggregateArgs>(args: Subset<T, ThingAggregateArgs>): PrismaPromise<GetThingAggregateType<T>>
+    aggregate<T extends ThingAggregateArgs>(args: Subset<T, ThingAggregateArgs>): Prisma.PrismaPromise<GetThingAggregateType<T>>
 
     /**
      * Group by Thing.
@@ -7814,7 +7832,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, ThingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetThingGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ThingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetThingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
@@ -7824,10 +7842,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__ThingClient<T, Null = never> implements PrismaPromise<T> {
-    [prisma]: true;
+  export class Prisma__ThingClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
-    private readonly _fetcher;
     private readonly _queryType;
     private readonly _rootField;
     private readonly _clientMethod;
@@ -7838,10 +7854,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _isList;
     private _callsite;
     private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    box<T extends BoxArgs= {}>(args?: Subset<T, BoxArgs>): Prisma__BoxClient<BoxGetPayload<T> | Null>;
+    box<T extends BoxArgs<ExtArgs> = {}>(args?: Subset<T, BoxArgs<ExtArgs>>): Prisma__BoxClient<$Types.GetResult<BoxPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
     private get _document();
     /**
@@ -7873,28 +7889,25 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Thing base type for findUnique actions
    */
-  export type ThingFindUniqueArgsBase = {
+  export type ThingFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Thing
-     * 
-    **/
-    select?: ThingSelect | null
+     */
+    select?: ThingSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: ThingInclude | null
+     */
+    include?: ThingInclude<ExtArgs> | null
     /**
      * Filter, which Thing to fetch.
-     * 
-    **/
+     */
     where: ThingWhereUniqueInput
   }
 
   /**
    * Thing findUnique
    */
-  export interface ThingFindUniqueArgs extends ThingFindUniqueArgsBase {
+  export interface ThingFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends ThingFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -7906,21 +7919,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Thing findUniqueOrThrow
    */
-  export type ThingFindUniqueOrThrowArgs = {
+  export type ThingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Thing
-     * 
-    **/
-    select?: ThingSelect | null
+     */
+    select?: ThingSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: ThingInclude | null
+     */
+    include?: ThingInclude<ExtArgs> | null
     /**
      * Filter, which Thing to fetch.
-     * 
-    **/
+     */
     where: ThingWhereUniqueInput
   }
 
@@ -7928,63 +7938,55 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Thing base type for findFirst actions
    */
-  export type ThingFindFirstArgsBase = {
+  export type ThingFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Thing
-     * 
-    **/
-    select?: ThingSelect | null
+     */
+    select?: ThingSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: ThingInclude | null
+     */
+    include?: ThingInclude<ExtArgs> | null
     /**
      * Filter, which Thing to fetch.
-     * 
-    **/
+     */
     where?: ThingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Things to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<ThingOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Things.
-     * 
-    **/
+     */
     cursor?: ThingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Things from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Things.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Things.
-     * 
-    **/
+     */
     distinct?: Enumerable<ThingScalarFieldEnum>
   }
 
   /**
    * Thing findFirst
    */
-  export interface ThingFindFirstArgs extends ThingFindFirstArgsBase {
+  export interface ThingFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends ThingFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -7996,56 +7998,48 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Thing findFirstOrThrow
    */
-  export type ThingFindFirstOrThrowArgs = {
+  export type ThingFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Thing
-     * 
-    **/
-    select?: ThingSelect | null
+     */
+    select?: ThingSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: ThingInclude | null
+     */
+    include?: ThingInclude<ExtArgs> | null
     /**
      * Filter, which Thing to fetch.
-     * 
-    **/
+     */
     where?: ThingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Things to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<ThingOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Things.
-     * 
-    **/
+     */
     cursor?: ThingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Things from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Things.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Things.
-     * 
-    **/
+     */
     distinct?: Enumerable<ThingScalarFieldEnum>
   }
 
@@ -8053,49 +8047,42 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Thing findMany
    */
-  export type ThingFindManyArgs = {
+  export type ThingFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Thing
-     * 
-    **/
-    select?: ThingSelect | null
+     */
+    select?: ThingSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: ThingInclude | null
+     */
+    include?: ThingInclude<ExtArgs> | null
     /**
      * Filter, which Things to fetch.
-     * 
-    **/
+     */
     where?: ThingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Things to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<ThingOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for listing Things.
-     * 
-    **/
+     */
     cursor?: ThingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Things from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Things.
-     * 
-    **/
+     */
     skip?: number
     distinct?: Enumerable<ThingScalarFieldEnum>
   }
@@ -8104,21 +8091,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Thing create
    */
-  export type ThingCreateArgs = {
+  export type ThingCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Thing
-     * 
-    **/
-    select?: ThingSelect | null
+     */
+    select?: ThingSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: ThingInclude | null
+     */
+    include?: ThingInclude<ExtArgs> | null
     /**
      * The data needed to create a Thing.
-     * 
-    **/
+     */
     data: XOR<ThingCreateInput, ThingUncheckedCreateInput>
   }
 
@@ -8126,11 +8110,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Thing createMany
    */
-  export type ThingCreateManyArgs = {
+  export type ThingCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many Things.
-     * 
-    **/
+     */
     data: Enumerable<ThingCreateManyInput>
     skipDuplicates?: boolean
   }
@@ -8139,26 +8122,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Thing update
    */
-  export type ThingUpdateArgs = {
+  export type ThingUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Thing
-     * 
-    **/
-    select?: ThingSelect | null
+     */
+    select?: ThingSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: ThingInclude | null
+     */
+    include?: ThingInclude<ExtArgs> | null
     /**
      * The data needed to update a Thing.
-     * 
-    **/
+     */
     data: XOR<ThingUpdateInput, ThingUncheckedUpdateInput>
     /**
      * Choose, which Thing to update.
-     * 
-    **/
+     */
     where: ThingWhereUniqueInput
   }
 
@@ -8166,16 +8145,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Thing updateMany
    */
-  export type ThingUpdateManyArgs = {
+  export type ThingUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update Things.
-     * 
-    **/
+     */
     data: XOR<ThingUpdateManyMutationInput, ThingUncheckedUpdateManyInput>
     /**
      * Filter which Things to update
-     * 
-    **/
+     */
     where?: ThingWhereInput
   }
 
@@ -8183,31 +8160,26 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Thing upsert
    */
-  export type ThingUpsertArgs = {
+  export type ThingUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Thing
-     * 
-    **/
-    select?: ThingSelect | null
+     */
+    select?: ThingSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: ThingInclude | null
+     */
+    include?: ThingInclude<ExtArgs> | null
     /**
      * The filter to search for the Thing to update in case it exists.
-     * 
-    **/
+     */
     where: ThingWhereUniqueInput
     /**
      * In case the Thing found by the `where` argument doesn't exist, create a new Thing with this data.
-     * 
-    **/
+     */
     create: XOR<ThingCreateInput, ThingUncheckedCreateInput>
     /**
      * In case the Thing was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<ThingUpdateInput, ThingUncheckedUpdateInput>
   }
 
@@ -8215,21 +8187,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Thing delete
    */
-  export type ThingDeleteArgs = {
+  export type ThingDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Thing
-     * 
-    **/
-    select?: ThingSelect | null
+     */
+    select?: ThingSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: ThingInclude | null
+     */
+    include?: ThingInclude<ExtArgs> | null
     /**
      * Filter which Thing to delete.
-     * 
-    **/
+     */
     where: ThingWhereUniqueInput
   }
 
@@ -8237,11 +8206,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Thing deleteMany
    */
-  export type ThingDeleteManyArgs = {
+  export type ThingDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which Things to delete
-     * 
-    **/
+     */
     where?: ThingWhereInput
   }
 
@@ -8249,17 +8217,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Thing without action
    */
-  export type ThingArgs = {
+  export type ThingArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Thing
-     * 
-    **/
-    select?: ThingSelect | null
+     */
+    select?: ThingSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: ThingInclude | null
+     */
+    include?: ThingInclude<ExtArgs> | null
   }
 
 
@@ -8267,9 +8233,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * Enums
    */
-
-  // Based on
-  // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
   export const TransactionIsolationLevel: {
     ReadUncommitted: 'ReadUncommitted',
@@ -8366,37 +8329,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
-   * Field references 
-   */
-
-
-  /**
-   * Reference to a field of type 'String'
-   */
-  export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
-    
-
-
-  /**
-   * Reference to a field of type 'String[]'
-   */
-  export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-  /**
    * Deep Input Types
    */
 
@@ -8405,9 +8337,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<BoxWhereInput>
     OR?: Enumerable<BoxWhereInput>
     NOT?: Enumerable<BoxWhereInput>
-    id?: UuidFilter<"Box"> | string
-    name?: StringFilter<"Box"> | string
-    room_id?: UuidFilter<"Box"> | string
+    id?: UuidFilter | string
+    name?: StringFilter | string
+    room_id?: UuidFilter | string
     room?: XOR<RoomRelationFilter, RoomWhereInput>
     box_user?: Box_userListRelationFilter
     thing?: ThingListRelationFilter
@@ -8422,17 +8354,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     thing?: ThingOrderByRelationAggregateInput
   }
 
-  export type BoxWhereUniqueInput = Prisma.AtLeast<{
+  export type BoxWhereUniqueInput = {
     id?: string
-    AND?: Enumerable<BoxWhereInput>
-    OR?: Enumerable<BoxWhereInput>
-    NOT?: Enumerable<BoxWhereInput>
-    name?: StringFilter<"Box"> | string
-    room_id?: UuidFilter<"Box"> | string
-    room?: XOR<RoomRelationFilter, RoomWhereInput>
-    box_user?: Box_userListRelationFilter
-    thing?: ThingListRelationFilter
-  }, "id">
+  }
 
   export type BoxOrderByWithAggregationInput = {
     id?: SortOrder
@@ -8447,17 +8371,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<BoxScalarWhereWithAggregatesInput>
     OR?: Enumerable<BoxScalarWhereWithAggregatesInput>
     NOT?: Enumerable<BoxScalarWhereWithAggregatesInput>
-    id?: UuidWithAggregatesFilter<"Box"> | string
-    name?: StringWithAggregatesFilter<"Box"> | string
-    room_id?: UuidWithAggregatesFilter<"Box"> | string
+    id?: UuidWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
+    room_id?: UuidWithAggregatesFilter | string
   }
 
   export type Box_userWhereInput = {
     AND?: Enumerable<Box_userWhereInput>
     OR?: Enumerable<Box_userWhereInput>
     NOT?: Enumerable<Box_userWhereInput>
-    id?: UuidFilter<"Box_user"> | string
-    person_id?: UuidFilter<"Box_user"> | string
+    id?: UuidFilter | string
+    person_id?: UuidFilter | string
     box?: XOR<BoxRelationFilter, BoxWhereInput>
     person?: XOR<PersonRelationFilter, PersonWhereInput>
   }
@@ -8469,16 +8393,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     person?: PersonOrderByWithRelationInput
   }
 
-  export type Box_userWhereUniqueInput = Prisma.AtLeast<{
+  export type Box_userWhereUniqueInput = {
     id_person_id?: Box_userIdPerson_idCompoundUniqueInput
-    AND?: Enumerable<Box_userWhereInput>
-    OR?: Enumerable<Box_userWhereInput>
-    NOT?: Enumerable<Box_userWhereInput>
-    id?: UuidFilter<"Box_user"> | string
-    person_id?: UuidFilter<"Box_user"> | string
-    box?: XOR<BoxRelationFilter, BoxWhereInput>
-    person?: XOR<PersonRelationFilter, PersonWhereInput>
-  }, "id_person_id">
+  }
 
   export type Box_userOrderByWithAggregationInput = {
     id?: SortOrder
@@ -8492,16 +8409,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<Box_userScalarWhereWithAggregatesInput>
     OR?: Enumerable<Box_userScalarWhereWithAggregatesInput>
     NOT?: Enumerable<Box_userScalarWhereWithAggregatesInput>
-    id?: UuidWithAggregatesFilter<"Box_user"> | string
-    person_id?: UuidWithAggregatesFilter<"Box_user"> | string
+    id?: UuidWithAggregatesFilter | string
+    person_id?: UuidWithAggregatesFilter | string
   }
 
   export type HouseWhereInput = {
     AND?: Enumerable<HouseWhereInput>
     OR?: Enumerable<HouseWhereInput>
     NOT?: Enumerable<HouseWhereInput>
-    id?: UuidFilter<"House"> | string
-    name?: StringFilter<"House"> | string
+    id?: UuidFilter | string
+    name?: StringFilter | string
     room?: RoomListRelationFilter
   }
 
@@ -8511,14 +8428,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     room?: RoomOrderByRelationAggregateInput
   }
 
-  export type HouseWhereUniqueInput = Prisma.AtLeast<{
+  export type HouseWhereUniqueInput = {
     id?: string
-    AND?: Enumerable<HouseWhereInput>
-    OR?: Enumerable<HouseWhereInput>
-    NOT?: Enumerable<HouseWhereInput>
-    name?: StringFilter<"House"> | string
-    room?: RoomListRelationFilter
-  }, "id">
+  }
 
   export type HouseOrderByWithAggregationInput = {
     id?: SortOrder
@@ -8532,16 +8444,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<HouseScalarWhereWithAggregatesInput>
     OR?: Enumerable<HouseScalarWhereWithAggregatesInput>
     NOT?: Enumerable<HouseScalarWhereWithAggregatesInput>
-    id?: UuidWithAggregatesFilter<"House"> | string
-    name?: StringWithAggregatesFilter<"House"> | string
+    id?: UuidWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
   }
 
   export type PersonWhereInput = {
     AND?: Enumerable<PersonWhereInput>
     OR?: Enumerable<PersonWhereInput>
     NOT?: Enumerable<PersonWhereInput>
-    id?: UuidFilter<"Person"> | string
-    name?: StringFilter<"Person"> | string
+    id?: UuidFilter | string
+    name?: StringFilter | string
     box_user?: Box_userListRelationFilter
     room?: RoomListRelationFilter
     room_user?: Room_userListRelationFilter
@@ -8555,16 +8467,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     room_user?: Room_userOrderByRelationAggregateInput
   }
 
-  export type PersonWhereUniqueInput = Prisma.AtLeast<{
+  export type PersonWhereUniqueInput = {
     id?: string
-    AND?: Enumerable<PersonWhereInput>
-    OR?: Enumerable<PersonWhereInput>
-    NOT?: Enumerable<PersonWhereInput>
-    name?: StringFilter<"Person"> | string
-    box_user?: Box_userListRelationFilter
-    room?: RoomListRelationFilter
-    room_user?: Room_userListRelationFilter
-  }, "id">
+  }
 
   export type PersonOrderByWithAggregationInput = {
     id?: SortOrder
@@ -8578,21 +8483,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<PersonScalarWhereWithAggregatesInput>
     OR?: Enumerable<PersonScalarWhereWithAggregatesInput>
     NOT?: Enumerable<PersonScalarWhereWithAggregatesInput>
-    id?: UuidWithAggregatesFilter<"Person"> | string
-    name?: StringWithAggregatesFilter<"Person"> | string
+    id?: UuidWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
   }
 
   export type RoomWhereInput = {
     AND?: Enumerable<RoomWhereInput>
     OR?: Enumerable<RoomWhereInput>
     NOT?: Enumerable<RoomWhereInput>
-    id?: UuidFilter<"Room"> | string
-    name?: StringFilter<"Room"> | string
-    house_id?: UuidFilter<"Room"> | string
-    owner_id?: UuidNullableFilter<"Room"> | string | null
+    id?: UuidFilter | string
+    name?: StringFilter | string
+    house_id?: UuidFilter | string
+    owner_id?: UuidNullableFilter | string | null
     box?: BoxListRelationFilter
     house?: XOR<HouseRelationFilter, HouseWhereInput>
-    person?: XOR<PersonNullableRelationFilter, PersonWhereInput> | null
+    person?: XOR<PersonRelationFilter, PersonWhereInput> | null
     room_user?: Room_userListRelationFilter
   }
 
@@ -8607,19 +8512,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     room_user?: Room_userOrderByRelationAggregateInput
   }
 
-  export type RoomWhereUniqueInput = Prisma.AtLeast<{
+  export type RoomWhereUniqueInput = {
     id?: string
-    AND?: Enumerable<RoomWhereInput>
-    OR?: Enumerable<RoomWhereInput>
-    NOT?: Enumerable<RoomWhereInput>
-    name?: StringFilter<"Room"> | string
-    house_id?: UuidFilter<"Room"> | string
-    owner_id?: UuidNullableFilter<"Room"> | string | null
-    box?: BoxListRelationFilter
-    house?: XOR<HouseRelationFilter, HouseWhereInput>
-    person?: XOR<PersonNullableRelationFilter, PersonWhereInput> | null
-    room_user?: Room_userListRelationFilter
-  }, "id">
+  }
 
   export type RoomOrderByWithAggregationInput = {
     id?: SortOrder
@@ -8635,18 +8530,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<RoomScalarWhereWithAggregatesInput>
     OR?: Enumerable<RoomScalarWhereWithAggregatesInput>
     NOT?: Enumerable<RoomScalarWhereWithAggregatesInput>
-    id?: UuidWithAggregatesFilter<"Room"> | string
-    name?: StringWithAggregatesFilter<"Room"> | string
-    house_id?: UuidWithAggregatesFilter<"Room"> | string
-    owner_id?: UuidNullableWithAggregatesFilter<"Room"> | string | null
+    id?: UuidWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
+    house_id?: UuidWithAggregatesFilter | string
+    owner_id?: UuidNullableWithAggregatesFilter | string | null
   }
 
   export type Room_userWhereInput = {
     AND?: Enumerable<Room_userWhereInput>
     OR?: Enumerable<Room_userWhereInput>
     NOT?: Enumerable<Room_userWhereInput>
-    id?: UuidFilter<"Room_user"> | string
-    person_id?: UuidFilter<"Room_user"> | string
+    id?: UuidFilter | string
+    person_id?: UuidFilter | string
     room?: XOR<RoomRelationFilter, RoomWhereInput>
     person?: XOR<PersonRelationFilter, PersonWhereInput>
   }
@@ -8658,16 +8553,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     person?: PersonOrderByWithRelationInput
   }
 
-  export type Room_userWhereUniqueInput = Prisma.AtLeast<{
+  export type Room_userWhereUniqueInput = {
     id_person_id?: Room_userIdPerson_idCompoundUniqueInput
-    AND?: Enumerable<Room_userWhereInput>
-    OR?: Enumerable<Room_userWhereInput>
-    NOT?: Enumerable<Room_userWhereInput>
-    id?: UuidFilter<"Room_user"> | string
-    person_id?: UuidFilter<"Room_user"> | string
-    room?: XOR<RoomRelationFilter, RoomWhereInput>
-    person?: XOR<PersonRelationFilter, PersonWhereInput>
-  }, "id_person_id">
+  }
 
   export type Room_userOrderByWithAggregationInput = {
     id?: SortOrder
@@ -8681,17 +8569,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<Room_userScalarWhereWithAggregatesInput>
     OR?: Enumerable<Room_userScalarWhereWithAggregatesInput>
     NOT?: Enumerable<Room_userScalarWhereWithAggregatesInput>
-    id?: UuidWithAggregatesFilter<"Room_user"> | string
-    person_id?: UuidWithAggregatesFilter<"Room_user"> | string
+    id?: UuidWithAggregatesFilter | string
+    person_id?: UuidWithAggregatesFilter | string
   }
 
   export type ThingWhereInput = {
     AND?: Enumerable<ThingWhereInput>
     OR?: Enumerable<ThingWhereInput>
     NOT?: Enumerable<ThingWhereInput>
-    id?: UuidFilter<"Thing"> | string
-    name?: StringFilter<"Thing"> | string
-    box_id?: UuidFilter<"Thing"> | string
+    id?: UuidFilter | string
+    name?: StringFilter | string
+    box_id?: UuidFilter | string
     box?: XOR<BoxRelationFilter, BoxWhereInput>
   }
 
@@ -8702,15 +8590,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     box?: BoxOrderByWithRelationInput
   }
 
-  export type ThingWhereUniqueInput = Prisma.AtLeast<{
+  export type ThingWhereUniqueInput = {
     id?: string
-    AND?: Enumerable<ThingWhereInput>
-    OR?: Enumerable<ThingWhereInput>
-    NOT?: Enumerable<ThingWhereInput>
-    name?: StringFilter<"Thing"> | string
-    box_id?: UuidFilter<"Thing"> | string
-    box?: XOR<BoxRelationFilter, BoxWhereInput>
-  }, "id">
+  }
 
   export type ThingOrderByWithAggregationInput = {
     id?: SortOrder
@@ -8725,9 +8607,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<ThingScalarWhereWithAggregatesInput>
     OR?: Enumerable<ThingScalarWhereWithAggregatesInput>
     NOT?: Enumerable<ThingScalarWhereWithAggregatesInput>
-    id?: UuidWithAggregatesFilter<"Thing"> | string
-    name?: StringWithAggregatesFilter<"Thing"> | string
-    box_id?: UuidWithAggregatesFilter<"Thing"> | string
+    id?: UuidWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
+    box_id?: UuidWithAggregatesFilter | string
   }
 
   export type BoxCreateInput = {
@@ -9029,36 +8911,36 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     box_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UuidFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
+  export type UuidFilter = {
+    equals?: string
+    in?: Enumerable<string> | string
+    notIn?: Enumerable<string> | string
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
     mode?: QueryMode
-    not?: NestedUuidFilter<$PrismaModel> | string
+    not?: NestedUuidFilter | string
   }
 
-  export type StringFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
+  export type StringFilter = {
+    equals?: string
+    in?: Enumerable<string> | string
+    notIn?: Enumerable<string> | string
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
     mode?: QueryMode
-    not?: NestedStringFilter<$PrismaModel> | string
+    not?: NestedStringFilter | string
   }
 
   export type RoomRelationFilter = {
-    is?: RoomWhereInput
-    isNot?: RoomWhereInput
+    is?: RoomWhereInput | null
+    isNot?: RoomWhereInput | null
   }
 
   export type Box_userListRelationFilter = {
@@ -9099,47 +8981,47 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     room_id?: SortOrder
   }
 
-  export type UuidWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
+  export type UuidWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string> | string
+    notIn?: Enumerable<string> | string
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
     mode?: QueryMode
-    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
+    not?: NestedUuidWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
   }
 
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
+  export type StringWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string> | string
+    notIn?: Enumerable<string> | string
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
     mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
   }
 
   export type BoxRelationFilter = {
-    is?: BoxWhereInput
-    isNot?: BoxWhereInput
+    is?: BoxWhereInput | null
+    isNot?: BoxWhereInput | null
   }
 
   export type PersonRelationFilter = {
-    is?: PersonWhereInput
-    isNot?: PersonWhereInput
+    is?: PersonWhereInput | null
+    isNot?: PersonWhereInput | null
   }
 
   export type Box_userIdPerson_idCompoundUniqueInput = {
@@ -9212,16 +9094,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     name?: SortOrder
   }
 
-  export type UuidNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
+  export type UuidNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | string | null
+    notIn?: Enumerable<string> | string | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
     mode?: QueryMode
-    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
+    not?: NestedUuidNullableFilter | string | null
   }
 
   export type BoxListRelationFilter = {
@@ -9231,13 +9113,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type HouseRelationFilter = {
-    is?: HouseWhereInput
-    isNot?: HouseWhereInput
-  }
-
-  export type PersonNullableRelationFilter = {
-    is?: PersonWhereInput | null
-    isNot?: PersonWhereInput | null
+    is?: HouseWhereInput | null
+    isNot?: HouseWhereInput | null
   }
 
   export type SortOrderInput = {
@@ -9270,19 +9147,19 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     owner_id?: SortOrder
   }
 
-  export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
+  export type UuidNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | string | null
+    notIn?: Enumerable<string> | string | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
     mode?: QueryMode
-    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
+    not?: NestedUuidNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
   }
 
   export type Room_userIdPerson_idCompoundUniqueInput = {
@@ -9366,7 +9243,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: RoomCreateOrConnectWithoutBoxInput
     upsert?: RoomUpsertWithoutBoxInput
     connect?: RoomWhereUniqueInput
-    update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutBoxInput, RoomUpdateWithoutBoxInput>, RoomUncheckedUpdateWithoutBoxInput>
+    update?: XOR<RoomUpdateWithoutBoxInput, RoomUncheckedUpdateWithoutBoxInput>
   }
 
   export type Box_userUpdateManyWithoutBoxNestedInput = {
@@ -9442,7 +9319,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: BoxCreateOrConnectWithoutBox_userInput
     upsert?: BoxUpsertWithoutBox_userInput
     connect?: BoxWhereUniqueInput
-    update?: XOR<XOR<BoxUpdateToOneWithWhereWithoutBox_userInput, BoxUpdateWithoutBox_userInput>, BoxUncheckedUpdateWithoutBox_userInput>
+    update?: XOR<BoxUpdateWithoutBox_userInput, BoxUncheckedUpdateWithoutBox_userInput>
   }
 
   export type PersonUpdateOneRequiredWithoutBox_userNestedInput = {
@@ -9450,7 +9327,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: PersonCreateOrConnectWithoutBox_userInput
     upsert?: PersonUpsertWithoutBox_userInput
     connect?: PersonWhereUniqueInput
-    update?: XOR<XOR<PersonUpdateToOneWithWhereWithoutBox_userInput, PersonUpdateWithoutBox_userInput>, PersonUncheckedUpdateWithoutBox_userInput>
+    update?: XOR<PersonUpdateWithoutBox_userInput, PersonUncheckedUpdateWithoutBox_userInput>
   }
 
   export type RoomCreateNestedManyWithoutHouseInput = {
@@ -9680,17 +9557,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: HouseCreateOrConnectWithoutRoomInput
     upsert?: HouseUpsertWithoutRoomInput
     connect?: HouseWhereUniqueInput
-    update?: XOR<XOR<HouseUpdateToOneWithWhereWithoutRoomInput, HouseUpdateWithoutRoomInput>, HouseUncheckedUpdateWithoutRoomInput>
+    update?: XOR<HouseUpdateWithoutRoomInput, HouseUncheckedUpdateWithoutRoomInput>
   }
 
   export type PersonUpdateOneWithoutRoomNestedInput = {
     create?: XOR<PersonCreateWithoutRoomInput, PersonUncheckedCreateWithoutRoomInput>
     connectOrCreate?: PersonCreateOrConnectWithoutRoomInput
     upsert?: PersonUpsertWithoutRoomInput
-    disconnect?: PersonWhereInput | boolean
-    delete?: PersonWhereInput | boolean
+    disconnect?: boolean
+    delete?: boolean
     connect?: PersonWhereUniqueInput
-    update?: XOR<XOR<PersonUpdateToOneWithWhereWithoutRoomInput, PersonUpdateWithoutRoomInput>, PersonUncheckedUpdateWithoutRoomInput>
+    update?: XOR<PersonUpdateWithoutRoomInput, PersonUncheckedUpdateWithoutRoomInput>
   }
 
   export type Room_userUpdateManyWithoutRoomNestedInput = {
@@ -9756,7 +9633,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: RoomCreateOrConnectWithoutRoom_userInput
     upsert?: RoomUpsertWithoutRoom_userInput
     connect?: RoomWhereUniqueInput
-    update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutRoom_userInput, RoomUpdateWithoutRoom_userInput>, RoomUncheckedUpdateWithoutRoom_userInput>
+    update?: XOR<RoomUpdateWithoutRoom_userInput, RoomUncheckedUpdateWithoutRoom_userInput>
   }
 
   export type PersonUpdateOneRequiredWithoutRoom_userNestedInput = {
@@ -9764,7 +9641,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: PersonCreateOrConnectWithoutRoom_userInput
     upsert?: PersonUpsertWithoutRoom_userInput
     connect?: PersonWhereUniqueInput
-    update?: XOR<XOR<PersonUpdateToOneWithWhereWithoutRoom_userInput, PersonUpdateWithoutRoom_userInput>, PersonUncheckedUpdateWithoutRoom_userInput>
+    update?: XOR<PersonUpdateWithoutRoom_userInput, PersonUncheckedUpdateWithoutRoom_userInput>
   }
 
   export type BoxCreateNestedOneWithoutThingInput = {
@@ -9778,124 +9655,124 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: BoxCreateOrConnectWithoutThingInput
     upsert?: BoxUpsertWithoutThingInput
     connect?: BoxWhereUniqueInput
-    update?: XOR<XOR<BoxUpdateToOneWithWhereWithoutThingInput, BoxUpdateWithoutThingInput>, BoxUncheckedUpdateWithoutThingInput>
+    update?: XOR<BoxUpdateWithoutThingInput, BoxUncheckedUpdateWithoutThingInput>
   }
 
-  export type NestedUuidFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidFilter<$PrismaModel> | string
+  export type NestedUuidFilter = {
+    equals?: string
+    in?: Enumerable<string> | string
+    notIn?: Enumerable<string> | string
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    not?: NestedUuidFilter | string
   }
 
-  export type NestedStringFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringFilter<$PrismaModel> | string
+  export type NestedStringFilter = {
+    equals?: string
+    in?: Enumerable<string> | string
+    notIn?: Enumerable<string> | string
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringFilter | string
   }
 
-  export type NestedUuidWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
+  export type NestedUuidWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string> | string
+    notIn?: Enumerable<string> | string
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    not?: NestedUuidWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+  export type NestedIntFilter = {
+    equals?: number
+    in?: Enumerable<number> | number
+    notIn?: Enumerable<number> | number
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntFilter | number
   }
 
-  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
+  export type NestedStringWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string> | string
+    notIn?: Enumerable<string> | string
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
   }
 
-  export type NestedUuidNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
+  export type NestedUuidNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | string | null
+    notIn?: Enumerable<string> | string | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    not?: NestedUuidNullableFilter | string | null
   }
 
-  export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
+  export type NestedUuidNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | string | null
+    notIn?: Enumerable<string> | string | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    not?: NestedUuidNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  export type NestedIntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | number | null
+    notIn?: Enumerable<number> | number | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  export type NestedStringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | string | null
+    notIn?: Enumerable<string> | string | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableFilter | string | null
   }
 
   export type RoomCreateWithoutBoxInput = {
@@ -9960,12 +9837,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type RoomUpsertWithoutBoxInput = {
     update: XOR<RoomUpdateWithoutBoxInput, RoomUncheckedUpdateWithoutBoxInput>
     create: XOR<RoomCreateWithoutBoxInput, RoomUncheckedCreateWithoutBoxInput>
-    where?: RoomWhereInput
-  }
-
-  export type RoomUpdateToOneWithWhereWithoutBoxInput = {
-    where?: RoomWhereInput
-    data: XOR<RoomUpdateWithoutBoxInput, RoomUncheckedUpdateWithoutBoxInput>
   }
 
   export type RoomUpdateWithoutBoxInput = {
@@ -9997,15 +9868,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Box_userUpdateManyWithWhereWithoutBoxInput = {
     where: Box_userScalarWhereInput
-    data: XOR<Box_userUpdateManyMutationInput, Box_userUncheckedUpdateManyWithoutBoxInput>
+    data: XOR<Box_userUpdateManyMutationInput, Box_userUncheckedUpdateManyWithoutBox_userInput>
   }
 
   export type Box_userScalarWhereInput = {
     AND?: Enumerable<Box_userScalarWhereInput>
     OR?: Enumerable<Box_userScalarWhereInput>
     NOT?: Enumerable<Box_userScalarWhereInput>
-    id?: UuidFilter<"Box_user"> | string
-    person_id?: UuidFilter<"Box_user"> | string
+    id?: UuidFilter | string
+    person_id?: UuidFilter | string
   }
 
   export type ThingUpsertWithWhereUniqueWithoutBoxInput = {
@@ -10021,16 +9892,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type ThingUpdateManyWithWhereWithoutBoxInput = {
     where: ThingScalarWhereInput
-    data: XOR<ThingUpdateManyMutationInput, ThingUncheckedUpdateManyWithoutBoxInput>
+    data: XOR<ThingUpdateManyMutationInput, ThingUncheckedUpdateManyWithoutThingInput>
   }
 
   export type ThingScalarWhereInput = {
     AND?: Enumerable<ThingScalarWhereInput>
     OR?: Enumerable<ThingScalarWhereInput>
     NOT?: Enumerable<ThingScalarWhereInput>
-    id?: UuidFilter<"Thing"> | string
-    name?: StringFilter<"Thing"> | string
-    box_id?: UuidFilter<"Thing"> | string
+    id?: UuidFilter | string
+    name?: StringFilter | string
+    box_id?: UuidFilter | string
   }
 
   export type BoxCreateWithoutBox_userInput = {
@@ -10074,12 +9945,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type BoxUpsertWithoutBox_userInput = {
     update: XOR<BoxUpdateWithoutBox_userInput, BoxUncheckedUpdateWithoutBox_userInput>
     create: XOR<BoxCreateWithoutBox_userInput, BoxUncheckedCreateWithoutBox_userInput>
-    where?: BoxWhereInput
-  }
-
-  export type BoxUpdateToOneWithWhereWithoutBox_userInput = {
-    where?: BoxWhereInput
-    data: XOR<BoxUpdateWithoutBox_userInput, BoxUncheckedUpdateWithoutBox_userInput>
   }
 
   export type BoxUpdateWithoutBox_userInput = {
@@ -10099,12 +9964,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type PersonUpsertWithoutBox_userInput = {
     update: XOR<PersonUpdateWithoutBox_userInput, PersonUncheckedUpdateWithoutBox_userInput>
     create: XOR<PersonCreateWithoutBox_userInput, PersonUncheckedCreateWithoutBox_userInput>
-    where?: PersonWhereInput
-  }
-
-  export type PersonUpdateToOneWithWhereWithoutBox_userInput = {
-    where?: PersonWhereInput
-    data: XOR<PersonUpdateWithoutBox_userInput, PersonUncheckedUpdateWithoutBox_userInput>
   }
 
   export type PersonUpdateWithoutBox_userInput = {
@@ -10160,17 +10019,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type RoomUpdateManyWithWhereWithoutHouseInput = {
     where: RoomScalarWhereInput
-    data: XOR<RoomUpdateManyMutationInput, RoomUncheckedUpdateManyWithoutHouseInput>
+    data: XOR<RoomUpdateManyMutationInput, RoomUncheckedUpdateManyWithoutRoomInput>
   }
 
   export type RoomScalarWhereInput = {
     AND?: Enumerable<RoomScalarWhereInput>
     OR?: Enumerable<RoomScalarWhereInput>
     NOT?: Enumerable<RoomScalarWhereInput>
-    id?: UuidFilter<"Room"> | string
-    name?: StringFilter<"Room"> | string
-    house_id?: UuidFilter<"Room"> | string
-    owner_id?: UuidNullableFilter<"Room"> | string | null
+    id?: UuidFilter | string
+    name?: StringFilter | string
+    house_id?: UuidFilter | string
+    owner_id?: UuidNullableFilter | string | null
   }
 
   export type Box_userCreateWithoutPersonInput = {
@@ -10248,7 +10107,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Box_userUpdateManyWithWhereWithoutPersonInput = {
     where: Box_userScalarWhereInput
-    data: XOR<Box_userUpdateManyMutationInput, Box_userUncheckedUpdateManyWithoutPersonInput>
+    data: XOR<Box_userUpdateManyMutationInput, Box_userUncheckedUpdateManyWithoutBox_userInput>
   }
 
   export type RoomUpsertWithWhereUniqueWithoutPersonInput = {
@@ -10264,7 +10123,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type RoomUpdateManyWithWhereWithoutPersonInput = {
     where: RoomScalarWhereInput
-    data: XOR<RoomUpdateManyMutationInput, RoomUncheckedUpdateManyWithoutPersonInput>
+    data: XOR<RoomUpdateManyMutationInput, RoomUncheckedUpdateManyWithoutRoomInput>
   }
 
   export type Room_userUpsertWithWhereUniqueWithoutPersonInput = {
@@ -10280,15 +10139,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Room_userUpdateManyWithWhereWithoutPersonInput = {
     where: Room_userScalarWhereInput
-    data: XOR<Room_userUpdateManyMutationInput, Room_userUncheckedUpdateManyWithoutPersonInput>
+    data: XOR<Room_userUpdateManyMutationInput, Room_userUncheckedUpdateManyWithoutRoom_userInput>
   }
 
   export type Room_userScalarWhereInput = {
     AND?: Enumerable<Room_userScalarWhereInput>
     OR?: Enumerable<Room_userScalarWhereInput>
     NOT?: Enumerable<Room_userScalarWhereInput>
-    id?: UuidFilter<"Room_user"> | string
-    person_id?: UuidFilter<"Room_user"> | string
+    id?: UuidFilter | string
+    person_id?: UuidFilter | string
   }
 
   export type BoxCreateWithoutRoomInput = {
@@ -10380,27 +10239,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type BoxUpdateManyWithWhereWithoutRoomInput = {
     where: BoxScalarWhereInput
-    data: XOR<BoxUpdateManyMutationInput, BoxUncheckedUpdateManyWithoutRoomInput>
+    data: XOR<BoxUpdateManyMutationInput, BoxUncheckedUpdateManyWithoutBoxInput>
   }
 
   export type BoxScalarWhereInput = {
     AND?: Enumerable<BoxScalarWhereInput>
     OR?: Enumerable<BoxScalarWhereInput>
     NOT?: Enumerable<BoxScalarWhereInput>
-    id?: UuidFilter<"Box"> | string
-    name?: StringFilter<"Box"> | string
-    room_id?: UuidFilter<"Box"> | string
+    id?: UuidFilter | string
+    name?: StringFilter | string
+    room_id?: UuidFilter | string
   }
 
   export type HouseUpsertWithoutRoomInput = {
     update: XOR<HouseUpdateWithoutRoomInput, HouseUncheckedUpdateWithoutRoomInput>
     create: XOR<HouseCreateWithoutRoomInput, HouseUncheckedCreateWithoutRoomInput>
-    where?: HouseWhereInput
-  }
-
-  export type HouseUpdateToOneWithWhereWithoutRoomInput = {
-    where?: HouseWhereInput
-    data: XOR<HouseUpdateWithoutRoomInput, HouseUncheckedUpdateWithoutRoomInput>
   }
 
   export type HouseUpdateWithoutRoomInput = {
@@ -10416,12 +10269,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type PersonUpsertWithoutRoomInput = {
     update: XOR<PersonUpdateWithoutRoomInput, PersonUncheckedUpdateWithoutRoomInput>
     create: XOR<PersonCreateWithoutRoomInput, PersonUncheckedCreateWithoutRoomInput>
-    where?: PersonWhereInput
-  }
-
-  export type PersonUpdateToOneWithWhereWithoutRoomInput = {
-    where?: PersonWhereInput
-    data: XOR<PersonUpdateWithoutRoomInput, PersonUncheckedUpdateWithoutRoomInput>
   }
 
   export type PersonUpdateWithoutRoomInput = {
@@ -10451,7 +10298,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Room_userUpdateManyWithWhereWithoutRoomInput = {
     where: Room_userScalarWhereInput
-    data: XOR<Room_userUpdateManyMutationInput, Room_userUncheckedUpdateManyWithoutRoomInput>
+    data: XOR<Room_userUpdateManyMutationInput, Room_userUncheckedUpdateManyWithoutRoom_userInput>
   }
 
   export type RoomCreateWithoutRoom_userInput = {
@@ -10497,12 +10344,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type RoomUpsertWithoutRoom_userInput = {
     update: XOR<RoomUpdateWithoutRoom_userInput, RoomUncheckedUpdateWithoutRoom_userInput>
     create: XOR<RoomCreateWithoutRoom_userInput, RoomUncheckedCreateWithoutRoom_userInput>
-    where?: RoomWhereInput
-  }
-
-  export type RoomUpdateToOneWithWhereWithoutRoom_userInput = {
-    where?: RoomWhereInput
-    data: XOR<RoomUpdateWithoutRoom_userInput, RoomUncheckedUpdateWithoutRoom_userInput>
   }
 
   export type RoomUpdateWithoutRoom_userInput = {
@@ -10524,12 +10365,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type PersonUpsertWithoutRoom_userInput = {
     update: XOR<PersonUpdateWithoutRoom_userInput, PersonUncheckedUpdateWithoutRoom_userInput>
     create: XOR<PersonCreateWithoutRoom_userInput, PersonUncheckedCreateWithoutRoom_userInput>
-    where?: PersonWhereInput
-  }
-
-  export type PersonUpdateToOneWithWhereWithoutRoom_userInput = {
-    where?: PersonWhereInput
-    data: XOR<PersonUpdateWithoutRoom_userInput, PersonUncheckedUpdateWithoutRoom_userInput>
   }
 
   export type PersonUpdateWithoutRoom_userInput = {
@@ -10568,12 +10403,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type BoxUpsertWithoutThingInput = {
     update: XOR<BoxUpdateWithoutThingInput, BoxUncheckedUpdateWithoutThingInput>
     create: XOR<BoxCreateWithoutThingInput, BoxUncheckedCreateWithoutThingInput>
-    where?: BoxWhereInput
-  }
-
-  export type BoxUpdateToOneWithWhereWithoutThingInput = {
-    where?: BoxWhereInput
-    data: XOR<BoxUpdateWithoutThingInput, BoxUncheckedUpdateWithoutThingInput>
   }
 
   export type BoxUpdateWithoutThingInput = {
@@ -10607,7 +10436,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     person_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type Box_userUncheckedUpdateManyWithoutBoxInput = {
+  export type Box_userUncheckedUpdateManyWithoutBox_userInput = {
     person_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -10621,7 +10450,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     name?: StringFieldUpdateOperationsInput | string
   }
 
-  export type ThingUncheckedUpdateManyWithoutBoxInput = {
+  export type ThingUncheckedUpdateManyWithoutThingInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
   }
@@ -10648,7 +10477,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     room_user?: Room_userUncheckedUpdateManyWithoutRoomNestedInput
   }
 
-  export type RoomUncheckedUpdateManyWithoutHouseInput = {
+  export type RoomUncheckedUpdateManyWithoutRoomInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     owner_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10676,10 +10505,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type Box_userUncheckedUpdateManyWithoutPersonInput = {
-    id?: StringFieldUpdateOperationsInput | string
-  }
-
   export type RoomUpdateWithoutPersonInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -10696,12 +10521,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     room_user?: Room_userUncheckedUpdateManyWithoutRoomNestedInput
   }
 
-  export type RoomUncheckedUpdateManyWithoutPersonInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    house_id?: StringFieldUpdateOperationsInput | string
-  }
-
   export type Room_userUpdateWithoutPersonInput = {
     room?: RoomUpdateOneRequiredWithoutRoom_userNestedInput
   }
@@ -10710,7 +10529,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type Room_userUncheckedUpdateManyWithoutPersonInput = {
+  export type Room_userUncheckedUpdateManyWithoutRoom_userInput = {
     id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -10737,7 +10556,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     thing?: ThingUncheckedUpdateManyWithoutBoxNestedInput
   }
 
-  export type BoxUncheckedUpdateManyWithoutRoomInput = {
+  export type BoxUncheckedUpdateManyWithoutBoxInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
   }
@@ -10747,10 +10566,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Room_userUncheckedUpdateWithoutRoomInput = {
-    person_id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type Room_userUncheckedUpdateManyWithoutRoomInput = {
     person_id?: StringFieldUpdateOperationsInput | string
   }
 
