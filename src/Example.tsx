@@ -6,7 +6,7 @@ import { genUUID, uniqueTabId } from "electric-sql/util";
 import { ElectricDatabase, electrify } from "electric-sql/wa-sqlite";
 
 import { authToken } from "./auth";
-import { Electric, Items as Item, schema } from "./generated/client";
+import { Electric, House, schema } from "./generated/client";
 
 import "./Example.css";
 
@@ -58,33 +58,45 @@ export const Example = () => {
 
 const ExampleComponent = () => {
   const { db } = useElectric()!;
-  const { results } = useLiveQuery(db.items.liveMany());
+  const { results } = useLiveQuery(db.house.liveMany());
 
   useEffect(() => {
     const syncItems = async () => {
       // Resolves when the shape subscription has been established.
-      const shape = await db.items.sync();
+      const shape = await db.house.sync({
+        include: {
+          room: {
+            include: {
+              person: true,
+              room_user: true,
+              box: { include: { stuff: true, box_user: true } },
+            },
+          },
+        },
+      });
 
       // Resolves when the data has been synced into the local database.
       await shape.synced;
     };
 
     syncItems();
-  }, []);
+  }, [db.house]);
 
   const addItem = async () => {
-    await db.items.create({
+    const id = genUUID();
+    await db.house.create({
       data: {
-        value: genUUID(),
+        id: id,
+        name: "house " + id.toString(),
       },
     });
   };
 
   const clearItems = async () => {
-    await db.items.deleteMany();
+    await db.house.deleteMany();
   };
 
-  const items: Item[] = results ?? [];
+  const items: House[] = results ?? [];
 
   return (
     <div>
@@ -106,9 +118,9 @@ const ExampleComponent = () => {
           Remove everything
         </button>
       </div>
-      {items.map((item: Item, index: number) => (
+      {items.map((house: House, index: number) => (
         <p key={index} className="item">
-          <code>{item.value}</code>
+          <code>{house.name}</code>
         </p>
       ))}
     </div>
