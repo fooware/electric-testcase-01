@@ -71,7 +71,7 @@ const ExampleComponent = () => {
             include: {
               person: true,
               room_user: true,
-              box: { include: { stuff: true, box_user: true } },
+              box: { include: { thing: true, box_user: true } },
             },
           },
         },
