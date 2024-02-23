@@ -65,7 +65,7 @@ ALTER TABLE "room" ADD CONSTRAINT "room_house_id_fkey" FOREIGN KEY ("house_id") 
 
 ALTER TABLE "room" ADD CONSTRAINT "room_owner_id_fkey" FOREIGN KEY ("owner_id") REFERENCES "person" ("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
-ALTER TABLE "box" ADD CONSTRAINT "box_room_id_fkey" FOREIGN KEY ("room_id") REFERENCES "room" ("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "box" ADD CONSTRAINT "box_room_id_fkey" FOREIGN KEY ("room_id") REFERENCES "room" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "thing" ADD CONSTRAINT "thing_box_id_fkey" FOREIGN KEY ("box_id") REFERENCES "box" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
