@@ -6,7 +6,7 @@ This repository contains some test cases created to assist the Electric-SQL team
 
 See [GitHub issue 1001](https://github.com/electric-sql/electric/issues/1001) for details.
 
-Reproducible in commit [10e5ff75b4fc92852ef04cbff69c167024aac7d1](https://github.com/fooware/electric-testcase-01/commit/10e5ff75b4fc92852ef04cbff69c167024aac7d1) on main. Fixed by upgrading to Electric 0.9.6 in the following commit.
+Reproducible in commit [10e5ff75b4fc92852ef04cbff69c167024aac7d1](https://github.com/fooware/electric-testcase-01/commit/10e5ff75b4fc92852ef04cbff69c167024aac7d1) on main. Fixed by upgrading to Electric 0.9.6 in the [following commit](https://github.com/fooware/electric-testcase-01/commit/3ea7a134d10baa2c1ae66139952a40362328a9e8).
 
 ## 2. Failing referential integrity (discussed in Discord)
 
