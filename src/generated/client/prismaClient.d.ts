@@ -347,7 +347,7 @@ export namespace Prisma {
 
   /**
    * Prisma Client JS version: 4.8.1
-   * Query Engine version: 23fdc5965b1e05fc54e5f26ed3de66776b93de64
+   * Query Engine version: d6e67a83f971b175a593ccc12e15c4a757f93ffe
    */
   export type PrismaVersion = {
     client: string
@@ -971,8 +971,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type BoxCountOutputTypeSelect = {
-    box_user?: boolean | BoxCountOutputTypeCountBox_userArgs
-    thing?: boolean | BoxCountOutputTypeCountThingArgs
+    box_user?: boolean
+    thing?: boolean
   }
 
   export type BoxCountOutputTypeGetPayload<S extends boolean | null | undefined | BoxCountOutputTypeArgs> =
@@ -1005,22 +1005,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
 
-  /**
-   * BoxCountOutputType without action
-   */
-  export type BoxCountOutputTypeCountBox_userArgs = {
-    where?: Box_userWhereInput
-  }
-
-
-  /**
-   * BoxCountOutputType without action
-   */
-  export type BoxCountOutputTypeCountThingArgs = {
-    where?: ThingWhereInput
-  }
-
-
 
   /**
    * Count Type HouseCountOutputType
@@ -1032,7 +1016,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type HouseCountOutputTypeSelect = {
-    room?: boolean | HouseCountOutputTypeCountRoomArgs
+    room?: boolean
   }
 
   export type HouseCountOutputTypeGetPayload<S extends boolean | null | undefined | HouseCountOutputTypeArgs> =
@@ -1065,14 +1049,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
 
-  /**
-   * HouseCountOutputType without action
-   */
-  export type HouseCountOutputTypeCountRoomArgs = {
-    where?: RoomWhereInput
-  }
-
-
 
   /**
    * Count Type PersonCountOutputType
@@ -1086,9 +1062,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type PersonCountOutputTypeSelect = {
-    box_user?: boolean | PersonCountOutputTypeCountBox_userArgs
-    room?: boolean | PersonCountOutputTypeCountRoomArgs
-    room_user?: boolean | PersonCountOutputTypeCountRoom_userArgs
+    box_user?: boolean
+    room?: boolean
+    room_user?: boolean
   }
 
   export type PersonCountOutputTypeGetPayload<S extends boolean | null | undefined | PersonCountOutputTypeArgs> =
@@ -1121,30 +1097,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
 
-  /**
-   * PersonCountOutputType without action
-   */
-  export type PersonCountOutputTypeCountBox_userArgs = {
-    where?: Box_userWhereInput
-  }
-
-
-  /**
-   * PersonCountOutputType without action
-   */
-  export type PersonCountOutputTypeCountRoomArgs = {
-    where?: RoomWhereInput
-  }
-
-
-  /**
-   * PersonCountOutputType without action
-   */
-  export type PersonCountOutputTypeCountRoom_userArgs = {
-    where?: Room_userWhereInput
-  }
-
-
 
   /**
    * Count Type RoomCountOutputType
@@ -1157,8 +1109,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type RoomCountOutputTypeSelect = {
-    box?: boolean | RoomCountOutputTypeCountBoxArgs
-    room_user?: boolean | RoomCountOutputTypeCountRoom_userArgs
+    box?: boolean
+    room_user?: boolean
   }
 
   export type RoomCountOutputTypeGetPayload<S extends boolean | null | undefined | RoomCountOutputTypeArgs> =
@@ -1188,22 +1140,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: RoomCountOutputTypeSelect | null
-  }
-
-
-  /**
-   * RoomCountOutputType without action
-   */
-  export type RoomCountOutputTypeCountBoxArgs = {
-    where?: BoxWhereInput
-  }
-
-
-  /**
-   * RoomCountOutputType without action
-   */
-  export type RoomCountOutputTypeCountRoom_userArgs = {
-    where?: Room_userWhereInput
   }
 
 
@@ -5421,7 +5357,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     owner_id?: boolean
     box?: boolean | Room$boxArgs
     house?: boolean | HouseArgs
-    person?: boolean | Room$personArgs
+    person?: boolean | PersonArgs
     room_user?: boolean | Room$room_userArgs
     _count?: boolean | RoomCountOutputTypeArgs
   }
@@ -5430,7 +5366,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type RoomInclude = {
     box?: boolean | Room$boxArgs
     house?: boolean | HouseArgs
-    person?: boolean | Room$personArgs
+    person?: boolean | PersonArgs
     room_user?: boolean | Room$room_userArgs
     _count?: boolean | RoomCountOutputTypeArgs
   } 
@@ -5833,7 +5769,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
     house<T extends HouseArgs= {}>(args?: Subset<T, HouseArgs>): Prisma__HouseClient<HouseGetPayload<T> | Null>;
 
-    person<T extends Room$personArgs= {}>(args?: Subset<T, Room$personArgs>): Prisma__PersonClient<PersonGetPayload<T> | Null>;
+    person<T extends PersonArgs= {}>(args?: Subset<T, PersonArgs>): Prisma__PersonClient<PersonGetPayload<T> | Null>;
 
     room_user<T extends Room$room_userArgs= {}>(args?: Subset<T, Room$room_userArgs>): PrismaPromise<Array<Room_userGetPayload<T>>| Null>;
 
@@ -6260,24 +6196,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<BoxScalarFieldEnum>
-  }
-
-
-  /**
-   * Room.person
-   */
-  export type Room$personArgs = {
-    /**
-     * Select specific fields to fetch from the Person
-     * 
-    **/
-    select?: PersonSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     * 
-    **/
-    include?: PersonInclude | null
-    where?: PersonWhereInput
   }
 
 
@@ -8271,16 +8189,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   // Based on
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
-  export const TransactionIsolationLevel: {
-    ReadUncommitted: 'ReadUncommitted',
-    ReadCommitted: 'ReadCommitted',
-    RepeatableRead: 'RepeatableRead',
-    Serializable: 'Serializable'
-  };
-
-  export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
-
-
   export const BoxScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -8314,6 +8222,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type PersonScalarFieldEnum = (typeof PersonScalarFieldEnum)[keyof typeof PersonScalarFieldEnum]
 
 
+  export const QueryMode: {
+    default: 'default',
+    insensitive: 'insensitive'
+  };
+
+  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
   export const RoomScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -8332,6 +8248,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Room_userScalarFieldEnum = (typeof Room_userScalarFieldEnum)[keyof typeof Room_userScalarFieldEnum]
 
 
+  export const SortOrder: {
+    asc: 'asc',
+    desc: 'desc'
+  };
+
+  export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
   export const ThingScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -8341,61 +8265,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type ThingScalarFieldEnum = (typeof ThingScalarFieldEnum)[keyof typeof ThingScalarFieldEnum]
 
 
-  export const SortOrder: {
-    asc: 'asc',
-    desc: 'desc'
+  export const TransactionIsolationLevel: {
+    ReadUncommitted: 'ReadUncommitted',
+    ReadCommitted: 'ReadCommitted',
+    RepeatableRead: 'RepeatableRead',
+    Serializable: 'Serializable'
   };
 
-  export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+  export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-  export const QueryMode: {
-    default: 'default',
-    insensitive: 'insensitive'
-  };
-
-  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
-  export const NullsOrder: {
-    first: 'first',
-    last: 'last'
-  };
-
-  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
-  /**
-   * Field references 
-   */
-
-
-  /**
-   * Reference to a field of type 'String'
-   */
-  export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
-    
-
-
-  /**
-   * Reference to a field of type 'String[]'
-   */
-  export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
   /**
    * Deep Input Types
    */
@@ -8405,9 +8284,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<BoxWhereInput>
     OR?: Enumerable<BoxWhereInput>
     NOT?: Enumerable<BoxWhereInput>
-    id?: UuidFilter<"Box"> | string
-    name?: StringFilter<"Box"> | string
-    room_id?: UuidFilter<"Box"> | string
+    id?: UuidFilter | string
+    name?: StringFilter | string
+    room_id?: UuidFilter | string
     room?: XOR<RoomRelationFilter, RoomWhereInput>
     box_user?: Box_userListRelationFilter
     thing?: ThingListRelationFilter
@@ -8422,17 +8301,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     thing?: ThingOrderByRelationAggregateInput
   }
 
-  export type BoxWhereUniqueInput = Prisma.AtLeast<{
+  export type BoxWhereUniqueInput = {
     id?: string
-    AND?: Enumerable<BoxWhereInput>
-    OR?: Enumerable<BoxWhereInput>
-    NOT?: Enumerable<BoxWhereInput>
-    name?: StringFilter<"Box"> | string
-    room_id?: UuidFilter<"Box"> | string
-    room?: XOR<RoomRelationFilter, RoomWhereInput>
-    box_user?: Box_userListRelationFilter
-    thing?: ThingListRelationFilter
-  }, "id">
+  }
 
   export type BoxOrderByWithAggregationInput = {
     id?: SortOrder
@@ -8447,17 +8318,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<BoxScalarWhereWithAggregatesInput>
     OR?: Enumerable<BoxScalarWhereWithAggregatesInput>
     NOT?: Enumerable<BoxScalarWhereWithAggregatesInput>
-    id?: UuidWithAggregatesFilter<"Box"> | string
-    name?: StringWithAggregatesFilter<"Box"> | string
-    room_id?: UuidWithAggregatesFilter<"Box"> | string
+    id?: UuidWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
+    room_id?: UuidWithAggregatesFilter | string
   }
 
   export type Box_userWhereInput = {
     AND?: Enumerable<Box_userWhereInput>
     OR?: Enumerable<Box_userWhereInput>
     NOT?: Enumerable<Box_userWhereInput>
-    id?: UuidFilter<"Box_user"> | string
-    person_id?: UuidFilter<"Box_user"> | string
+    id?: UuidFilter | string
+    person_id?: UuidFilter | string
     box?: XOR<BoxRelationFilter, BoxWhereInput>
     person?: XOR<PersonRelationFilter, PersonWhereInput>
   }
@@ -8469,16 +8340,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     person?: PersonOrderByWithRelationInput
   }
 
-  export type Box_userWhereUniqueInput = Prisma.AtLeast<{
+  export type Box_userWhereUniqueInput = {
     id_person_id?: Box_userIdPerson_idCompoundUniqueInput
-    AND?: Enumerable<Box_userWhereInput>
-    OR?: Enumerable<Box_userWhereInput>
-    NOT?: Enumerable<Box_userWhereInput>
-    id?: UuidFilter<"Box_user"> | string
-    person_id?: UuidFilter<"Box_user"> | string
-    box?: XOR<BoxRelationFilter, BoxWhereInput>
-    person?: XOR<PersonRelationFilter, PersonWhereInput>
-  }, "id_person_id">
+  }
 
   export type Box_userOrderByWithAggregationInput = {
     id?: SortOrder
@@ -8492,16 +8356,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<Box_userScalarWhereWithAggregatesInput>
     OR?: Enumerable<Box_userScalarWhereWithAggregatesInput>
     NOT?: Enumerable<Box_userScalarWhereWithAggregatesInput>
-    id?: UuidWithAggregatesFilter<"Box_user"> | string
-    person_id?: UuidWithAggregatesFilter<"Box_user"> | string
+    id?: UuidWithAggregatesFilter | string
+    person_id?: UuidWithAggregatesFilter | string
   }
 
   export type HouseWhereInput = {
     AND?: Enumerable<HouseWhereInput>
     OR?: Enumerable<HouseWhereInput>
     NOT?: Enumerable<HouseWhereInput>
-    id?: UuidFilter<"House"> | string
-    name?: StringFilter<"House"> | string
+    id?: UuidFilter | string
+    name?: StringFilter | string
     room?: RoomListRelationFilter
   }
 
@@ -8511,14 +8375,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     room?: RoomOrderByRelationAggregateInput
   }
 
-  export type HouseWhereUniqueInput = Prisma.AtLeast<{
+  export type HouseWhereUniqueInput = {
     id?: string
-    AND?: Enumerable<HouseWhereInput>
-    OR?: Enumerable<HouseWhereInput>
-    NOT?: Enumerable<HouseWhereInput>
-    name?: StringFilter<"House"> | string
-    room?: RoomListRelationFilter
-  }, "id">
+  }
 
   export type HouseOrderByWithAggregationInput = {
     id?: SortOrder
@@ -8532,16 +8391,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<HouseScalarWhereWithAggregatesInput>
     OR?: Enumerable<HouseScalarWhereWithAggregatesInput>
     NOT?: Enumerable<HouseScalarWhereWithAggregatesInput>
-    id?: UuidWithAggregatesFilter<"House"> | string
-    name?: StringWithAggregatesFilter<"House"> | string
+    id?: UuidWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
   }
 
   export type PersonWhereInput = {
     AND?: Enumerable<PersonWhereInput>
     OR?: Enumerable<PersonWhereInput>
     NOT?: Enumerable<PersonWhereInput>
-    id?: UuidFilter<"Person"> | string
-    name?: StringFilter<"Person"> | string
+    id?: UuidFilter | string
+    name?: StringFilter | string
     box_user?: Box_userListRelationFilter
     room?: RoomListRelationFilter
     room_user?: Room_userListRelationFilter
@@ -8555,16 +8414,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     room_user?: Room_userOrderByRelationAggregateInput
   }
 
-  export type PersonWhereUniqueInput = Prisma.AtLeast<{
+  export type PersonWhereUniqueInput = {
     id?: string
-    AND?: Enumerable<PersonWhereInput>
-    OR?: Enumerable<PersonWhereInput>
-    NOT?: Enumerable<PersonWhereInput>
-    name?: StringFilter<"Person"> | string
-    box_user?: Box_userListRelationFilter
-    room?: RoomListRelationFilter
-    room_user?: Room_userListRelationFilter
-  }, "id">
+  }
 
   export type PersonOrderByWithAggregationInput = {
     id?: SortOrder
@@ -8578,21 +8430,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<PersonScalarWhereWithAggregatesInput>
     OR?: Enumerable<PersonScalarWhereWithAggregatesInput>
     NOT?: Enumerable<PersonScalarWhereWithAggregatesInput>
-    id?: UuidWithAggregatesFilter<"Person"> | string
-    name?: StringWithAggregatesFilter<"Person"> | string
+    id?: UuidWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
   }
 
   export type RoomWhereInput = {
     AND?: Enumerable<RoomWhereInput>
     OR?: Enumerable<RoomWhereInput>
     NOT?: Enumerable<RoomWhereInput>
-    id?: UuidFilter<"Room"> | string
-    name?: StringFilter<"Room"> | string
-    house_id?: UuidFilter<"Room"> | string
-    owner_id?: UuidNullableFilter<"Room"> | string | null
+    id?: UuidFilter | string
+    name?: StringFilter | string
+    house_id?: UuidFilter | string
+    owner_id?: UuidNullableFilter | string | null
     box?: BoxListRelationFilter
     house?: XOR<HouseRelationFilter, HouseWhereInput>
-    person?: XOR<PersonNullableRelationFilter, PersonWhereInput> | null
+    person?: XOR<PersonRelationFilter, PersonWhereInput> | null
     room_user?: Room_userListRelationFilter
   }
 
@@ -8600,32 +8452,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: SortOrder
     name?: SortOrder
     house_id?: SortOrder
-    owner_id?: SortOrderInput | SortOrder
+    owner_id?: SortOrder
     box?: BoxOrderByRelationAggregateInput
     house?: HouseOrderByWithRelationInput
     person?: PersonOrderByWithRelationInput
     room_user?: Room_userOrderByRelationAggregateInput
   }
 
-  export type RoomWhereUniqueInput = Prisma.AtLeast<{
+  export type RoomWhereUniqueInput = {
     id?: string
-    AND?: Enumerable<RoomWhereInput>
-    OR?: Enumerable<RoomWhereInput>
-    NOT?: Enumerable<RoomWhereInput>
-    name?: StringFilter<"Room"> | string
-    house_id?: UuidFilter<"Room"> | string
-    owner_id?: UuidNullableFilter<"Room"> | string | null
-    box?: BoxListRelationFilter
-    house?: XOR<HouseRelationFilter, HouseWhereInput>
-    person?: XOR<PersonNullableRelationFilter, PersonWhereInput> | null
-    room_user?: Room_userListRelationFilter
-  }, "id">
+  }
 
   export type RoomOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     house_id?: SortOrder
-    owner_id?: SortOrderInput | SortOrder
+    owner_id?: SortOrder
     _count?: RoomCountOrderByAggregateInput
     _max?: RoomMaxOrderByAggregateInput
     _min?: RoomMinOrderByAggregateInput
@@ -8635,18 +8477,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<RoomScalarWhereWithAggregatesInput>
     OR?: Enumerable<RoomScalarWhereWithAggregatesInput>
     NOT?: Enumerable<RoomScalarWhereWithAggregatesInput>
-    id?: UuidWithAggregatesFilter<"Room"> | string
-    name?: StringWithAggregatesFilter<"Room"> | string
-    house_id?: UuidWithAggregatesFilter<"Room"> | string
-    owner_id?: UuidNullableWithAggregatesFilter<"Room"> | string | null
+    id?: UuidWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
+    house_id?: UuidWithAggregatesFilter | string
+    owner_id?: UuidNullableWithAggregatesFilter | string | null
   }
 
   export type Room_userWhereInput = {
     AND?: Enumerable<Room_userWhereInput>
     OR?: Enumerable<Room_userWhereInput>
     NOT?: Enumerable<Room_userWhereInput>
-    id?: UuidFilter<"Room_user"> | string
-    person_id?: UuidFilter<"Room_user"> | string
+    id?: UuidFilter | string
+    person_id?: UuidFilter | string
     room?: XOR<RoomRelationFilter, RoomWhereInput>
     person?: XOR<PersonRelationFilter, PersonWhereInput>
   }
@@ -8658,16 +8500,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     person?: PersonOrderByWithRelationInput
   }
 
-  export type Room_userWhereUniqueInput = Prisma.AtLeast<{
+  export type Room_userWhereUniqueInput = {
     id_person_id?: Room_userIdPerson_idCompoundUniqueInput
-    AND?: Enumerable<Room_userWhereInput>
-    OR?: Enumerable<Room_userWhereInput>
-    NOT?: Enumerable<Room_userWhereInput>
-    id?: UuidFilter<"Room_user"> | string
-    person_id?: UuidFilter<"Room_user"> | string
-    room?: XOR<RoomRelationFilter, RoomWhereInput>
-    person?: XOR<PersonRelationFilter, PersonWhereInput>
-  }, "id_person_id">
+  }
 
   export type Room_userOrderByWithAggregationInput = {
     id?: SortOrder
@@ -8681,17 +8516,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<Room_userScalarWhereWithAggregatesInput>
     OR?: Enumerable<Room_userScalarWhereWithAggregatesInput>
     NOT?: Enumerable<Room_userScalarWhereWithAggregatesInput>
-    id?: UuidWithAggregatesFilter<"Room_user"> | string
-    person_id?: UuidWithAggregatesFilter<"Room_user"> | string
+    id?: UuidWithAggregatesFilter | string
+    person_id?: UuidWithAggregatesFilter | string
   }
 
   export type ThingWhereInput = {
     AND?: Enumerable<ThingWhereInput>
     OR?: Enumerable<ThingWhereInput>
     NOT?: Enumerable<ThingWhereInput>
-    id?: UuidFilter<"Thing"> | string
-    name?: StringFilter<"Thing"> | string
-    box_id?: UuidFilter<"Thing"> | string
+    id?: UuidFilter | string
+    name?: StringFilter | string
+    box_id?: UuidFilter | string
     box?: XOR<BoxRelationFilter, BoxWhereInput>
   }
 
@@ -8702,15 +8537,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     box?: BoxOrderByWithRelationInput
   }
 
-  export type ThingWhereUniqueInput = Prisma.AtLeast<{
+  export type ThingWhereUniqueInput = {
     id?: string
-    AND?: Enumerable<ThingWhereInput>
-    OR?: Enumerable<ThingWhereInput>
-    NOT?: Enumerable<ThingWhereInput>
-    name?: StringFilter<"Thing"> | string
-    box_id?: UuidFilter<"Thing"> | string
-    box?: XOR<BoxRelationFilter, BoxWhereInput>
-  }, "id">
+  }
 
   export type ThingOrderByWithAggregationInput = {
     id?: SortOrder
@@ -8725,9 +8554,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<ThingScalarWhereWithAggregatesInput>
     OR?: Enumerable<ThingScalarWhereWithAggregatesInput>
     NOT?: Enumerable<ThingScalarWhereWithAggregatesInput>
-    id?: UuidWithAggregatesFilter<"Thing"> | string
-    name?: StringWithAggregatesFilter<"Thing"> | string
-    box_id?: UuidWithAggregatesFilter<"Thing"> | string
+    id?: UuidWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
+    box_id?: UuidWithAggregatesFilter | string
   }
 
   export type BoxCreateInput = {
@@ -9029,31 +8858,31 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     box_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UuidFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
+  export type UuidFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
     mode?: QueryMode
-    not?: NestedUuidFilter<$PrismaModel> | string
+    not?: NestedUuidFilter | string
   }
 
-  export type StringFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
+  export type StringFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
     mode?: QueryMode
-    not?: NestedStringFilter<$PrismaModel> | string
+    not?: NestedStringFilter | string
   }
 
   export type RoomRelationFilter = {
@@ -9099,37 +8928,37 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     room_id?: SortOrder
   }
 
-  export type UuidWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
+  export type UuidWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
     mode?: QueryMode
-    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
+    not?: NestedUuidWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
   }
 
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
+  export type StringWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
     mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
   }
 
   export type BoxRelationFilter = {
@@ -9212,16 +9041,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     name?: SortOrder
   }
 
-  export type UuidNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
+  export type UuidNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
     mode?: QueryMode
-    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
+    not?: NestedUuidNullableFilter | string | null
   }
 
   export type BoxListRelationFilter = {
@@ -9233,16 +9062,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type HouseRelationFilter = {
     is?: HouseWhereInput
     isNot?: HouseWhereInput
-  }
-
-  export type PersonNullableRelationFilter = {
-    is?: PersonWhereInput | null
-    isNot?: PersonWhereInput | null
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type BoxOrderByRelationAggregateInput = {
@@ -9270,19 +9089,19 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     owner_id?: SortOrder
   }
 
-  export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
+  export type UuidNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
     mode?: QueryMode
-    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
+    not?: NestedUuidNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
   }
 
   export type Room_userIdPerson_idCompoundUniqueInput = {
@@ -9366,7 +9185,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: RoomCreateOrConnectWithoutBoxInput
     upsert?: RoomUpsertWithoutBoxInput
     connect?: RoomWhereUniqueInput
-    update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutBoxInput, RoomUpdateWithoutBoxInput>, RoomUncheckedUpdateWithoutBoxInput>
+    update?: XOR<RoomUpdateWithoutBoxInput, RoomUncheckedUpdateWithoutBoxInput>
   }
 
   export type Box_userUpdateManyWithoutBoxNestedInput = {
@@ -9442,7 +9261,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: BoxCreateOrConnectWithoutBox_userInput
     upsert?: BoxUpsertWithoutBox_userInput
     connect?: BoxWhereUniqueInput
-    update?: XOR<XOR<BoxUpdateToOneWithWhereWithoutBox_userInput, BoxUpdateWithoutBox_userInput>, BoxUncheckedUpdateWithoutBox_userInput>
+    update?: XOR<BoxUpdateWithoutBox_userInput, BoxUncheckedUpdateWithoutBox_userInput>
   }
 
   export type PersonUpdateOneRequiredWithoutBox_userNestedInput = {
@@ -9450,7 +9269,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: PersonCreateOrConnectWithoutBox_userInput
     upsert?: PersonUpsertWithoutBox_userInput
     connect?: PersonWhereUniqueInput
-    update?: XOR<XOR<PersonUpdateToOneWithWhereWithoutBox_userInput, PersonUpdateWithoutBox_userInput>, PersonUncheckedUpdateWithoutBox_userInput>
+    update?: XOR<PersonUpdateWithoutBox_userInput, PersonUncheckedUpdateWithoutBox_userInput>
   }
 
   export type RoomCreateNestedManyWithoutHouseInput = {
@@ -9680,17 +9499,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: HouseCreateOrConnectWithoutRoomInput
     upsert?: HouseUpsertWithoutRoomInput
     connect?: HouseWhereUniqueInput
-    update?: XOR<XOR<HouseUpdateToOneWithWhereWithoutRoomInput, HouseUpdateWithoutRoomInput>, HouseUncheckedUpdateWithoutRoomInput>
+    update?: XOR<HouseUpdateWithoutRoomInput, HouseUncheckedUpdateWithoutRoomInput>
   }
 
   export type PersonUpdateOneWithoutRoomNestedInput = {
     create?: XOR<PersonCreateWithoutRoomInput, PersonUncheckedCreateWithoutRoomInput>
     connectOrCreate?: PersonCreateOrConnectWithoutRoomInput
     upsert?: PersonUpsertWithoutRoomInput
-    disconnect?: PersonWhereInput | boolean
-    delete?: PersonWhereInput | boolean
+    disconnect?: boolean
+    delete?: boolean
     connect?: PersonWhereUniqueInput
-    update?: XOR<XOR<PersonUpdateToOneWithWhereWithoutRoomInput, PersonUpdateWithoutRoomInput>, PersonUncheckedUpdateWithoutRoomInput>
+    update?: XOR<PersonUpdateWithoutRoomInput, PersonUncheckedUpdateWithoutRoomInput>
   }
 
   export type Room_userUpdateManyWithoutRoomNestedInput = {
@@ -9756,7 +9575,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: RoomCreateOrConnectWithoutRoom_userInput
     upsert?: RoomUpsertWithoutRoom_userInput
     connect?: RoomWhereUniqueInput
-    update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutRoom_userInput, RoomUpdateWithoutRoom_userInput>, RoomUncheckedUpdateWithoutRoom_userInput>
+    update?: XOR<RoomUpdateWithoutRoom_userInput, RoomUncheckedUpdateWithoutRoom_userInput>
   }
 
   export type PersonUpdateOneRequiredWithoutRoom_userNestedInput = {
@@ -9764,7 +9583,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: PersonCreateOrConnectWithoutRoom_userInput
     upsert?: PersonUpsertWithoutRoom_userInput
     connect?: PersonWhereUniqueInput
-    update?: XOR<XOR<PersonUpdateToOneWithWhereWithoutRoom_userInput, PersonUpdateWithoutRoom_userInput>, PersonUncheckedUpdateWithoutRoom_userInput>
+    update?: XOR<PersonUpdateWithoutRoom_userInput, PersonUncheckedUpdateWithoutRoom_userInput>
   }
 
   export type BoxCreateNestedOneWithoutThingInput = {
@@ -9778,124 +9597,124 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: BoxCreateOrConnectWithoutThingInput
     upsert?: BoxUpsertWithoutThingInput
     connect?: BoxWhereUniqueInput
-    update?: XOR<XOR<BoxUpdateToOneWithWhereWithoutThingInput, BoxUpdateWithoutThingInput>, BoxUncheckedUpdateWithoutThingInput>
+    update?: XOR<BoxUpdateWithoutThingInput, BoxUncheckedUpdateWithoutThingInput>
   }
 
-  export type NestedUuidFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidFilter<$PrismaModel> | string
+  export type NestedUuidFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    not?: NestedUuidFilter | string
   }
 
-  export type NestedStringFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringFilter<$PrismaModel> | string
+  export type NestedStringFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringFilter | string
   }
 
-  export type NestedUuidWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
+  export type NestedUuidWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    not?: NestedUuidWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+  export type NestedIntFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntFilter | number
   }
 
-  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
+  export type NestedStringWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
   }
 
-  export type NestedUuidNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
+  export type NestedUuidNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    not?: NestedUuidNullableFilter | string | null
   }
 
-  export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
+  export type NestedUuidNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    not?: NestedUuidNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  export type NestedIntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  export type NestedStringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableFilter | string | null
   }
 
   export type RoomCreateWithoutBoxInput = {
@@ -9960,12 +9779,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type RoomUpsertWithoutBoxInput = {
     update: XOR<RoomUpdateWithoutBoxInput, RoomUncheckedUpdateWithoutBoxInput>
     create: XOR<RoomCreateWithoutBoxInput, RoomUncheckedCreateWithoutBoxInput>
-    where?: RoomWhereInput
-  }
-
-  export type RoomUpdateToOneWithWhereWithoutBoxInput = {
-    where?: RoomWhereInput
-    data: XOR<RoomUpdateWithoutBoxInput, RoomUncheckedUpdateWithoutBoxInput>
   }
 
   export type RoomUpdateWithoutBoxInput = {
@@ -9997,15 +9810,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Box_userUpdateManyWithWhereWithoutBoxInput = {
     where: Box_userScalarWhereInput
-    data: XOR<Box_userUpdateManyMutationInput, Box_userUncheckedUpdateManyWithoutBoxInput>
+    data: XOR<Box_userUpdateManyMutationInput, Box_userUncheckedUpdateManyWithoutBox_userInput>
   }
 
   export type Box_userScalarWhereInput = {
     AND?: Enumerable<Box_userScalarWhereInput>
     OR?: Enumerable<Box_userScalarWhereInput>
     NOT?: Enumerable<Box_userScalarWhereInput>
-    id?: UuidFilter<"Box_user"> | string
-    person_id?: UuidFilter<"Box_user"> | string
+    id?: UuidFilter | string
+    person_id?: UuidFilter | string
   }
 
   export type ThingUpsertWithWhereUniqueWithoutBoxInput = {
@@ -10021,16 +9834,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type ThingUpdateManyWithWhereWithoutBoxInput = {
     where: ThingScalarWhereInput
-    data: XOR<ThingUpdateManyMutationInput, ThingUncheckedUpdateManyWithoutBoxInput>
+    data: XOR<ThingUpdateManyMutationInput, ThingUncheckedUpdateManyWithoutThingInput>
   }
 
   export type ThingScalarWhereInput = {
     AND?: Enumerable<ThingScalarWhereInput>
     OR?: Enumerable<ThingScalarWhereInput>
     NOT?: Enumerable<ThingScalarWhereInput>
-    id?: UuidFilter<"Thing"> | string
-    name?: StringFilter<"Thing"> | string
-    box_id?: UuidFilter<"Thing"> | string
+    id?: UuidFilter | string
+    name?: StringFilter | string
+    box_id?: UuidFilter | string
   }
 
   export type BoxCreateWithoutBox_userInput = {
@@ -10074,12 +9887,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type BoxUpsertWithoutBox_userInput = {
     update: XOR<BoxUpdateWithoutBox_userInput, BoxUncheckedUpdateWithoutBox_userInput>
     create: XOR<BoxCreateWithoutBox_userInput, BoxUncheckedCreateWithoutBox_userInput>
-    where?: BoxWhereInput
-  }
-
-  export type BoxUpdateToOneWithWhereWithoutBox_userInput = {
-    where?: BoxWhereInput
-    data: XOR<BoxUpdateWithoutBox_userInput, BoxUncheckedUpdateWithoutBox_userInput>
   }
 
   export type BoxUpdateWithoutBox_userInput = {
@@ -10099,12 +9906,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type PersonUpsertWithoutBox_userInput = {
     update: XOR<PersonUpdateWithoutBox_userInput, PersonUncheckedUpdateWithoutBox_userInput>
     create: XOR<PersonCreateWithoutBox_userInput, PersonUncheckedCreateWithoutBox_userInput>
-    where?: PersonWhereInput
-  }
-
-  export type PersonUpdateToOneWithWhereWithoutBox_userInput = {
-    where?: PersonWhereInput
-    data: XOR<PersonUpdateWithoutBox_userInput, PersonUncheckedUpdateWithoutBox_userInput>
   }
 
   export type PersonUpdateWithoutBox_userInput = {
@@ -10160,17 +9961,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type RoomUpdateManyWithWhereWithoutHouseInput = {
     where: RoomScalarWhereInput
-    data: XOR<RoomUpdateManyMutationInput, RoomUncheckedUpdateManyWithoutHouseInput>
+    data: XOR<RoomUpdateManyMutationInput, RoomUncheckedUpdateManyWithoutRoomInput>
   }
 
   export type RoomScalarWhereInput = {
     AND?: Enumerable<RoomScalarWhereInput>
     OR?: Enumerable<RoomScalarWhereInput>
     NOT?: Enumerable<RoomScalarWhereInput>
-    id?: UuidFilter<"Room"> | string
-    name?: StringFilter<"Room"> | string
-    house_id?: UuidFilter<"Room"> | string
-    owner_id?: UuidNullableFilter<"Room"> | string | null
+    id?: UuidFilter | string
+    name?: StringFilter | string
+    house_id?: UuidFilter | string
+    owner_id?: UuidNullableFilter | string | null
   }
 
   export type Box_userCreateWithoutPersonInput = {
@@ -10248,7 +10049,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Box_userUpdateManyWithWhereWithoutPersonInput = {
     where: Box_userScalarWhereInput
-    data: XOR<Box_userUpdateManyMutationInput, Box_userUncheckedUpdateManyWithoutPersonInput>
+    data: XOR<Box_userUpdateManyMutationInput, Box_userUncheckedUpdateManyWithoutBox_userInput>
   }
 
   export type RoomUpsertWithWhereUniqueWithoutPersonInput = {
@@ -10264,7 +10065,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type RoomUpdateManyWithWhereWithoutPersonInput = {
     where: RoomScalarWhereInput
-    data: XOR<RoomUpdateManyMutationInput, RoomUncheckedUpdateManyWithoutPersonInput>
+    data: XOR<RoomUpdateManyMutationInput, RoomUncheckedUpdateManyWithoutRoomInput>
   }
 
   export type Room_userUpsertWithWhereUniqueWithoutPersonInput = {
@@ -10280,15 +10081,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Room_userUpdateManyWithWhereWithoutPersonInput = {
     where: Room_userScalarWhereInput
-    data: XOR<Room_userUpdateManyMutationInput, Room_userUncheckedUpdateManyWithoutPersonInput>
+    data: XOR<Room_userUpdateManyMutationInput, Room_userUncheckedUpdateManyWithoutRoom_userInput>
   }
 
   export type Room_userScalarWhereInput = {
     AND?: Enumerable<Room_userScalarWhereInput>
     OR?: Enumerable<Room_userScalarWhereInput>
     NOT?: Enumerable<Room_userScalarWhereInput>
-    id?: UuidFilter<"Room_user"> | string
-    person_id?: UuidFilter<"Room_user"> | string
+    id?: UuidFilter | string
+    person_id?: UuidFilter | string
   }
 
   export type BoxCreateWithoutRoomInput = {
@@ -10380,27 +10181,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type BoxUpdateManyWithWhereWithoutRoomInput = {
     where: BoxScalarWhereInput
-    data: XOR<BoxUpdateManyMutationInput, BoxUncheckedUpdateManyWithoutRoomInput>
+    data: XOR<BoxUpdateManyMutationInput, BoxUncheckedUpdateManyWithoutBoxInput>
   }
 
   export type BoxScalarWhereInput = {
     AND?: Enumerable<BoxScalarWhereInput>
     OR?: Enumerable<BoxScalarWhereInput>
     NOT?: Enumerable<BoxScalarWhereInput>
-    id?: UuidFilter<"Box"> | string
-    name?: StringFilter<"Box"> | string
-    room_id?: UuidFilter<"Box"> | string
+    id?: UuidFilter | string
+    name?: StringFilter | string
+    room_id?: UuidFilter | string
   }
 
   export type HouseUpsertWithoutRoomInput = {
     update: XOR<HouseUpdateWithoutRoomInput, HouseUncheckedUpdateWithoutRoomInput>
     create: XOR<HouseCreateWithoutRoomInput, HouseUncheckedCreateWithoutRoomInput>
-    where?: HouseWhereInput
-  }
-
-  export type HouseUpdateToOneWithWhereWithoutRoomInput = {
-    where?: HouseWhereInput
-    data: XOR<HouseUpdateWithoutRoomInput, HouseUncheckedUpdateWithoutRoomInput>
   }
 
   export type HouseUpdateWithoutRoomInput = {
@@ -10416,12 +10211,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type PersonUpsertWithoutRoomInput = {
     update: XOR<PersonUpdateWithoutRoomInput, PersonUncheckedUpdateWithoutRoomInput>
     create: XOR<PersonCreateWithoutRoomInput, PersonUncheckedCreateWithoutRoomInput>
-    where?: PersonWhereInput
-  }
-
-  export type PersonUpdateToOneWithWhereWithoutRoomInput = {
-    where?: PersonWhereInput
-    data: XOR<PersonUpdateWithoutRoomInput, PersonUncheckedUpdateWithoutRoomInput>
   }
 
   export type PersonUpdateWithoutRoomInput = {
@@ -10451,7 +10240,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Room_userUpdateManyWithWhereWithoutRoomInput = {
     where: Room_userScalarWhereInput
-    data: XOR<Room_userUpdateManyMutationInput, Room_userUncheckedUpdateManyWithoutRoomInput>
+    data: XOR<Room_userUpdateManyMutationInput, Room_userUncheckedUpdateManyWithoutRoom_userInput>
   }
 
   export type RoomCreateWithoutRoom_userInput = {
@@ -10497,12 +10286,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type RoomUpsertWithoutRoom_userInput = {
     update: XOR<RoomUpdateWithoutRoom_userInput, RoomUncheckedUpdateWithoutRoom_userInput>
     create: XOR<RoomCreateWithoutRoom_userInput, RoomUncheckedCreateWithoutRoom_userInput>
-    where?: RoomWhereInput
-  }
-
-  export type RoomUpdateToOneWithWhereWithoutRoom_userInput = {
-    where?: RoomWhereInput
-    data: XOR<RoomUpdateWithoutRoom_userInput, RoomUncheckedUpdateWithoutRoom_userInput>
   }
 
   export type RoomUpdateWithoutRoom_userInput = {
@@ -10524,12 +10307,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type PersonUpsertWithoutRoom_userInput = {
     update: XOR<PersonUpdateWithoutRoom_userInput, PersonUncheckedUpdateWithoutRoom_userInput>
     create: XOR<PersonCreateWithoutRoom_userInput, PersonUncheckedCreateWithoutRoom_userInput>
-    where?: PersonWhereInput
-  }
-
-  export type PersonUpdateToOneWithWhereWithoutRoom_userInput = {
-    where?: PersonWhereInput
-    data: XOR<PersonUpdateWithoutRoom_userInput, PersonUncheckedUpdateWithoutRoom_userInput>
   }
 
   export type PersonUpdateWithoutRoom_userInput = {
@@ -10568,12 +10345,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type BoxUpsertWithoutThingInput = {
     update: XOR<BoxUpdateWithoutThingInput, BoxUncheckedUpdateWithoutThingInput>
     create: XOR<BoxCreateWithoutThingInput, BoxUncheckedCreateWithoutThingInput>
-    where?: BoxWhereInput
-  }
-
-  export type BoxUpdateToOneWithWhereWithoutThingInput = {
-    where?: BoxWhereInput
-    data: XOR<BoxUpdateWithoutThingInput, BoxUncheckedUpdateWithoutThingInput>
   }
 
   export type BoxUpdateWithoutThingInput = {
@@ -10607,7 +10378,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     person_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type Box_userUncheckedUpdateManyWithoutBoxInput = {
+  export type Box_userUncheckedUpdateManyWithoutBox_userInput = {
     person_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -10621,7 +10392,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     name?: StringFieldUpdateOperationsInput | string
   }
 
-  export type ThingUncheckedUpdateManyWithoutBoxInput = {
+  export type ThingUncheckedUpdateManyWithoutThingInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
   }
@@ -10648,7 +10419,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     room_user?: Room_userUncheckedUpdateManyWithoutRoomNestedInput
   }
 
-  export type RoomUncheckedUpdateManyWithoutHouseInput = {
+  export type RoomUncheckedUpdateManyWithoutRoomInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     owner_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10676,10 +10447,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type Box_userUncheckedUpdateManyWithoutPersonInput = {
-    id?: StringFieldUpdateOperationsInput | string
-  }
-
   export type RoomUpdateWithoutPersonInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -10696,12 +10463,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     room_user?: Room_userUncheckedUpdateManyWithoutRoomNestedInput
   }
 
-  export type RoomUncheckedUpdateManyWithoutPersonInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    house_id?: StringFieldUpdateOperationsInput | string
-  }
-
   export type Room_userUpdateWithoutPersonInput = {
     room?: RoomUpdateOneRequiredWithoutRoom_userNestedInput
   }
@@ -10710,7 +10471,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type Room_userUncheckedUpdateManyWithoutPersonInput = {
+  export type Room_userUncheckedUpdateManyWithoutRoom_userInput = {
     id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -10737,7 +10498,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     thing?: ThingUncheckedUpdateManyWithoutBoxNestedInput
   }
 
-  export type BoxUncheckedUpdateManyWithoutRoomInput = {
+  export type BoxUncheckedUpdateManyWithoutBoxInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
   }
@@ -10747,10 +10508,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Room_userUncheckedUpdateWithoutRoomInput = {
-    person_id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type Room_userUncheckedUpdateManyWithoutRoomInput = {
     person_id?: StringFieldUpdateOperationsInput | string
   }
 

@@ -1,18 +1,18 @@
-<a href="https://electric-sql.com">
-  <picture>
-    <source media="(prefers-color-scheme: dark)"
-        srcset="https://raw.githubusercontent.com/electric-sql/meta/main/identity/ElectricSQL-logo-light-trans.svg"
-    />
-    <source media="(prefers-color-scheme: light)"
-        srcset="https://raw.githubusercontent.com/electric-sql/meta/main/identity/ElectricSQL-logo-black.svg"
-    />
-    <img alt="ElectricSQL logo"
-        src="https://raw.githubusercontent.com/electric-sql/meta/main/identity/ElectricSQL-logo-black.svg"
-    />
-  </picture>
-</a>
+# Test cases for Electric-SQL
 
-# Welcome to your ElectricSQL app!
+This repository contains some test cases created to assist the Electric-SQL team.
+
+## 1. Incorrect Types in generated client
+
+See [GitHub issue 1001](https://github.com/electric-sql/electric/issues/1001) for details.
+
+Reproducible in commit [10e5ff75b4fc92852ef04cbff69c167024aac7d1](https://github.com/fooware/electric-testcase-01/commit/10e5ff75b4fc92852ef04cbff69c167024aac7d1) on main. Fixed by upgrading to Electric 0.9.6 in the following commit.
+
+## 2. Failing referential integrity (discussed in Discord)
+
+Failing referential integrity when doing overlapping deletes and inserts, [Discussed in Discord](https://discord.com/channels/933657521581858818/1202273462593532004). Test case and instructions can be found in the [electric_8_1 branch](https://github.com/fooware/electric-testcase-01/tree/electric_8_1).
+
+## ********************* Officials docs below *********************
 
 This is a web application using ElectricSQL in the browser with [wa-sqlite](https://electric-sql.com/docs/integrations/drivers/web/wa-sqlite).
 
